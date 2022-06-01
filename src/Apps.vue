@@ -3,13 +3,12 @@
     <!-- <img src="./assets/logo.png"> -->
     <div id="all">
         <div id="user_background" >
-            <div id="background_image"><img src="./assets/backgroud_image.jpg" alt=""></div>
-            <div id="avatar_image"><img src="./assets/logo.png" alt=""></div>
+            <div id="background_image"><img src="./assets/无标题.png" alt=""></div>
+            <div id="avatar_image" ><img v-bind:src="message_list.avatar_image_url" alt=""></div>
             <div id="user_name" >{{message_list.user_name}}</div>
-            <div id="follow_fans"><span>关注</span><span>5</span><span class="split_symbol">|</span><span>粉丝</span><span>0</span></div>
-            <input type="button" value="获取数据" v-on:click="send">
+            <div id="follow_fans"><span style="padding-right:10px">关注</span><span>5</span><span class="split_symbol">|</span><span style="padding-right:10px">粉丝</span><span>0</span></div>
         </div>
-        <input type="button" value="获取数据" v-on:click="send"> f </input>
+        <input type="button" value="获取数据" v-on:click="send"> 
         <div id="model_list">
 
         </div>
@@ -20,7 +19,6 @@
 
 <script>
 import axios from 'axios'
-import VueResource from 'vue-resource'
 export default {
   name: 'App',
   data () {
@@ -48,7 +46,7 @@ export default {
         .then(resp => {
             var that=this;
             that.message_list=resp.data.data;
-            console.log(that.message_list);
+            // console.log(that.message_list);
         }).catch(err => { //
             console.log('请求失败：'+ err.code + ',' + err.message);
         });
