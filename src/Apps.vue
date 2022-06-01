@@ -9,7 +9,7 @@
             <div id="follow_fans"><span>关注</span><span>5</span><span class="split_symbol">|</span><span>粉丝</span><span>0</span></div>
             <input type="button" value="获取数据" v-on:click="send">
         </div>
-        <input type="button" value="获取数据" v-on:click="send"></input>
+        <input type="button" value="获取数据" v-on:click="send"> f </input>
         <div id="model_list">
 
         </div>
