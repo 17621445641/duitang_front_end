@@ -54,4 +54,54 @@ body,html{
     padding-left: 15px;
     padding-right: 15px;
 }
+#self_descrip{
+    font-size: 14px;
+    text-align: center;
+    padding-top: 10px;
+    color: rgb(121, 121, 121);
+}
+#message_navigation{
+    width: 1000px;
+    margin-left: 50%;
+    display: inline-block;
+    margin-left: 50%;
+    padding: 0;
+    transform: translateX(-50%);
+    margin-top: 50px;
+    
+}
+#navigation_list{
+    width: 200px;
+    float: left;
+    border: 1px solid rgb(243, 243, 243);
+}
+#message_content{
+    width: 800px;
+    margin-left: 200px;
+    /* border: 1px solid red; */
+}
+#message_content{
+    /* border: 1px solid black; */
+}
+#navigation_list div{
+    height: 50px;
+    text-align: center;
+    line-height: 50px;
+    position: relative;
+
+}
+#navigation_list div:hover{
+    background-color: rgb(245, 244, 244);
+    cursor: pointer;
+}
+#navigation_list img{
+    width: 25px;
+    position: absolute;
+    top: 12px;
+    left: 35px;
+}
+a{
+    text-decoration: none; /* 去除默认的下划线 */
+    color: #000;
+}
 

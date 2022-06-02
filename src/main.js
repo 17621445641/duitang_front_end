@@ -9,7 +9,7 @@ import axios from 'axios'
 // Vue.use(axios)
 
 Vue.config.productionTip = false
-axios.defaults.headers.common['access_token'] = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2NTY2ODMzMTYsImlhdCI6MTY1NDA5MTMxNiwiaXNzIjoia3hwIiwiZGF0YSI6eyJ1c2VyaWQiOjd9fQ.h3tUd6hoGoXy0KBklQ8lTRu4EwvzFEQW6VejNIOPHXw';
+axios.defaults.headers.common['access_token'] = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2NTY3MjY0OTgsImlhdCI6MTY1NDEzNDQ5OCwiaXNzIjoia3hwIiwiZGF0YSI6eyJ1c2VyaWQiOjF9fQ.PH3FndpDOuOCbmPq-cRFRtg_3HwPc6j7LOXCze9VH-A";
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
