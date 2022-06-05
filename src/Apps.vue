@@ -48,7 +48,7 @@ export default {
         .then(resp => {
             var that=this;
             that.message_list=resp.data.data;
-            // console.log(that.message_list);
+            console.log(that.message_list);
         }).catch(err => { //
             console.log('请求失败：'+ err.code + ',' + err.message);
         });
@@ -59,7 +59,7 @@ export default {
         .then(resp => {
             var that=this;
             that.click_list=resp.data.data;
-            console.log(that.message_list);
+            // console.log(that.message_list);
         }).catch(err => { //
             console.log('请求失败：'+ err.code + ',' + err.message);
         });

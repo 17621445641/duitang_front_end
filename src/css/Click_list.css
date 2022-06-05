@@ -1,41 +1,41 @@
-/* #click_list{
+/* .click_list{
     width: 100%; 
     background-color: rgb(240, 239, 239) !important;
     padding-left: 10px;
     margin-left: 20px;
     border: 2px solid red;
 } */
-#article_info{
+.article_info{
     width: 100%;
     padding-bottom: 40px;
     margin-bottom: 10px;
     background-color: white;
     border: 1px solid #f0f1f4;
 }
-#article_author{
+.article_author{
     height:60px
 }
-#article_author img{
+.article_author img{
     width: 60px;
     border-radius:60px;
     float: left;
     margin-left: 25px;
     margin-top: 15px;
 }
-#article_content{
+.article_content{
     padding-left: 100px;
     padding-right: 30px;
     padding-top: 25px;
     font-size: 14px;
 }
-#article_img{
+.article_img{
     margin-top: 20px;
 }
-#article_img div{
+.article_img div{
     float:left;
     width: 45%;
     transform: translateX(50%);
 }
-#article_img img{
+.article_img img{
     width:20px;
 }
