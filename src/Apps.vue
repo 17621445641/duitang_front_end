@@ -14,7 +14,7 @@
             <div><img src="./assets/self_setting.png">个人中心</div>
             <div><img src="./assets/dynamic.png">我的动态</div>
             <div><img src="./assets/article.png">我的文章</div>
-            <router-link to="/click" ><div v-on:click="click_history"><img src="./assets/click.png" >我的点赞</div></router-link>
+            <router-link to="/click" ><div><img src="./assets/click.png" >我的点赞</div></router-link>
             <router-link to="/like"><div><img src="./assets/like.png">我的喜欢</div></router-link>
             <router-link to="/views"><div><img src="./assets/views.png">浏览记录</div></router-link>
           </div>
@@ -38,9 +38,18 @@ export default {
   data () {
     return {
       message_list:{},
-      click_list:{}
+      // click_list:{}
     }
   },
+  //  beforeRouteEnter(to, from, next){
+  //   next((vm)=>{
+  //     vm.from_path=from.path
+  //     vm.click_method()
+  //     console.log(1)
+  //     // console.log("vm:",from)
+  //   })
+  //   next()
+  // },
   methods: {
     send(){
       axios.get('/api/userinfo',{
@@ -53,17 +62,32 @@ export default {
             console.log('请求失败：'+ err.code + ',' + err.message);
         });
     },
-    click_history(){
-      axios.get('/api/click_list',{
-        })
-        .then(resp => {
-            var that=this;
-            that.click_list=resp.data.data;
-            // console.log(that.message_list);
-        }).catch(err => { //
-            console.log('请求失败：'+ err.code + ',' + err.message);
-        });
-    }
+    // click_method(){
+    // if(this.from_path=='/like'){
+    //   axios.get('/api/click_list',{
+    //     })
+    //     .then(resp => {
+    //         var that=this
+    //         that.click_list=resp.data.data;
+    //         console.log(2)
+    //         console.log(that.click_list)
+    //     }).catch(err => { //
+    //         console.log('请求失败：'+ err.code + ',' + err.message);
+    //     });
+    // }
+      
+    // }
+    // click_history(){
+    //   axios.get('/api/click_list',{
+    //     })
+    //     .then(resp => {
+    //         var that=this;
+    //         that.click_list=resp.data.data;
+    //         // console.log(that.message_list);
+    //     }).catch(err => { //
+    //         console.log('请求失败：'+ err.code + ',' + err.message);
+    //     });
+    // }
   }
 }
 </script>

@@ -10,16 +10,26 @@ export default new Router({
     routes: [
       {
         path: '/views',
-        component: Views_list
+        component: Views_list,
+        // meta:{
+        //   keepAlive:true,
+        // }
       },
       {
         path:'/like',
-        component: Like_list
+        component: Like_list,
+        // meta:{
+        //   keepAlive:true,
+        // }
       },
       {
         path:'/click',
-        component: Click_list
+        component: Click_list,
+        // meta:{
+        //   keepAlive:true,
+        // }
       }
+      
     ]
   })
 // export default new Router({
