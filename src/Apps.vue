@@ -5,7 +5,7 @@
         <div id="user_background" >
             <div id="background_image"><img src="./assets/无标题.png" alt=""></div>
             <div id="avatar_image" ><img v-bind:src="message_list.avatar_image_url" alt=""></div>
-            <div id="user_name" >{{message_list.user_name}}</div>
+            <div id="user_name" ><span v-if="message_list.user_name!=''&& message_list.user_name!=null">{{message_list.user_name}}</span><span style="color: gray" v-else>暂未设置用户名</span><img style="padding-left: 5px;" src="./assets/edit.png"></div>
             <div id="follow_fans"><span style="padding-right:5px">关注</span><span>{{message_list.follow_count}}</span><span class="split_symbol">|</span><span style="padding-right:5px">粉丝</span><span>{{message_list.fans_count}}</span></div>
             <div id="self_descrip" >简介：<span v-if="message_list.self_description!=null">{{message_list.self_description}}</span><span v-else>暂无简介</span></div>
         </div>
@@ -22,9 +22,6 @@
             <router-view></router-view>
           </div>
         </div>
-        <!-- <br/>
-        <br/> -->
-        <input type="button" value="获取数据" v-on:click="send"> 
         <div id="model_list">
         </div>
     </div>
@@ -50,6 +47,9 @@ export default {
   //   })
   //   next()
   // },
+  created(){
+    this.send()
+  },
   methods: {
     send(){
       axios.get('/api/userinfo',{
