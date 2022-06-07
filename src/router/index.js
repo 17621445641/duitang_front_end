@@ -4,7 +4,7 @@ import Router from 'vue-router'
 import Click_list from '@/components/Click_list'
 import Views_list from '@/components/Views_list'
 import Like_list from '@/components/Like_list'
-
+import Self_message from '@/components/Self_message'
 Vue.use(Router)
 export default new Router({
     routes: [
@@ -25,6 +25,13 @@ export default new Router({
       {
         path:'/click',
         component: Click_list,
+        // meta:{
+        //   keepAlive:true,
+        // }
+      },
+      {
+        path:'/self_message',
+        component: Self_message,
         // meta:{
         //   keepAlive:true,
         // }

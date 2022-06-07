@@ -5,6 +5,7 @@ import App from './Apps'
 // import Hellowrod from './components/Hellowrod'
 import router from './router'
 import axios from 'axios'
+
 // Vue.prototype.$http = axios// =号的两边必须隔开,通过注释掉build/webpack.base.conf.js文件的createLintingRule方法里的内容即可取消esint规范检查
 // Vue.use(axios)
 
