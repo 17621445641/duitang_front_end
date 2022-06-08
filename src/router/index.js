@@ -5,6 +5,7 @@ import Click_list from '@/components/Click_list'
 import Views_list from '@/components/Views_list'
 import Like_list from '@/components/Like_list'
 import Self_message from '@/components/Self_message'
+import test from '@/components/test'
 Vue.use(Router)
 export default new Router({
     routes: [
@@ -35,6 +36,10 @@ export default new Router({
         // meta:{
         //   keepAlive:true,
         // }
+      },
+      {
+        path:'/test',
+        component: test,
       }
       
     ]

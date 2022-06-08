@@ -7,9 +7,36 @@
     <input type="radio" name="sex" value="secret" /><span class="sex_option">保密</span> -->
     </div>
     <div class="self_list"><span>生日：</span><span>{{message_list.birthday}}</span></div>
-    <div class="self_list"><span>所在地：</span><span>{{message_list.province}}</span></div>
-    <div class="self_list"><span>兴趣爱好：</span><span>{{message_list.hobby}}</span></div>
-    <div class="self_list"><span>个人简介：</span><span>{{message_list.self_description}}</span></div>
+    <div class="self_list"><span>所在地：</span>
+    <el-input style="width: 400px;"
+    type="text"
+    placeholder="请输入内容"
+    v-model="text"
+    maxlength="10"
+    show-word-limit
+    >
+</el-input><span>{{message_list.province}}</span></div>
+    <div class="self_list"><span>兴趣爱好：</span>
+    <el-input style="width: 400px;"
+    type="textarea"
+    placeholder="请输入内容"
+    v-model="textarea"
+    maxlength="20"
+    show-word-limit
+    :rows="1"
+    >
+    </el-input><span>{{message_list.hobby}}</span></div>
+    <div class="self_list"><span>个人简介：</span>
+    <el-input style="width: 400px;"
+    type="textarea"
+    placeholder="请输入内容"
+    v-model="textarea"
+    maxlength="100"
+    show-word-limit
+    :rows="5"
+    >
+    </el-input><span>{{message_list.self_description}}</span></div>
+
     <!-- <textarea rows="6" cols="40" required="true"></textarea> -->
 </div>
 </template>
@@ -21,6 +48,8 @@ export default {
   data(){
     return{
       message_list:{},
+      textarea: "",
+      text: '',
     }
     
   },
