@@ -1,9 +1,9 @@
-#self_message span:first-child{
-    display: inline-block;
+
+.attr{
     width: 100px;
-    /* border: 1px solid red; */
     text-align: right;
     vertical-align: top;
+    display: inline-block;
 }
 .sex_option{
     width: 35px !important;
