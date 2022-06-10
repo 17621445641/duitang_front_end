@@ -12,11 +12,8 @@
     :rows="1"
     >
     </el-input>
-
-
-
-    
-    <span>{{message_list.user_name}}</span></div>
+    <!-- <span>{{message_list.user_name}}</span> -->
+    </div>
     <div class="self_list"><span class="attr">性别：</span>
     <el-radio-group v-model="radio" >
     <el-radio :label="3">男</el-radio>
@@ -57,22 +54,27 @@
     <el-input style="width: 400px;"
     type="textarea"
     placeholder="请输入内容"
-    v-model="textarea1"
+    v-model="hobby"
     maxlength="20"
     show-word-limit
     :rows="1"
     >
-    </el-input><span>{{message_list.hobby}}</span></div>
+    </el-input>
+    <!-- <span>{{message_list.hobby}}</span> -->
+    </div>
     <div class="self_list"><span class="attr">个人简介：</span>
     <el-input style="width: 400px;"
     type="textarea"
     placeholder="请输入内容"
-    v-model="textarea2"
-    maxlength="100"
+    v-model="self_description"
+    maxlength="15"
     show-word-limit
-    :rows="5"
+    :rows="1"
     >
-    </el-input><span>{{message_list.self_description}}</span></div>
+    </el-input>
+    <!-- <span>{{message_list.self_description}}</span> -->
+    </div>
+    <el-button type="primary" @click="update_message">保存更改</el-button>
 
     <!-- <textarea rows="6" cols="40" required="true"></textarea> -->
 </div>
@@ -86,8 +88,8 @@ export default {
   data(){
     return{
       message_list:{},
-      textarea1: "",
-      textarea2: "",
+      hobby: "",
+      self_description: "",
       text: '',
       options:testImportJson,
       radio: 3,
@@ -120,24 +122,55 @@ export default {
             if(that.message_list.birthday!=null || that.message_list.user_name!=""){
                 that.value1=that.message_list.birthday
             }
+            if(that.message_list.hobby!=null || that.message_list.hobby!=""){
+                that.hobby=that.message_list.hobby
+            }
+            if(that.message_list.self_description!=null || that.message_list.self_description!=""){
+                that.self_description=that.message_list.self_description
+            }
             console.log(that.message_list);
         }).catch(err => { //
             console.log('请求失败：'+ err.code + ',' + err.message);
         });
       },
       update_message(){
-      const config = {
+        // console.log(typeof(this.value1))
+        console.log(this.value.data)
+        // console.log(this.value1.getFullYear() + '-' + (this.value1.getMonth() + 1) + '-' + this.value1.getDate())
+        const config = {
         headers: {
           'Content-Type': 'application/json'
         }
       }
-      this.$axios.post('/api/upload_avatar', param, config)
+      const sex=""
+        if(this.radio==3 ){
+                this.sex='男'
+            }
+            else if(this.radio==6){
+                this.sex='女'
+            }
+            else{
+                this.sex='保密'
+            }
+        const birthday=""
+        if(typeof(this.value1)==false){
+            this.birthday=this.value1.getFullYear() + '-' + (this.value1.getMonth() + 1) + '-' + this.value1.getDate()
+        }
+        const param={
+        "user_name":this.text,
+        "sex":this.sex,
+        "birthday":this.birthday,
+        "hobby":this.hobby,
+        "province":this.value,
+        "city":this.value,
+        "self_description":this.self_description
+}
+      axios.post('/api/update_userinfo', param, config)
         .then(res => {
           console.log(res)
-          if (res.data.code === 200) {
-            this.$message.success(res.data.object)
-            this.AddGoodsForm = {}
-          }
+        //   if (res.data.code === 200) {
+            
+        //   }
         })
         .catch(err => {
           console.log(err)
