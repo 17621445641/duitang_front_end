@@ -31,19 +31,22 @@
       v-model="value1"
       type="date"
       @input="$forceUpdate()"
-      placeholder="选择日期">
+      placeholder="选择日期"
+      >
     </el-date-picker>
   </div>
   <!-- <span>{{message_list.birthday}}</span> -->
   </div>
     <div class="self_list"><span class="attr">所在地：</span>
     <div class="block" style="display: inline-block">
-  <el-cascader
-    v-model="value"
+  <el-cascader       
+    ref='get_datedata'
+    @change="handlechange"
+    v-model="city"
     placeholder="试试搜索：城市"
     :options="options"
     :clearable="true"
-    filterable
+    :props="props"
     >
     </el-cascader>
     
@@ -58,6 +61,7 @@
     maxlength="20"
     show-word-limit
     :rows="1"
+    
     >
     </el-input>
     <!-- <span>{{message_list.hobby}}</span> -->
@@ -94,7 +98,14 @@ export default {
       options:testImportJson,
       radio: 3,
       value1:"",
+      city:[],
+      // provice_id:"",
+      // city_id:'',
+      props:{
+        value:'code'
+      }
     }
+    
     
   },
   created(){
@@ -128,14 +139,26 @@ export default {
             if(that.message_list.self_description!=null || that.message_list.self_description!=""){
                 that.self_description=that.message_list.self_description
             }
+            that.city=[that.message_list.province,that.message_list.city]
             console.log(that.message_list);
         }).catch(err => { //
             console.log('请求失败：'+ err.code + ',' + err.message);
         });
       },
+      open2() {
+        this.$message({
+          showClose: true,
+          message: '更新信息成功',
+          type: 'success',
+          duration:2000
+        });
+      },
+      open4() {
+        this.$message.error('更改信息失败');
+      },
       update_message(){
         // console.log(typeof(this.value1))
-        console.log(this.value.data)
+        // console.log(this.value.data)
         // console.log(this.value1.getFullYear() + '-' + (this.value1.getMonth() + 1) + '-' + this.value1.getDate())
         const config = {
         headers: {
@@ -153,30 +176,43 @@ export default {
                 this.sex='保密'
             }
         const birthday=""
-        if(typeof(this.value1)==false){
+        if(typeof(this.value1)!="string"){
             this.birthday=this.value1.getFullYear() + '-' + (this.value1.getMonth() + 1) + '-' + this.value1.getDate()
+        }
+        else{
+          this.birthday=this.value1
         }
         const param={
         "user_name":this.text,
         "sex":this.sex,
         "birthday":this.birthday,
         "hobby":this.hobby,
-        "province":this.value,
-        "city":this.value,
+        "province":this.city[0],
+        "city":this.city[1],
         "self_description":this.self_description
 }
       axios.post('/api/update_userinfo', param, config)
         .then(res => {
-          console.log(res)
-        //   if (res.data.code === 200) {
-            
-        //   }
+          console.log(res.data.success)
+          if (res.data.code === 200) {
+            this.open2()
+          }
         })
         .catch(err => {
+          this.open4()
           console.log(err)
         })
     },
-
+    handlechange(value){
+      if(value!=""){
+        const birthday_data=this.$refs['get_datedata'].getCheckedNodes()
+        console.log(birthday_data)
+        this.city[0]=birthday_data[0].path[0]
+        this.city[1]=birthday_data[0].path[1]
+      //  console.log(birthday_data[0].path[0])
+      // console.log(birthday_data)
+      }
+    }
 
   }
   
