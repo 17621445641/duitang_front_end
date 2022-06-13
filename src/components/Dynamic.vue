@@ -26,6 +26,7 @@
     :on-remove="handleRemove"
     :auto-upload="false"
     :multiple="true"
+    :http-request="uploadFile"
     >
     <i class="el-icon-plus"></i>
     </el-upload>
@@ -42,7 +43,7 @@
 </template>
 
 <script>
-// import axios from 'axios'
+import axios from 'axios'
 export default {
 //   name: 'App',
   data () {
@@ -50,7 +51,9 @@ export default {
         dynamic_content:'',
         dialogImageUrl: '',
         headerMsg:{access_token:"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2NTY3MjY0OTgsImlhdCI6MTY1NDEzNDQ5OCwiaXNzIjoia3hwIiwiZGF0YSI6eyJ1c2VyaWQiOjF9fQ.PH3FndpDOuOCbmPq-cRFRtg_3HwPc6j7LOXCze9VH-A"},
-        dialogVisible: false
+        dialogVisible: false,
+        file_list:[],
+        formDate:""
     }
   },
   methods: {
@@ -61,9 +64,29 @@ export default {
         this.dialogImageUrl = file.url;
         this.dialogVisible = true;
       },
-      submitUpload() {
-        this.$refs.upload.submit();
+      // submitUpload() {
+      //   this.$refs.upload.submit();
+      // },
+      uploadFile(file){
+        this.formDate.append('file', file.file);
       },
+      submitUpload(){
+                this.formDate = new FormData()
+                this.$refs.upload.submit();
+                // console.log(this.formDate)
+                // this.formDate.append('WS_CODE', "12133");
+                let config = {
+                    headers: {
+                        'Content-Type': 'multipart/form-data'
+                    }
+                }
+                axios.post("http://127.0.0.1:8998/article_img", this.formDate,config).then( res => {
+                    console.log(this.formDate)
+                    console.log(res)
+                }).catch( res => {
+                    console.log(res)
+                })
+        }
 }
 }
 </script>
