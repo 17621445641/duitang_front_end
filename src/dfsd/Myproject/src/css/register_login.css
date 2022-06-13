@@ -1,0 +1,41 @@
+.mask-body{
+    font-size: 12px;
+line-height: 1.5;
+font-family: -apple-system-font,PingFang SC,Helvetica Neue,Helvetica,STHeiTi,sans-serif;
+text-align: left;
+color: rgb(0, 0, 0);
+cursor: default;
+margin: 0;
+padding: 0;
+position: relative;
+display: inline-block;
+background-color: #fff;
+border: #b0b0b0;
+box-shadow: 0 2px 8px rgba(0,0,0,.2),0 0 5px rgba(0,0,0,.2);
+border-radius: 4px;
+width: 660px;
+}
+.tt-s{
+font-family: -apple-system-font,PingFang SC,Helvetica Neue,Helvetica,STHeiTi,sans-serif;
+cursor: default;
+margin: 0;
+height: 46px;
+padding: 0;
+font-size: 16px;
+font-weight: 700;
+line-height: 46px;
+border-bottom: 1px solid #ebebeb;
+overflow: hidden;
+color: #606060;
+text-align: center;
+position: relative;
+}
+.mask-cont{font-size: 12px;
+line-height: 1.5;
+font-family: -apple-system-font,PingFang SC,Helvetica Neue,Helvetica,STHeiTi,sans-serif;
+text-align: left;
+color: rgb(0, 0, 0);
+cursor: default;
+margin: 0;
+padding: 0;
+}
