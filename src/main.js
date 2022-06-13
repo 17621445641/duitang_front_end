@@ -6,8 +6,9 @@ import App from './Apps'
 import router from './router'
 import axios from 'axios'
 import ElementUI from 'element-ui'
+// import { Editor, Toolbar } from '@wangeditor/editor-for-vue'
 
-
+// Vue.use( Editor, Toolbar)
 // Vue.prototype.$http = axios// =号的两边必须隔开,通过注释掉build/webpack.base.conf.js文件的createLintingRule方法里的内容即可取消esint规范检查
 // Vue.use(axios)
 Vue.use(ElementUI)

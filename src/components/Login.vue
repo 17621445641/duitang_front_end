@@ -1,0 +1,79 @@
+<template>
+<div class="mask-body" style="width: 660px;"><div class="tt-s"><span>登录</span><a class="mask-close" target="_self" href="javascript:;">关闭</a></div><div class="mask-cont"><div id="poplogin">
+        <div class="login">
+          <div class="cont">
+            <form id="dt-form-login" method="POST" action="/login/?action=login&amp;next=/people/%3Fuser_id%3D1786488233" target="_self">
+              <div class="dt-form-wrapper">
+                <div class="dt-unme cnt-i">
+                  <label>手机号/昵称/邮箱：</label>
+                  <input type="text" id="p-username" name="login_name">
+                </div>
+                <div class="dt-overseas cnt-i">
+                  <label>输入手机号：</label>
+                  <div class="phone-number-wrap">
+                    <div id="choose-country">
+                      <p class="country-code">+86</p>
+                    </div>
+                    <input type="text" name="login_overseas">
+                  <ul class="country-list"><li data-simplename="CN">中国<span>+86</span></li><li data-simplename="US">美国<span>+1</span></li><li data-simplename="HK">中国香港<span>+852</span></li><li data-simplename="TW">中国台湾<span>+886</span></li><li data-simplename="JP">日本<span>+81</span></li><li data-simplename="MY">马来西亚<span>+60</span></li><li data-simplename="AU">澳大利亚<span>+61</span></li><li data-simplename="PA">加拿大<span>+1</span></li><li data-simplename="UK">英国<span>+44</span></li><li data-simplename="SG">新加坡<span>+65</span></li><li data-simplename="DE">德国<span>+49</span></li><li data-simplename="RU">俄罗斯<span>+7</span></li><li data-simplename="EG">埃及<span>+20</span></li><li data-simplename="ZA">南非<span>+27</span></li><li data-simplename="GR">希腊<span>+30</span></li><li data-simplename="NL">荷兰<span>+31</span></li><li data-simplename="BE">比利时<span>+32</span></li><li data-simplename="FR">法国<span>+33</span></li><li data-simplename="ES">西班牙<span>+34</span></li><li data-simplename="HU">匈牙利<span>+36</span></li><li data-simplename="IT">意大利<span>+39</span></li><li data-simplename="RO">罗马尼亚<span>+40</span></li><li data-simplename="CH">瑞士<span>+41</span></li><li data-simplename="AT">奥地利<span>+43</span></li><li data-simplename="DK">丹麦<span>+45</span></li><li data-simplename="SE">瑞典<span>+46</span></li><li data-simplename="NO">挪威<span>+47</span></li><li data-simplename="PL">波兰<span>+48</span></li><li data-simplename="MX">墨西哥<span>+52</span></li><li data-simplename="AR">阿根廷<span>+54</span></li><li data-simplename="BR">巴西<span>+55</span></li><li data-simplename="CL">智利<span>+56</span></li><li data-simplename="ID">印度尼西亚<span>+62</span></li><li data-simplename="PH">菲律宾<span>+63</span></li><li data-simplename="NZ">新西兰<span>+64</span></li><li data-simplename="TH">泰国<span>+66</span></li><li data-simplename="KR">韩国<span>+82</span></li><li data-simplename="VN">越南<span>+84</span></li><li data-simplename="TR">土耳其<span>+90</span></li><li data-simplename="IN">印度<span>+91</span></li><li data-simplename="MM">缅甸<span>+95</span></li><li data-simplename="IR">伊朗<span>+98</span></li><li data-simplename="PT">葡萄牙<span>+351</span></li><li data-simplename="IE">爱尔兰<span>+353</span></li><li data-simplename="FI">芬兰<span>+358</span></li><li data-simplename="MO">中国澳门<span>+853</span></li><li data-simplename="KH">柬埔寨<span>+855</span></li><li data-simplename="AE">阿拉伯联合酋长国<span>+971</span></li><li data-simplename="LA">老挝<span>+856</span></li><li data-simplename="BY">白俄罗斯<span>+375</span></li><li data-simplename="UA">乌克兰<span>+380</span></li><li data-simplename="CZ">捷克<span>+420</span></li></ul></div>
+                </div>
+                <div class="dt-pswd cnt-i">
+                  <label>输入密码：</label>
+                  <input type="password" id="p-password" name="pswd">
+                  <a href="/getpasswd/" class="pswd-forget">忘记密码？</a>
+                </div>
+                <div class="u-chk">
+                  <div class="u-chk-remenber-me">
+                    <input class="chk" type="checkbox" name="remember" id="poplogin-rem" value="" checked="">
+                    <label for="poplogin-rem">记住我</label>
+                  </div>
+                  <div class="u-chk-change-way">
+                    <!-- <a class="pg-overseas" href="javascript:;">切换至海外手机号登录</a>
+                    <a class="pg-username" href="javascript:;">切换至邮箱账号登录</a> -->
+                  </div>
+                </div>
+              </div>
+
+              <div class="dt-form-submit">
+                <div class="submit">
+                  <a class="abtn" href="javascript:;" onmousedown="$.G.gaq('/_trc/Login/pop/direct');" id="loginbtn">
+                    <button type="submit" class="pg-loginbtn"><u>登录</u></button>
+                  </a>
+                </div>
+
+                <div class="pg-reg">
+                  <a class="qqsite" href="/connect/qq/?action=login&amp;next=/people/%3Fuser_id%3D1786488233" onmousedown="$.G.gaq('/_trc/Login/pop/connect_qq');">
+                    <i class="pg-QQ"></i>
+                    <span>QQ登录</span>
+                  </a>
+                  <a class="weibo" href="/connect/sina/?action=login&amp;next=/people/%3Fuser_id%3D1786488233" onmousedown="$.G.gaq('/_trc/Login/pop/connect_sina');">
+                    <i class="pg-weibo"></i>
+                    <span>微博登录</span>
+                  </a>
+                  <a class="taobao" href="/connect/wechatweb/?action=wechatpp_login&amp;next=/people/%3Fuser_id%3D1786488233" onmousedown="$.G.gaq('/_trc/Login/pop/connec t_wechat');">
+                    <i class="pg-wechat"></i>
+                    <span>微信登录</span>
+                  </a>
+                </div>
+              </div>
+            </form>
+
+          </div>
+          <div class="sites">
+            <div class="sites-qrcode">
+              <img style="width: 150px;" src="https://c-ssl.dtstatic.com/uploads/people/201909/02/20190902180424_ChiTQ.png">
+              <p>扫一扫下载手机客户端</p>
+              <p>浏览体验更佳</p>
+            </div>
+          </div>
+        </div>
+        <div class="toreg">
+          <a href="/reg/phone/?next=/people/%3Fuser_id%3D1786488233">还没有账号?立即注册</a>
+        </div>
+      </div></div></div>
+</template>
+
+<style>
+
+@import url('./login.css');
+</style>

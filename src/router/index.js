@@ -6,6 +6,7 @@ import Views_list from '@/components/Views_list'
 import Like_list from '@/components/Like_list'
 import Self_message from '@/components/Self_message'
 import test from '@/components/test'
+import Dynamic from '@/components/Dynamic'
 Vue.use(Router)
 export default new Router({
     routes: [
@@ -40,6 +41,10 @@ export default new Router({
       {
         path:'/test',
         component: test,
+      },
+      {
+        path:'/dynamic',
+        component: Dynamic,
       }
       
     ]
