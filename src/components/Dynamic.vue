@@ -64,14 +64,6 @@ export default {
         formDate:"",
         view_status:"",
         article_id:"",
-        options:[{
-          value: 'open',
-          label: '公开'
-        }, {
-          value: 'secret',
-          label: '仅自己可见'
-        }],
-        value:"open"
     }
   },
   methods: {

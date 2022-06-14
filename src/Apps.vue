@@ -1,8 +1,47 @@
 <template>
   <div id="app" >
     <!-- <img src="./assets/logo.png"> -->
+    <div class="blockUI blockOverlay" style="z-index: 9000; border: none; margin: 0px; padding: 0px; width: 100%; height: 100%; top: 0px; left: 0px; background-color: rgb(0, 0, 0); opacity: 0.6; cursor: default; position: fixed;"></div>
+   
+    <div class="blockUI blockMsg blockPage" style="z-index: 9011;border-radius: 12px; position: fixed; padding: 0px; margin: -274.5px 0px 0px -330px; width: 660px; top: 50%; left: 50%; text-align: left; color: white; border: none; background: white; cursor: default; height: 450px;"><div class="mask-body" style="width: 660px;"><div class="tt-s"><span style="color:black;font-size:16px;font-weight:700;color:#606060">登录</span></div><div class="mask-cont"><div id="poplogin">
+          <div id=login_message>
+            <div class="login_input"><span>手机号/邮箱：</span><input type="text"></div>
+            <div class="login_input"><span>密码：</span><input type="text"><a href="" class="pswd-forget">忘记密码？</a></div>
+            <div class="u-chk">
+              <div class="u-chk-remenber-me">
+                <span><input class="chk" type="checkbox" name="remember" id="poplogin-rem" value="" checked=""></span>
+                <label for="poplogin-rem">记住我</label>
+              </div>
+            </div>
+            <div class="abtn">
+              <button type="submit" class="pg-loginbtn"><u>登录</u></button>
+            </div>
+          </div>
+          <div id='web_image'>sdfsdfsdfs</div>
+          <div class="toreg">
+            <a href="/reg/phone/?next=/">还没有账号?立即注册</a>
+          </div>
+    </div></div></div></div>
+
     <div id="all">
-        <div id="user_background" >
+        <div id='top'>
+            <img id='logo_img' src="./dfsd/Myproject/static/image/20180619182220_KLEPM.png" alt="" >
+            <div id="classifiy"><span id="classifiy_text" >分类<span id="icon"></span></span>
+                <div id="classifiy_content">
+                    <span>摄影</span>
+                    <span>摄影</span>
+                    <span>摄影</span>
+                    <span>摄影</span>
+                    <span>摄影</span>
+                    <span>摄影</span>
+                </div>
+            </div>
+            <input id="search" type="text" placeholder="请输入感兴趣的内容">
+            <button id='tt'></button>
+            <router-link to="/login"><span id="register_login">登录/注册</span></router-link>
+        </div>
+
+        <div id="user_background"  style="">
             <div id="background_image"><img src="./assets/无标题.png" alt=""></div>
             <div id="avatar_image"  @mouseenter="overShow($event)" @mouseleave="outHide($event)" >
               <img class="big_avatar" v-bind:src="message_list.avatar_image_url" alt="" >
@@ -201,4 +240,6 @@ export default {
 
 <style>
 @import url('./css/index.css');
+@import url('./dfsd/Myproject/src/css/index.css');
+@import url('./css/register_login.css');
 </style>

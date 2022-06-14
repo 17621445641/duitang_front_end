@@ -7,6 +7,7 @@ import Like_list from '@/components/Like_list'
 import Self_message from '@/components/Self_message'
 import test from '@/components/test'
 import Dynamic from '@/components/Dynamic'
+import login from '@/components/Login'
 Vue.use(Router)
 export default new Router({
     routes: [
@@ -45,7 +46,12 @@ export default new Router({
       {
         path:'/dynamic',
         component: Dynamic,
+      },
+      {
+        path:'/login',
+        component: login,
       }
+      
       
     ]
   })

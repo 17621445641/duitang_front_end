@@ -1,0 +1,111 @@
+.tt-s{
+    width: 100%;
+    /* border: 1px solid red; */
+    text-align: center;
+    height: 45px;
+    line-height: 45px;
+    border-bottom: 1px solid rgb(235, 233, 233);
+    
+}
+#login_message{
+    width: 410px;
+    height: 250px;
+    padding-left: 40px;
+    /* text-align: center; */
+    border-right: 1px solid rgb(235, 233, 233);
+    float: left;
+    margin-top: 50px;
+    padding-top: 20px;
+    /* margin-bottom: 80px; */
+    
+}
+.login_input span{
+    display: inline-block;
+    font-size: 16px;
+    width: 120px;
+    color: #666;
+    text-align: right;
+    line-height: 35px;
+    margin-bottom: 20px;
+}
+#web_image{
+    display: inline-block;
+    width: 100px;
+    /* height:200px; */
+    border: 1xp solid green;
+    color: green;
+}
+.login_input input{
+    padding: 9px 8px;
+    height: 16px;
+    width: 170px;
+    border: none;
+    line-height: 16px;
+    background-color: #fff;
+    border: 1px solid #e5e4e3;
+    font-size: 14px;
+}
+.pswd-forget{
+    color: #5678a0;
+    font-size: 10px;
+    margin-left: 10px;
+}
+.u-chk-remenber-me{
+    color: black;
+    font-size: 10px;
+    vertical-align: middle;
+}
+
+.u-chk{
+    height: 40px;
+    padding-left: 120px;
+    vertical-align: middle;
+    
+}
+.abtn button {
+    width: 100%;
+    height: 40px;
+    line-height: 40px;
+    border: 0 none;
+    background: 0 none;
+    margin: 0;
+    padding: 0;
+    cursor: pointer;
+    vertical-align: middle;
+
+}
+.abtn u {
+    display: inline-block;
+    padding: 0 16px 0 16px;
+    height: 100%;
+    font-size: 14px;
+    line-height: 31px;
+    font-family: '\5B8B\4F53';
+    color: #f7f7f7;
+    cursor: pointer;
+    text-decoration: none!important;
+}
+.abtn{
+    text-align: center;
+    margin-left: 110px;
+    width: 220px;
+    height: 40px;
+    
+    background-color: #ff7e7e;
+    border-radius: 6px;
+}
+.toreg{
+    width: 100%;
+    
+    text-align: center;
+    font-size: 10px;
+}
+.toreg a{
+    color: #5678a0;
+}
+#web_image{
+    height: 250px;
+    margin-top: 50px;
+    margin-bottom: 50px;
+    padding-top: 20px;
+}
