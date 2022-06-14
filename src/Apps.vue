@@ -25,7 +25,12 @@
             </div>
             
             <!-- <el-button  @click="update_avatar">sdfsdfs</el-button> -->
-            <div id="user_name" ><span v-if="message_list.user_name!=''|| message_list.user_name!=null">{{message_list.user_name}}</span><span style="color: gray" v-else>暂未设置用户名</span><router-link to="/self_message" ><img style="padding-left: 5px;" src="./assets/edit.png"></router-link></div>
+            <div id="user_name" >
+              <span v-if="message_list.user_name!=''|| message_list.user_name!=null">{{message_list.user_name}}</span><span style="color: gray" v-else>暂未设置用户名</span>
+              <span v-if="message_list.sex=='男'"><img style="width: 15px;margin-left: 5px;" src="./assets/男.png" alt="" ></span>
+              <span v-else-if="message_list.sex=='女'"><img style="width: 15px;margin-left: 5px;" src="./assets/女.png" alt="" ></span>
+              <span v-else style="font-size: 10px;color:gray">未知</span>
+              <router-link to="/self_message" ><img style="padding-left: 5px;" src="./assets/edit.png"></router-link></div>
             <div id="follow_fans"><span style="padding-right:5px">关注</span><span>{{message_list.follow_count}}</span><span class="split_symbol">|</span><span style="padding-right:5px">粉丝</span><span>{{message_list.fans_count}}</span></div>
             <div id="self_descrip" >简介：<span v-if="message_list.self_description!=null">{{message_list.self_description}}</span><span v-else>暂无简介</span></div>
         </div>

@@ -28,9 +28,10 @@
     margin-top: 10px;
 }
 .article_img{
-    width: 580px;
-    border: 1px solid red;
-    padding: 0 20px;
+    width: 90%;
+    /* border: 1px solid red; */
+    /* padding-bottom: 20px; */
+    margin-left: 20px;
     /* margin-right: 20px; */
 }
 .el-upload {
@@ -51,4 +52,11 @@
 .el-upload-list--picture-card .el-upload-list__item{
     width: 100px;
     height:100px;
+}
+.bottom{
+    font-size: 14px;
+    padding-left: 20px;
+}
+select{
+    color: gray;
 }
