@@ -1,6 +1,7 @@
 <template>
-<div id="#all">
-<div id="user_background"  style="">
+<div style="display:inline-block;width:100%;">
+  <!-- <div style="width:800px;height:300px;border:1px solid green;margin:auto"></div> -->
+<div id="user_background"  style="margin:auto">
             <div id="background_image"><img src="../assets/无标题.png" alt=""></div>
             <div id="avatar_image"  @mouseenter="overShow($event)" @mouseleave="outHide($event)" >
               <img class="big_avatar" v-bind:src="message_list.avatar_image_url" alt="" >
@@ -43,6 +44,7 @@
           </div>
         </div>
         <div id="model_list">
+          底部
         </div>
 </div>
 

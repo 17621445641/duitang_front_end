@@ -15,10 +15,10 @@ body,html{
     width: 100%;
 }
 #user_background{
-    display: inline-block;
-    margin-left: 50%;
+    /* display: inline-block; */
+    /* margin-left: 50%; */
     padding: 0;
-    transform: translateX(-50%);
+    /* transform: translateX(-50%); */
     width: 1000px;
     padding-top: 65px;
 }
@@ -84,12 +84,13 @@ body,html{
     color: rgb(121, 121, 121);
 }
 #message_navigation{
+    margin: auto;
     width: 1000px;
-    margin-left: 50%;
-    display: inline-block;
-    margin-left: 50%;
+    /* margin-left: 50%; */
+    /* display: inline-block; */
+    /* margin-left: 50% */
     padding: 0;
-    transform: translateX(-50%);
+    /* transform: translateX(-50%); */
     margin-top: 50px;
     
 }
@@ -157,4 +158,5 @@ a{
     display: block;
     border-radius: 100PX;
   }
+
 
