@@ -15,10 +15,9 @@
     top: 0px;
     background-color: white;
     z-index: 1000;
-    margin-bottom: 65px;
 }
 #mid{
-    padding-top: 65px;
+    /* padding-top: 65px; */
     margin: 0 auto ;
     width: 1200px;
     /* height: 800px; */
@@ -128,6 +127,7 @@
     margin-right: 16px;
     display: inline-block;
     vertical-align: top;
+    /* border: 1px solid red; */
 }
 .txt_title{
     padding-left: 8px;
@@ -200,4 +200,22 @@
     top:0;
     left: 0;
     display: none;
+}
+#login_avatar{
+    left:18%;
+}
+.login_func{
+    display:inline-block;position:relative;transform:translateY(-50%);margin-left:8px;font-weight: 400;color: #606060;
+}
+#logout{
+    font-size: 14px !important;
+}
+#logout:hover{
+    cursor: pointer;
+}
+.login_message:hover{
+    cursor: pointer;
+}
+.inter_page{
+    padding-top: 100px;
 }

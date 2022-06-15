@@ -1,28 +1,5 @@
 <template>
   <div id="app" >
-    <!-- <img src="./assets/logo.png"> -->
-    <div class="blockUI blockOverlay" style="z-index: 9000; border: none; margin: 0px; padding: 0px; width: 100%; height: 100%; top: 0px; left: 0px; background-color: rgb(0, 0, 0); opacity: 0.6; cursor: default; position: fixed;"></div>
-   
-    <div class="blockUI blockMsg blockPage" style="z-index: 9011;border-radius: 12px; position: fixed; padding: 0px; margin: -274.5px 0px 0px -330px; width: 660px; top: 50%; left: 50%; text-align: left; color: white; border: none; background: white; cursor: default; height: 450px;"><div class="mask-body" style="width: 660px;"><div class="tt-s"><span style="color:black;font-size:16px;font-weight:700;color:#606060">登录</span></div><div class="mask-cont"><div id="poplogin">
-          <div id=login_message>
-            <div class="login_input"><span>手机号/邮箱：</span><input type="text"></div>
-            <div class="login_input"><span>密码：</span><input type="text"><a href="" class="pswd-forget">忘记密码？</a></div>
-            <div class="u-chk">
-              <div class="u-chk-remenber-me">
-                <span><input class="chk" type="checkbox" name="remember" id="poplogin-rem" value="" checked=""></span>
-                <label for="poplogin-rem">记住我</label>
-              </div>
-            </div>
-            <div class="abtn">
-              <button type="submit" class="pg-loginbtn"><u>登录</u></button>
-            </div>
-          </div>
-          <div id='web_image'>sdfsdfsdfs</div>
-          <div class="toreg">
-            <a href="/reg/phone/?next=/">还没有账号?立即注册</a>
-          </div>
-    </div></div></div></div>
-
     <div id="all">
         <div id='top'>
             <img id='logo_img' src="./dfsd/Myproject/static/image/20180619182220_KLEPM.png" alt="" >
@@ -38,17 +15,59 @@
             </div>
             <input id="search" type="text" placeholder="请输入感兴趣的内容">
             <button id='tt'></button>
-            <router-link to="/login"><span id="register_login">登录/注册</span></router-link>
+            <span v-show="!login_status"><span id="register_login" @click="login_page($event)">登录/注册</span></span>
+            <span v-show="login_status" >
+            <span  style="left: 18%;position: relative;display: inline-block;">
+            <router-link to="/personal_center" >
+              <span class="login_message" >
+              <img  style="width: 36px;border-radius:36px;" id="login_avatar" :src="message_list.avatar_image_url" alt="" >
+              <span class="login_func" style="">{{message_list.user_name}}</span>
+            </span>
+            </router-link>
+            <span class="login_func" id="logout" @click="logout">退出</span>
+            </span></span>
         </div>
 
-        <div id="user_background"  style="">
+        <div class="blockUI blockOverlay" style="display:none;z-index: 9000; border: none; margin: 0px; padding: 0px; width: 100%; height: 100%; top: 0px; left: 0px; background-color: rgb(0, 0, 0); opacity: 0.6; cursor: default; position: fixed;"></div>
+   
+        <div class="blockUI blockMsg blockPage"  style="display:none;z-index: 9011;border-radius: 12px; position: fixed; padding: 0px; margin: -274.5px 0px 0px -330px; width: 660px; top: 50%; left: 50%; text-align: left; color: white; border: none; background: white; cursor: default; height: 450px;">
+        <div class="mask-body" style="width: 660px;">
+        <div class="tt-s">
+          <span @click="close_login_page($event)" style="color:black;font-size:16px;font-weight:700;color:#606060">登录</span>
+        </div>
+        <div class="mask-cont"><div id="poplogin">
+          <div id=login_message>
+            <div class="login_input"><span>手机号/邮箱：</span><input type="text" ref="account"></div>
+            <div class="login_input"><span>密码：</span><input type="text" ref="password"><a href="" class="pswd-forget">忘记密码？</a></div>
+            <div class="u-chk">
+              <div class="u-chk-remenber-me">
+                <span><input class="chk" type="checkbox" name="remember" id="poplogin-rem" value="" checked=""></span>
+                <label for="poplogin-rem">记住我</label>
+              </div>
+            </div>
+            <div class="abtn">
+              <button type="submit" class="pg-loginbtn" @click="user_login"><u>登录</u></button>
+            </div>
+          </div>
+          <div id='web_image'>sdfsdfsdfs</div>
+          <div class="toreg">
+            <a href="/reg/phone/?next=/">还没有账号?立即注册</a>
+          </div>
+    </div></div></div></div>
+        <router-view class="inter_page">
+          
+        </router-view>
+        <!-- <div id='bottom'>
+            沪ICP备 13030189号 Copyright © 2014-2022 行吟信息科技（上海）有限公司 | 地址：上海市黄浦区马当路388号C座 | 电话：021-64224530
+        </div> -->
+        
+
+        <!-- <div id="user_background"  style="">
             <div id="background_image"><img src="./assets/无标题.png" alt=""></div>
             <div id="avatar_image"  @mouseenter="overShow($event)" @mouseleave="outHide($event)" >
               <img class="big_avatar" v-bind:src="message_list.avatar_image_url" alt="" >
               <div class="mask" >
               <img style="width: 25px;height: 25px;border: none;position: absolute;top: 55%;transform: translateY(-50%);left: 40%" src="./assets/edit_avatar.png" alt="" >
-              <!-- <input type="file" id="up_file" ref="fileRef" @change="fileChange" style="opacity: 0;width: 100px;height: 100px;border-radius: 100px;border: 1px solid red;position: absolute;left: 50%;transform: translateX(-50%);cursor: pointer;"></input> -->
-              <!-- @click="update_avatar" -->
               </div>
               <el-upload
               class="avatar-uploader"
@@ -63,7 +82,6 @@
               </el-upload>
             </div>
             
-            <!-- <el-button  @click="update_avatar">sdfsdfs</el-button> -->
             <div id="user_name" >
               <span v-if="message_list.user_name!=''|| message_list.user_name!=null">{{message_list.user_name}}</span><span style="color: gray" v-else>暂未设置用户名</span>
               <span v-if="message_list.sex=='男'"><img style="width: 15px;margin-left: 5px;" src="./assets/男.png" alt="" ></span>
@@ -87,8 +105,9 @@
           </div>
         </div>
         <div id="model_list">
-        </div>
+        </div> -->
     </div>
+    
   </div>
 </template>
 
@@ -99,9 +118,9 @@ export default {
   data () {
     return {
       message_list:{},
-      headerMsg:{access_token:"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2NTY3MjY0OTgsImlhdCI6MTY1NDEzNDQ5OCwiaXNzIjoia3hwIiwiZGF0YSI6eyJ1c2VyaWQiOjF9fQ.PH3FndpDOuOCbmPq-cRFRtg_3HwPc6j7LOXCze9VH-A"},
-      imageUrl: ''
-      // click_list:{}
+      imageUrl: '',
+      login_status:false,
+      // this_event:'click'
     }
   },
   //  beforeRouteEnter(to, from, next){
@@ -113,20 +132,66 @@ export default {
   //   })
   //   next()
   // },
-  created(){
+
+  created(){//刚注释
     this.send()
   },
   methods: {
-    send(){
+    close_login_page(event){
+      event.target.parentElement.parentElement.parentElement.style.display = 'none'
+      event.target.parentElement.parentElement.parentElement.previousElementSibling.style.display = 'none'
+    },
+    login_page(event){
+      // console.log(event,  event.target.parentElement)
+      event.target.parentElement.parentElement.nextElementSibling.style.display = 'block'
+      event.target.parentElement.parentElement.nextElementSibling.nextElementSibling.style.display = 'block'
+    },
+    user_login(){
+      let account=this.$refs.account.value
+      let password=this.$refs.password.value
+      const param={
+        "account": account,
+        "password": password
+      }
+        axios.post("/api/login",param).then(res => {
+        var that=this
+        console.log(res.data)
+        if (res.data.code == 200) {
+          sessionStorage.setItem("access_token",res.data.access_token) 
+          that.login_status=true
+          console.log("登录成功")
+          location.reload()
+          this.user_info()
+          
+        }
+        })
+        .catch(err => {
+        //   this.open4()
+          console.log(err)
+        })
+    },
+    logout(){
+      window.sessionStorage.clear();
+      this.login_status=false
+      this.$router.push('/index')
+    },
+    user_info(){
       axios.get('/api/userinfo',{
         })
         .then(resp => {
             var that=this;
             that.message_list=resp.data.data;
-            console.log(that.message_list);
         }).catch(err => { //
             console.log('请求失败：'+ err.code + ',' + err.message);
         });
+    },
+
+    send(){
+      if(window.sessionStorage.getItem("access_token")!=null){
+        this.login_status=true
+        this.user_info()
+      }
+
     },
     overShow(event){
       event.currentTarget.firstElementChild.nextElementSibling.style.display = 'block'

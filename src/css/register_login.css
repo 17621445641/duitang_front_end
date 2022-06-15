@@ -80,7 +80,6 @@
     height: 100%;
     font-size: 14px;
     line-height: 31px;
-    font-family: '\5B8B\4F53';
     color: #f7f7f7;
     cursor: pointer;
     text-decoration: none!important;
@@ -90,7 +89,7 @@
     margin-left: 110px;
     width: 220px;
     height: 40px;
-    
+    margin-top: 20px;
     background-color: #ff7e7e;
     border-radius: 6px;
 }
