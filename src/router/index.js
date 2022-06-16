@@ -10,6 +10,7 @@ import Dynamic from '@/components/Dynamic'
 import login from '@/components/Login'
 import Index from '@/components/Index'
 import Personal_center from '@/components/Personal_center'
+import Dynamic_details from '@/components/Dynamic_details'
 Vue.use(Router)
 const originalPush = Router.prototype.push
 Router.prototype.push = function push(location) {//用来消除router.push的报错信息
@@ -38,8 +39,12 @@ export default new Router({
         component: Index
       },
       {
-        path:'/like',
-        component: Like_list,
+        path:'/index',
+        component: Index
+      },
+      {
+        path:'/dynamic_details',
+        component: Dynamic_details,
         // meta:{
         //   keepAlive:true,
         // }

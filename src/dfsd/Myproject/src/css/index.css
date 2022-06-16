@@ -109,11 +109,12 @@
     border-radius: 15px;
     overflow: hidden;
     box-shadow:1px 1px 2px 1px rgba(22, 22, 22, 0.1);
-    cursor: pointer;
+    
 }
 .content_image{
     width:100%;
-    display:block
+    display:block;
+    cursor: pointer;
 }
 .author_headphoto{
     box-shadow:1px 1px 1px 1px rgb(212, 212, 212);
@@ -160,8 +161,8 @@
 }
 .click_num{
     position: relative;
-    bottom: 10px;
-    right: -18px;
+    bottom: 9px;
+    right: -20px;
     font-size: 12px;
 }
 #bottom{
