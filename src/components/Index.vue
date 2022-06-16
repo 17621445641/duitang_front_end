@@ -4,9 +4,9 @@
         <span v-bind:key="index" v-for="(site,index) in article_list" class="ms" >
         <div v-if='(index)%5==0' class="content">
             <div class="image_shadow">
-                <router-link to="/dynamic_details">
-                <img style="width: 100%" class="content_image" :src='site.article_imglist.split("\"")[1]' alt="" >
-                </router-link>
+                <!-- <router-link to="/dynamic_details"> -->
+                <img  @click="dynamic_details(index)" style="width: 100%" class="content_image" :src='site.article_imglist.split("\"")[1]' alt="" >
+                <!-- </router-link> -->
                 <div class="shadow" ><span class='tt1'> 点赞</span><span class='tt1'> 收藏</span></div>
             </div>
             <div class="txt_title">{{site.article_content}}</div>
@@ -22,14 +22,13 @@
     </div>
     
     <div class="content_data">
-        <router-link to="/dynamic_details">
         <span v-bind:key="index" v-for="(site,index) in article_list"  class="ms" >
         
         <div v-if='(index)%5==1'  class="content">
             <div class="image_shadow">
-                <router-link to="/dynamic_details">
-                <img style="width: 100%" class="content_image" :src='site.article_imglist.split("\"")[1]' alt="" >
-                </router-link>
+                <!-- <router-link to="/dynamic_details"> -->
+                <img  @click="dynamic_details(index)" style="width: 100%" class="content_image" :src='site.article_imglist.split("\"")[1]' alt="" >
+                <!-- </router-link> -->
                 <div class="shadow" ><span class='tt1'> 点赞</span><span class='tt1'> 收藏</span></div>
             </div>
             <div class="txt_title">{{site.article_content}}</div>
@@ -40,17 +39,15 @@
             </div>
         </div>
     </span>
-    </router-link>
     </div>
     <div class="content_data">
-        <router-link to="/dynamic_details">
         <span v-bind:key="index" v-for="(site,index) in article_list" class="ms" >
         
         <div v-if='(index)%5==2' class="content">
             <div class="image_shadow">
-                <router-link to="/dynamic_details">
-                <img style="width: 100%" class="content_image" :src='site.article_imglist.split("\"")[1]' alt="" >
-                </router-link>
+                <!-- <router-link to="/dynamic_details"> -->
+                <img  @click="dynamic_details(index)" style="width: 100%" class="content_image" :src='site.article_imglist.split("\"")[1]' alt="" >
+                <!-- </router-link> -->
                 <div class="shadow" ><span class='tt1'> 点赞</span><span class='tt1'> 收藏</span></div>
             </div>
             <div class="txt_title">{{site.article_content}}</div>
@@ -61,17 +58,16 @@
             </div>
         </div>
     </span>
-    </router-link>
     </div>
     <div class="content_data">
-        <router-link to="/dynamic_details">
+
         <span v-bind:key="index" v-for="(site,index) in article_list" class="ms" >
         
         <div v-if='(index)%5==3' class="content">
             <div class="image_shadow">
-                <router-link to="/dynamic_details">
-                <img style="width: 100%" class="content_image" :src='site.article_imglist.split("\"")[1]' alt="" >
-                </router-link>
+                <!-- <router-link @click="dynamic_details" to="/dynamic_details"> -->
+                <img  @click="dynamic_details(index)" style="width: 100%" class="content_image" :src='site.article_imglist.split("\"")[1]' alt="" >
+                <!-- </router-link> -->
                 <div class="shadow" ><span class='tt1'> 点赞</span><span class='tt1'> 收藏</span></div>
             </div>
             <div class="txt_title">{{site.article_content}}</div>
@@ -82,17 +78,16 @@
             </div>
         </div>
     </span>
-    </router-link>
+
     </div>
     <div class="content_data">
-        <router-link to="/dynamic_details">
         <span v-bind:key="index" v-for="(site,index) in article_list" class="ms" >
         
         <div v-if='(index)%5==4' class="content">
             <div class="image_shadow">
-                <router-link to="/dynamic_details">
-                <img style="width: 100%" class="content_image" :src='site.article_imglist.split("\"")[1]' alt="" >
-                </router-link>
+                <!-- <router-link to="/dynamic_details"> -->
+                <img  @click="dynamic_details(index)" style="width: 100%" class="content_image" :src='site.article_imglist.split("\"")[1]' alt="" >
+                <!-- </router-link> -->
                 <div class="shadow" ><span class='tt1'> 点赞</span><span class='tt1'> 收藏</span></div>
             </div>
             <div class="txt_title">{{site.article_content}}</div>
@@ -103,7 +98,6 @@
             </div>
         </div>
         </span>
-        </router-link>
     </div>
     
     
@@ -116,11 +110,13 @@ export default {
     data () {
     return {
       article_list:[],
+      article_id:""
 
     }
 },
 created(){
     this.get_article_list()
+    console.log(this.article_list)
 },
 methods: {
 get_article_list(){
@@ -133,6 +129,16 @@ get_article_list(){
         }).catch(err => { //
             console.log('请求失败：'+ err.code + ',' + err.message);
         })
+},
+dynamic_details(index){
+    //console.log(index)//获取当前点击的index
+    // this.article_list[index].article_id)
+    this.$router.push({
+        path:'/dynamic_details',
+        query:{
+            article_id:this.article_list[index].article_id
+        }
+    })
 },
 }
 }

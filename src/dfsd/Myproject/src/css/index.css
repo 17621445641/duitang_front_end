@@ -131,7 +131,7 @@
     /* border: 1px solid red; */
 }
 .txt_title{
-    padding-left: 8px;
+    padding-left: 10px;
     padding-top: 5px;
     font-size: 14px;
     padding-right: 2.5px;
@@ -206,10 +206,11 @@
     left:18%;
 }
 .login_func{
-    display:inline-block;position:relative;transform:translateY(-50%);margin-left:8px;font-weight: 400;color: #606060;
+    display:inline-block;position:relative;transform:translateY(-50%);margin-left:8px;font-weight: 300;color: #606060;font-size: 17px;
 }
 #logout{
-    font-size: 14px !important;
+    font-size: 13px !important;
+    padding-top: 5px;
 }
 #logout:hover{
     cursor: pointer;

@@ -1,0 +1,68 @@
+#Dynamic_details{
+    padding-top: 100px;
+    width: 1000px;
+    /* border: 1px solid red; */
+    margin: 0 auto;
+}
+#details_message{
+    width: 100%;
+}
+#dynamic_message{
+    width: 65%;
+    float: left;
+    border: 1px solid gray;
+    
+}
+#user_date{
+    display: inline-block;
+    transform: translateY(-15%);
+}
+#username{
+    font-size: 16px;
+}
+#date{
+    font-size: 10px;
+    color: grey;
+    margin-top: 3px;
+}
+#user_info{
+    
+    padding-bottom: 10px;
+    position: relative;
+}
+#follow{
+    position: absolute;
+    right: 50px;
+    width: 60px;
+    border-radius: 30px;
+    border: 1.5px solid #ff8200;
+    line-height: 25px;
+    text-align: center;
+    font-size: 12px;
+    color: #ff8200;
+    top:35px
+}
+#dynamic_content{
+    
+    padding-left: 75px;
+    /* padding-right: 30px; */
+    /* overflow : hidden; */
+    width: 550px;
+    word-wrap: break-word; 
+   /* word-break: normal;  */
+}
+#hot_people{
+    height:500px;
+    width:30%;
+    
+    float: right;
+}
+#dynamic_content img{
+    width: 130px;
+    
+    border-radius: 10px;
+    margin-right: 8px;
+}
+#dynamic_img{
+    padding-top: 10px;
+}

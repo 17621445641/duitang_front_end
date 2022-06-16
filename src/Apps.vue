@@ -2,7 +2,7 @@
   <div id="app" >
     <div id="all">
         <div id='top'>
-            <img id='logo_img' src="./dfsd/Myproject/static/image/20180619182220_KLEPM.png" alt="" >
+            <img id='logo_img' src="./dfsd/Myproject/static/image/20180619182220_KLEPM.png" alt="" @click='goback_index' style="cursor: pointer;">
             <div id="classifiy"><span id="classifiy_text" >分类<span id="icon"></span></span>
                 <div id="classifiy_content">
                     <span>摄影</span>
@@ -133,8 +133,8 @@ export default {
   //   next()
   // },
 
-  created(){//刚注释
-    this.send()
+  created(){//判断用户是否已登录过
+    this.judge_login()
   },
   methods: {
     close_login_page(event){
@@ -186,12 +186,16 @@ export default {
         });
     },
 
-    send(){
+    judge_login(){//判断用户是否登录过
       if(window.sessionStorage.getItem("access_token")!=null){
         this.login_status=true
         this.user_info()
       }
 
+    },
+    goback_index(){//返回首页
+      console.log(1)
+      this.$router.push('/index')
     },
     overShow(event){
       event.currentTarget.firstElementChild.nextElementSibling.style.display = 'block'

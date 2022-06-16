@@ -33,7 +33,7 @@
         <div id="message_navigation">
           <div id="navigation_list">
             <router-link to="/self_message" ><div><img src="../assets/self_setting.png">个人中心</div></router-link>
-            <router-link to="/dynamic" ><div><img src="../assets/dynamic.png">我的动态</div></router-link>
+            <router-link to="/dynamic_release" ><div><img src="../assets/dynamic.png">我的动态</div></router-link>
             <div><img src="../assets/article.png">我的文章</div>
             <router-link to="/click" ><div><img src="../assets/click.png" >我的点赞</div></router-link>
             <router-link to="/like"><div><img src="../assets/like.png">我的喜欢</div></router-link>
@@ -57,6 +57,7 @@ export default {
     return {
       message_list:{},
       imageUrl: '',
+      headerMsg:{access_token:window.sessionStorage.getItem("access_token")}
     }
 },
 created(){//刚注释

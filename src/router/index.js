@@ -6,7 +6,7 @@ import Views_list from '@/components/Views_list'
 import Like_list from '@/components/Like_list'
 import Self_message from '@/components/Self_message'
 import test from '@/components/test'
-import Dynamic from '@/components/Dynamic'
+import Dynamic_release from '@/components/Dynamic_release'
 import login from '@/components/Login'
 import Index from '@/components/Index'
 import Personal_center from '@/components/Personal_center'
@@ -72,8 +72,8 @@ export default new Router({
         component: test,
       },
       {
-        path:'/dynamic',
-        component: Dynamic,
+        path:'/dynamic_release',
+        component: Dynamic_release,
       },
       {
         path:'/login',
