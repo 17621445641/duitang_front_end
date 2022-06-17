@@ -10,10 +10,12 @@
 #dynamic_message{
     width: 65%;
     float: left;
-    border: 1px solid gray;
+    border: 1px solid #ececec;
+    border-radius: 15px;
     
 }
 #user_date{
+    margin-left: 5px;
     display: inline-block;
     transform: translateY(-15%);
 }
@@ -24,6 +26,10 @@
     font-size: 10px;
     color: grey;
     margin-top: 3px;
+}
+.style_from{
+    display: inline-block;
+    margin-left: 5px;
 }
 #user_info{
     
@@ -43,13 +49,13 @@
     top:35px
 }
 #dynamic_content{
-    
-    padding-left: 75px;
-    /* padding-right: 30px; */
-    /* overflow : hidden; */
     width: 550px;
-    word-wrap: break-word; 
-   /* word-break: normal;  */
+    /* border: 1px solid red; */
+    margin-left: 80px;
+    color: #333;
+    font-size: 15px;
+    word-wrap: break-word;
+    white-space: pre-wrap
 }
 #hot_people{
     height:500px;
@@ -57,12 +63,25 @@
     
     float: right;
 }
-#dynamic_content img{
+/* #dynamic_content img{
     width: 130px;
     
     border-radius: 10px;
     margin-right: 8px;
-}
+} */
 #dynamic_img{
     padding-top: 10px;
+    margin-left: 80px;
+}
+.demo-image__preview .el-image{
+    width: 120px !important;
+    height: 120px !important;
+    border-radius: 10px;
+    margin-right: 8px;
+}
+#dynamic_bottom{
+    margin-top: 5px;
+    padding: 10px 0;
+    display: inline-block;
+    width: 100%;
 }
