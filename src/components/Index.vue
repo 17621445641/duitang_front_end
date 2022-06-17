@@ -115,13 +115,15 @@ export default {
     data () {
     return {
       article_list:[],
+      message_list:[]
     //   article_id:""
 
     }
 },
 created(){
     this.get_article_list()
-    console.log(this.article_list)
+    this.judge_login()
+    // console.log(this.article_list)
 },
 methods: {
     overShow(event){
@@ -150,9 +152,32 @@ methods: {
             path:'/dynamic_details',
             query:{
                 article_id:this.article_list[index].article_id,
-                author_id:this.article_list[index].author_id
+                author_id:this.article_list[index].author_id,
+                user_id:this.message_list.user_id
+                // user_id:this.article_list[index].user_id
             }
         })
+    },
+    judge_login(){//判断用户是否登录过
+      if(window.sessionStorage.getItem("access_token")!=null){
+          console.log(111)
+        // this.login_status=true
+        this.user_info()
+      }
+
+    },
+    user_info(){
+      axios.get('/api/userinfo',{
+          headers:{
+          access_token:window.sessionStorage.getItem('access_token')
+        }
+        })
+        .then(resp => {
+            var that=this;
+            that.message_list=resp.data.data;
+        }).catch(err => { //
+            console.log('请求失败：'+ err.code + ',' + err.message);
+        });
     },
     }
 }

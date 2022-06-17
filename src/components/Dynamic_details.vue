@@ -45,6 +45,7 @@ export default {
     return {
         article_id:this.$route.query.article_id,
         author_id:this.$route.query.author_id,
+        user_id:this.$route.query.user_id,
         article_details:[],
         article_imgs:[],
         authorinfo:[],
@@ -59,6 +60,7 @@ created(){
     this.get_authorinfo()
 },
 methods:{
+    
     dynamic_click(){ //点赞和取消点赞
         if(this.click_status!=1){//点赞
             this.click_action(1).then(res => {//then对应resolve
@@ -67,11 +69,19 @@ methods:{
                     this.click_status=1
                     this.click_count=this.click_count+1
                 }
+                else if(res==1 ||res==2 ||res==3){
+                   console.log("登录已失效，请重新登录")
+                    window.sessionStorage.clear()
+                }
                 else{
                     console.log("操作失败")
                 }
             }).catch((error) => {//catch对应rej
-                console.log(error)
+                if(error==1 ||error==2 ||error==3){
+                this.open3("登录已失效，请重新登录")
+                // alert("登录已失效，请重新登录")
+                window.sessionStorage.clear()
+            }
             })
         }
         else{//取消点赞
@@ -85,7 +95,12 @@ methods:{
                     console.log("操作失败")
                 }
         }).catch((error) => {//catch对应rej
-            console.log(error)
+            if(error==1 ||error==2 ||error==3){
+                this.open3("登录已失效，请重新登录")
+                // console.log("登录已失效，请重新登录")
+                // alert("登录已失效，请重新登录")
+                window.sessionStorage.clear()
+            }
         })
         }
     },
@@ -95,7 +110,14 @@ methods:{
                 "article_id":this.article_id,
                 "status":status_code
             }
-            axios.post("/api/article_click",param).then(res => {
+            axios({
+                headers: {
+                    'access_token': window.sessionStorage.getItem('access_token')
+                },
+                method: 'post',
+                url: '/api/article_click',
+                data: param
+            }).then(res => {
             if (res.data.code == 200) {
                 resolve(res.data.code)
             
@@ -114,7 +136,8 @@ methods:{
     get_article_details(){//查询文章信息
     axios.get('/api/article_details',{
             params:{
-                article_id:this.article_id
+                article_id:this.article_id,
+                user_id:this.user_id
             }
         })
         .then(resp => {
@@ -143,7 +166,14 @@ methods:{
         }).catch(err => { //
             console.log('请求失败：'+ err.code + ',' + err.message);
         })
-    }
+    },
+    open3(message_content) {
+        this.$message({
+          showClose: true,
+          message: message_content,
+          type: 'warning'
+        });
+      },
 }
 }
 </script>

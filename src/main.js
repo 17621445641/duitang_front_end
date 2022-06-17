@@ -13,7 +13,7 @@ import ElementUI from 'element-ui'
 // Vue.use(axios)
 Vue.use(ElementUI)
 Vue.config.productionTip = false
-axios.defaults.headers.common['access_token'] = window.sessionStorage.getItem('access_token')//从session中读取token设置全局token
+// axios.defaults.headers.common['access_token'] = window.sessionStorage.getItem('access_token')//从session中读取token设置全局token
 new Vue({
   el: '#app',
   router,

@@ -21,7 +21,7 @@
             <router-link to="/personal_center" >
               <span class="login_message" >
               <img  style="width: 36px;border-radius:36px;" id="login_avatar" :src="message_list.avatar_image_url" alt="" >
-              <span class="login_func" style="">{{message_list.user_name}}</span>
+              <span class="login_func" style="">{{this.message_list.user_name}}</span>
             </span>
             </router-link>
             <span class="login_func" id="logout" @click="logout">退出</span>
@@ -33,12 +33,13 @@
         <div class="blockUI blockMsg blockPage"  style="display:none;z-index: 9011;border-radius: 12px; position: fixed; padding: 0px; margin: -274.5px 0px 0px -330px; width: 660px; top: 50%; left: 50%; text-align: left; color: white; border: none; background: white; cursor: default; height: 450px;">
         <div class="mask-body" style="width: 660px;">
         <div class="tt-s">
-          <span @click="close_login_page($event)" style="color:black;font-size:16px;font-weight:700;color:#606060">登录</span>
+          <span  style="font-size:16px;font-weight:700;color:#606060">登录</span>
+          <span ><img @click="close_login_page($event)" style="width:18px;position:absolute;right:10px;top:10px;padding:4px;cursor: pointer;" src="./assets/关闭.png" alt=""></span>
         </div>
         <div class="mask-cont"><div id="poplogin">
           <div id=login_message>
             <div class="login_input"><span>手机号/邮箱：</span><input type="text" ref="account"></div>
-            <div class="login_input"><span>密码：</span><input type="text" ref="password"><a href="" class="pswd-forget">忘记密码？</a></div>
+            <div class="login_input"><span>密码：</span><input type="password" ref="password"><a href="" class="pswd-forget">忘记密码？</a></div>
             <div class="u-chk">
               <div class="u-chk-remenber-me">
                 <span><input class="chk" type="checkbox" name="remember" id="poplogin-rem" value="" checked=""></span>
@@ -117,9 +118,10 @@ export default {
   name: 'App',
   data () {
     return {
-      message_list:{},
+      message_list:[],
       imageUrl: '',
       login_status:false,
+
       // this_event:'click'
     }
   },
@@ -134,14 +136,17 @@ export default {
   // },
 
   created(){//判断用户是否已登录过
+    // this.user_info()
     this.judge_login()
   },
   methods: {
     close_login_page(event){
-      event.target.parentElement.parentElement.parentElement.style.display = 'none'
-      event.target.parentElement.parentElement.parentElement.previousElementSibling.style.display = 'none'
+      event.target.parentElement.parentElement.parentElement.parentElement.style.display = 'none'
+      event.target.parentElement.parentElement.parentElement.parentElement.previousElementSibling.style.display = 'none'
     },
     login_page(event){
+      this.$refs.account.value=""
+      this.$refs.password.value=""
       // console.log(event,  event.target.parentElement)
       event.target.parentElement.parentElement.nextElementSibling.style.display = 'block'
       event.target.parentElement.parentElement.nextElementSibling.nextElementSibling.style.display = 'block'
@@ -164,6 +169,9 @@ export default {
           this.user_info()
           
         }
+        else{
+          this.open4(res.data.message)
+        }
         })
         .catch(err => {
         //   this.open4()
@@ -177,10 +185,14 @@ export default {
     },
     user_info(){
       axios.get('/api/userinfo',{
+        headers:{
+          access_token:window.sessionStorage.getItem('access_token')
+        }
         })
         .then(resp => {
             var that=this;
             that.message_list=resp.data.data;
+            // console.log(that.message_list.user_name)
         }).catch(err => { //
             console.log('请求失败：'+ err.code + ',' + err.message);
         });
@@ -194,7 +206,6 @@ export default {
 
     },
     goback_index(){//返回首页
-      console.log(1)
       this.$router.push('/index')
     },
     overShow(event){
@@ -209,6 +220,13 @@ export default {
           message: '更新成功',
           type: 'success',
           duration:1000
+        });
+      },
+      open4(message_content) {
+        this.$message({
+          showClose: true,
+          message: message_content,
+          type: 'error',
         });
       },
     handleAvatarSuccess( res, file) {

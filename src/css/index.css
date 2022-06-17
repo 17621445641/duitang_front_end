@@ -158,5 +158,8 @@ a{
     display: block;
     border-radius: 100PX;
   }
+  .el-message{
+      z-index: 999999 !important;
+  }
 
 
