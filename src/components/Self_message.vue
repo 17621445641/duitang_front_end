@@ -162,7 +162,8 @@ export default {
         // console.log(this.value1.getFullYear() + '-' + (this.value1.getMonth() + 1) + '-' + this.value1.getDate())
         const config = {
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          'access_token':window.sessionStorage.getItem('access_token')
         }
       }
       const sex=""
@@ -196,6 +197,7 @@ export default {
           console.log(res.data.success)
           if (res.data.code === 200) {
             this.open2()
+            this.$router.push('/personal_center')
           }
         })
         .catch(err => {

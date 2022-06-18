@@ -153,14 +153,12 @@ methods: {
             query:{
                 article_id:this.article_list[index].article_id,
                 author_id:this.article_list[index].author_id,
-                user_id:this.message_list.user_id
                 // user_id:this.article_list[index].user_id
             }
         })
     },
     judge_login(){//判断用户是否登录过
       if(window.sessionStorage.getItem("access_token")!=null){
-          console.log(111)
         // this.login_status=true
         this.user_info()
       }

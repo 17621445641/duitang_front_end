@@ -42,6 +42,9 @@ export default {
     
     click_method(){
         axios.get('/api/like_list',{
+          headers:{
+          access_token:window.sessionStorage.getItem('access_token')
+        }
         })
         .then(resp => {
             var that=this;

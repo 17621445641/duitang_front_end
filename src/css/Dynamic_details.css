@@ -84,4 +84,8 @@
     padding: 10px 0;
     display: inline-block;
     width: 100%;
+    border-top: 1px solid rgb(235, 235, 235);
+}
+#follow:hover{
+    background-color: #fcf6ef;
 }

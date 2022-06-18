@@ -85,7 +85,13 @@ export default {
         "article_content":this.dynamic_content,
         "view_status":this.view_status
         }
-        axios.post("/api/dynamic_add",param).then(res => {
+        const config = {
+        headers: {
+          'Content-Type': 'application/json',
+          'access_token':window.sessionStorage.getItem('access_token')
+        }
+      }
+        axios.post("/api/dynamic_add",param,config).then(res => {
         var that=this
         // console.log(res.data.article_id)
         if (res.data.code === 200) {
@@ -105,7 +111,8 @@ export default {
         this.formDate.append('article_id', this.article_id);//追加其他字段
         let config = {
             headers: {
-                'Content-Type': 'multipart/form-data'
+                'Content-Type': 'multipart/form-data',
+                'access_token':window.sessionStorage.getItem('access_token')
             }
         }
         axios.post("/api/article_img", this.formDate,config).then( res => {

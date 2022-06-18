@@ -67,6 +67,9 @@ created(){//刚注释
     
     user_info(){
       axios.get('/api/userinfo',{
+         headers:{
+          access_token:window.sessionStorage.getItem('access_token')
+        }
         })
         .then(resp => {
             var that=this;

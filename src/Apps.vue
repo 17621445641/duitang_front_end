@@ -21,7 +21,7 @@
             <router-link to="/personal_center" >
               <span class="login_message" >
               <img  style="width: 36px;border-radius:36px;" id="login_avatar" :src="message_list.avatar_image_url" alt="" >
-              <span class="login_func" style="">{{this.message_list.user_name}}</span>
+              <span class="login_func" style=""><span v-if="message_list.user_name!=null">{{this.message_list.user_name}}</span><span v-else style="font-size: 14px;">完善个人资料吧！</span></span>
             </span>
             </router-link>
             <span class="login_func" id="logout" @click="logout">退出</span>
@@ -39,7 +39,8 @@
         <div class="mask-cont"><div id="poplogin">
           <div id=login_message>
             <div class="login_input"><span>手机号/邮箱：</span><input type="text" ref="account"></div>
-            <div class="login_input"><span>密码：</span><input type="password" ref="password"><a href="" class="pswd-forget">忘记密码？</a></div>
+            <div class="login_input"><span>密码：</span><input type="password" ref="password"><a v-if="register_display=='none'" href="" class="pswd-forget">忘记密码？</a><a v-else class="pswd-forget"></a></div>
+            <div class="login_input" style="display: none;"><span>确认密码：</span><input type="password" ref="confirm_password"></div>
             <div class="u-chk">
               <div class="u-chk-remenber-me">
                 <span><input class="chk" type="checkbox" name="remember" id="poplogin-rem" value="" checked=""></span>
@@ -47,12 +48,13 @@
               </div>
             </div>
             <div class="abtn">
-              <button type="submit" class="pg-loginbtn" @click="user_login"><u>登录</u></button>
+              <button type="submit" class="pg-loginbtn" @click="user_login" v-if="register_display=='none'"><u >登录</u></button>
+              <button type="submit" class="pg-loginbtn" @click="user_register" v-else><u >提交注册</u></button>
             </div>
           </div>
           <div id='web_image'>sdfsdfsdfs</div>
           <div class="toreg">
-            <a href="/reg/phone/?next=/">还没有账号?立即注册</a>
+            <span  id="register" @click="register($event)" style="color:#5678a0 ;"><span v-if="register_display=='none'">还没有账号?立即注册</span><span v-else>已有账户?去登录</span></span>
           </div>
     </div></div></div></div>
         <router-view class="inter_page">
@@ -108,7 +110,6 @@
         <div id="model_list">
         </div> -->
     </div>
-    
   </div>
 </template>
 
@@ -121,7 +122,9 @@ export default {
       message_list:[],
       imageUrl: '',
       login_status:false,
-
+      register_display:'none',
+      account:'',
+      password:''
       // this_event:'click'
     }
   },
@@ -136,8 +139,7 @@ export default {
   // },
 
   created(){//判断用户是否已登录过
-    // this.user_info()
-    this.judge_login()
+  this.judge_login()
   },
   methods: {
     close_login_page(event){
@@ -152,21 +154,49 @@ export default {
       event.target.parentElement.parentElement.nextElementSibling.nextElementSibling.style.display = 'block'
     },
     user_login(){
-      let account=this.$refs.account.value
-      let password=this.$refs.password.value
+      this.account=this.$refs.account.value
+      this.password=this.$refs.password.value
+      var that=this
       const param={
-        "account": account,
-        "password": password
+        "account": this.account,
+        "password": this.password
       }
         axios.post("/api/login",param).then(res => {
-        var that=this
         console.log(res.data)
         if (res.data.code == 200) {
           sessionStorage.setItem("access_token",res.data.access_token) 
           that.login_status=true
-          console.log("登录成功")
-          location.reload()
           this.user_info()
+          location.reload()
+          
+        }
+        else{
+          this.open4(res.data.message)
+        }
+        })
+        .catch(err => {
+        //   this.open4()
+          console.log(err)
+        })
+    },
+    user_register(){
+      let account=this.$refs.account.value
+      let password=this.$refs.password.value
+      let confirm_password=this.$refs.confirm_password.value
+      var that=this
+      const param={
+        "account": account,
+        "password": password,
+        "Confirm_password":confirm_password
+      }
+      axios.post("/api/register",param).then(res => {
+        console.log(res.data)
+        if (res.data.code == 200) {
+          this.account=account
+          this.password=password
+          this.open2(res.data.message)
+          
+          this.user_login()
           
         }
         else{
@@ -180,8 +210,10 @@ export default {
     },
     logout(){
       window.sessionStorage.clear();
+      window.localStorage.removeItem('user_id')
+      location.reload()
       this.login_status=false
-      this.$router.push('/index')
+      // this.$router.push('/index')
     },
     user_info(){
       axios.get('/api/userinfo',{
@@ -192,7 +224,8 @@ export default {
         .then(resp => {
             var that=this;
             that.message_list=resp.data.data;
-            // console.log(that.message_list.user_name)
+            localStorage.setItem('user_id',resp.data.data.user_id)
+            // console.log(that.message_list.user_id)
         }).catch(err => { //
             console.log('请求失败：'+ err.code + ',' + err.message);
         });
@@ -214,10 +247,21 @@ export default {
     outHide(event){
       event.currentTarget.firstElementChild.nextElementSibling.style.display = 'none'
     },
-    open2() {
+    register(event){
+      if(this.register_display=='block'){
+        event.target.parentElement.parentElement.parentElement.firstElementChild.firstElementChild.nextElementSibling.nextElementSibling.style.display = 'none'
+        this.register_display='none'
+      }
+      else{
+        event.target.parentElement.parentElement.parentElement.firstElementChild.firstElementChild.nextElementSibling.nextElementSibling.style.display = 'block'
+        this.register_display='block'
+      }
+      
+    },
+    open2(message_data) {
         this.$message({
           showClose: true,
-          message: '更新成功',
+          message: message_data,
           type: 'success',
           duration:1000
         });
@@ -230,7 +274,7 @@ export default {
         });
       },
     handleAvatarSuccess( res, file) {
-        this.open2()
+        this.open2("图片上传成功")
         this.imageUrl = URL.createObjectURL(file.raw);
       },
       beforeAvatarUpload(file) {

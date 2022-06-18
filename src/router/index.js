@@ -30,13 +30,14 @@ export default new Router({
       {
         path: '/views',
         component: Views_list,
+        
         // meta:{
         //   keepAlive:true,
         // }
       },
       {
         path:'/index',
-        component: Index
+        component: Index,
       },
       {
         path:'/index',
@@ -44,6 +45,7 @@ export default new Router({
       },
       {
         path:'/dynamic_details',
+        name:'dynamic_details',
         component: Dynamic_details,
         // meta:{
         //   keepAlive:true,
