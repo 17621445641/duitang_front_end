@@ -21,7 +21,7 @@
             <router-link to="/personal_center" >
               <span class="login_message" >
               <img  style="width: 36px;border-radius:36px;" id="login_avatar" :src="message_list.avatar_image_url" alt="" >
-              <span class="login_func" style=""><span v-if="message_list.user_name!=null">{{this.message_list.user_name}}</span><span v-else style="font-size: 14px;">完善个人资料吧！</span></span>
+              <span class="login_func" style=""><span v-if="message_list.user_name!=null && message_list.user_name!=''">{{this.message_list.user_name}}</span><span v-else style="font-size: 14px;">完善下个人资料吧！</span></span>
             </span>
             </router-link>
             <span class="login_func" id="logout" @click="logout">退出</span>
@@ -167,6 +167,7 @@ export default {
           sessionStorage.setItem("access_token",res.data.access_token) 
           that.login_status=true
           this.user_info()
+          // this.get_article_list()
           location.reload()
           
         }
@@ -211,8 +212,9 @@ export default {
     logout(){
       window.sessionStorage.clear();
       window.localStorage.removeItem('user_id')
-      location.reload()
       this.login_status=false
+      location.reload()
+      
       // this.$router.push('/index')
     },
     user_info(){
@@ -225,6 +227,7 @@ export default {
             var that=this;
             that.message_list=resp.data.data;
             localStorage.setItem('user_id',resp.data.data.user_id)
+            // location.reload()
             // console.log(that.message_list.user_id)
         }).catch(err => { //
             console.log('请求失败：'+ err.code + ',' + err.message);
@@ -257,6 +260,18 @@ export default {
         this.register_display='block'
       }
       
+    },
+    get_article_list(){
+        axios.get('/api/article_list',{
+            params:{
+                user_id:window.localStorage.getItem('user_id')
+            }
+            })
+            .then(resp => {
+                // console.log((that.article_list).length)
+            }).catch(err => { //
+                console.log('请求失败：'+ err.code + ',' + err.message);
+            })
     },
     open2(message_data) {
         this.$message({

@@ -26,8 +26,8 @@
                 </div>
             </div>
             <div id="dynamic_bottom">
-                <span  @click="dynamic_click" style="font-size: 8px;cursor: pointer;width: 60%;display: inline-block;text-align: center;"><img v-if="this.click_status!=1" :src="cancel_click_img" alt="" style="width:20px"><img v-else :src="click_img" alt="" style="width:20px"><span style="display: inline-block;margin-left:2px; transform: translateY(-25%);">{{this.click_count}}</span></span>
-                <span  @click="dynamic_collect" style="font-size: 8px;cursor: pointer;width: 35%;display: inline-block;text-align: center;"><img v-if="this.collect_status!=1" :src="cancel_collect" alt="" style="width:20px"><img v-else :src="collect" alt="" style="width:20px"><span style="display: inline-block;margin-left:2px; transform: translateY(-25%);"></span></span>
+                <span  @click="dynamic_click" style="font-size: 8px;cursor: pointer;width: 60%;display: inline-block;text-align: center;"><img v-if="this.click_status!=1" :src="cancel_click_img" alt="" style="width:22px"><img v-else :src="click_img" alt="" style="width:22px"><span style="display: inline-block;margin-left:5px; transform: translateY(-35%);">{{this.click_count}}</span></span>
+                <span  @click="dynamic_collect" style="font-size: 8px;cursor: pointer;width: 35%;display: inline-block;text-align: center;"><img v-if="this.collect_status!=1" :src="cancel_collect" alt="" style="width:22px"><img v-else :src="collect" alt="" style="width:22px"><span style="display: inline-block;margin-left:5px; transform: translateY(-25%);"></span></span>
             </div>
         </div>
         <div id="hot_people" style="">热搜</div>

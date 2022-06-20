@@ -4,7 +4,7 @@
     height: 100%;
 }
 #logo_img{
-    margin-left: 15%;
+    margin-left: 20%;
     margin-top: 15px;
 }
 #top{
@@ -139,9 +139,10 @@
 }
 .txt_like{
     position: relative;
-    width: 20px;
+    width: 22px;
     left:15px;
-    bottom: 5px;
+    bottom: 4px;
+    cursor: pointer;
 
 }
 .txt_author{
@@ -162,8 +163,8 @@
 }
 .click_num{
     position: relative;
-    bottom: 9px;
-    right: -20px;
+    bottom: 10px;
+    right: -15px;
     font-size: 12px;
 }
 #bottom{
