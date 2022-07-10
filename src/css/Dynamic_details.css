@@ -36,6 +36,15 @@
     padding-bottom: 10px;
     position: relative;
 }
+#user_info img{
+    margin-top:20px;
+    width:50px;
+    height:50px;
+    border-radius:50px;
+    display:inline-block;
+    margin-left:20px;
+    box-shadow:1px 1px #DCDCDC
+}
 #follow{
     position: absolute;
     right: 50px;
@@ -46,7 +55,8 @@
     text-align: center;
     font-size: 12px;
     color: #ff8200;
-    top:35px
+    top:35px;
+    cursor: pointer;
 }
 #dynamic_content{
     width: 550px;

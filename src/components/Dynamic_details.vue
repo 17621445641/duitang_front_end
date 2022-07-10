@@ -3,13 +3,13 @@
     <div id="details_message">
         <div id="dynamic_message">
             <div id="user_info" style="width:100%;">
-                <img :src="authorinfo.avatar_image_url" alt="" style="margin-top:20px;width:50px;border-radius:50px;display:inline-block;margin-left:20px">
+                <img :src="authorinfo.avatar_image_url" alt="">
                 <!-- <span ></span> -->
                 <span id="user_date">
                     <div id="username">{{authorinfo.user_name}}</div>
                     <div id="date">{{article_details.create_time}}<span class="style_from">发布自网页客户端</span></div>
                 </span>
-                <span id="follow" @click='follow_other' style="cursor: pointer;" ><span v-if="follow_status!=1">+关注</span><span v-else>已关注</span></span>
+                <span id="follow" @click='follow_other' style="" ><span v-if="follow_status!=1">+关注</span><span v-else>已关注</span></span>
             </div>
             <div >
                 <div id="dynamic_content">{{article_details.article_content}}</div>
@@ -30,7 +30,7 @@
                 <span  @click="dynamic_collect" style="font-size: 8px;cursor: pointer;width: 35%;display: inline-block;text-align: center;"><img v-if="this.collect_status!=1" :src="cancel_collect" alt="" style="width:22px"><img v-else :src="collect" alt="" style="width:22px"><span style="display: inline-block;margin-left:5px; transform: translateY(-25%);"></span></span>
             </div>
         </div>
-        <div id="hot_people" style="">热搜</div>
+        <div id="hot_people" style="">猜你喜欢</div>
     </div>
     <div></div>
 </div>
@@ -40,8 +40,8 @@
 import axios from 'axios'
 import click from '../assets/click.png'//点赞图片
 import cancel_click from "../assets/cancel_click.png"//取消点赞图片
-import collect from "../assets/收藏.png"
-import cancel_collect from "../assets/收藏 (1).png"
+import collect from "../assets/collect.png"
+import cancel_collect from "../assets/cancel_collect.png"
 
 
 export default {

@@ -20,7 +20,7 @@
             <span  style="left: 18%;position: relative;display: inline-block;">
             <router-link to="/personal_center" >
               <span class="login_message" >
-              <img  style="width: 36px;border-radius:36px;" id="login_avatar" :src="message_list.avatar_image_url" alt="" >
+              <img  style="width: 36px;border-radius:36px;height:36px;box-shadow:1px 1px #DCDCDC" id="login_avatar" :src="message_list.avatar_image_url" alt="" >
               <span class="login_func" style=""><span v-if="message_list.user_name!=null && message_list.user_name!=''">{{this.message_list.user_name}}</span><span v-else style="font-size: 14px;">完善下个人资料吧！</span></span>
             </span>
             </router-link>
@@ -213,9 +213,9 @@ export default {
       window.sessionStorage.clear();
       window.localStorage.removeItem('user_id')
       this.login_status=false
-      location.reload()
+      this.$router.push('/index')
+      location.reload()  
       
-      // this.$router.push('/index')
     },
     user_info(){
       axios.get('/api/userinfo',{

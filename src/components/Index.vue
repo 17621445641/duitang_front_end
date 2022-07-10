@@ -3,19 +3,19 @@
     <div class="content_data" >
         <span v-bind:key="index" v-for="(site,index) in article_list" class="ms" >
         <div v-if='(index)%5==0 && site.article_id!=""' class="content" >
-            <div class="image_shadow" @mouseenter ="overShow($event)"  @mouseleave="outHide($event)">
+            <div class="image_shadow" @mouseenter ="overShow($event)"  @mouseleave="outHide($event)" >
                 <!-- <router-link to="/dynamic_details"> -->
                 <img style="width: 100%" class="content_image" :src='site.article_imglist.split("\"")[1]' alt="" >
                 <!-- </router-link> -->
                 <div @click="dynamic_details(index)"  class="shadow" ></div>
                 <!-- <div class="shadow" ><span class='tt1'> 点赞</span><span class='tt1'> 收藏</span></div> -->
             </div>
-            <div class="txt_title">{{site.article_content}}</div>
+            <div class="txt_content" >{{site.article_content}}</div>
             <div class="txt_author">
                 <img class="author_headphoto" :src="site.avatar_image_url" alt="">
                 <span class="author_name">{{site.name}} </span>
                 <img class="txt_like" @click="dynamic_click(index)" v-if="site.click_status!=1" :src="cancel_click_img" alt="" ><img @click="dynamic_click(index)" class="txt_like" v-else :src="click_img" alt="" >
-                <span class="click_num">{{site.click_count}}</span>
+                <span class="click_num" v-if="site.click_count==null">0</span><span class="click_num" v-else>{{site.click_count}}</span>
             </div>
         </div>
         
@@ -34,12 +34,12 @@
                 <div @click="dynamic_details(index)"  class="shadow" ></div>
                 <!-- <div class="shadow" ><span class='tt1'> 点赞</span><span class='tt1'> 收藏</span></div> -->
             </div>
-            <div class="txt_title">{{site.article_content}}</div>
+            <div class="txt_content">{{site.article_content}}</div>
             <div class="txt_author">
                 <img class="author_headphoto" :src="site.avatar_image_url" alt="">
                 <span class="author_name">{{site.name}} </span>
                 <img class="txt_like" @click="dynamic_click(index)" v-if="site.click_status!=1" :src="cancel_click_img" alt="" ><img @click="dynamic_click(index)" class="txt_like" v-else :src="click_img" alt="" >
-                <span class="click_num">{{site.click_count}}</span>
+                <span class="click_num" v-if="site.click_count==null">0</span><span class="click_num" v-else>{{site.click_count}}</span>
             </div>
         </div>
     </span>
@@ -55,12 +55,12 @@
                 <div @click="dynamic_details(index)"  class="shadow" ></div>
                 <!-- <div class="shadow" ><span class='tt1'> 点赞</span><span class='tt1'> 收藏</span></div> -->
             </div>
-            <div class="txt_title">{{site.article_content}}</div>
+            <div class="txt_content">{{site.article_content}}</div>
             <div class="txt_author">
                 <img class="author_headphoto" :src="site.avatar_image_url" alt="">
                 <span class="author_name">{{site.name}} </span>
                 <img class="txt_like" @click="dynamic_click(index)" v-if="site.click_status!=1" :src="cancel_click_img" alt="" ><img @click="dynamic_click(index)" class="txt_like" v-else :src="click_img" alt="" >
-                <span class="click_num">{{site.click_count}}</span>
+                <span class="click_num" v-if="site.click_count==null">0</span><span class="click_num" v-else>{{site.click_count}}</span>
             </div>
         </div>
     </span>
@@ -77,12 +77,12 @@
                 <div @click="dynamic_details(index)"  class="shadow" ></div>
                 <!-- <div class="shadow" ><span class='tt1'> 点赞</span><span class='tt1'> 收藏</span></div> -->
             </div>
-            <div class="txt_title">{{site.article_content}}</div>
+            <div class="txt_content">{{site.article_content}}</div>
             <div class="txt_author">
                 <img class="author_headphoto" :src="site.avatar_image_url" alt="">
                 <span class="author_name">{{site.name}}</span>
                 <img class="txt_like" @click="dynamic_click(index)" v-if="site.click_status!=1" :src="cancel_click_img" alt="" ><img @click="dynamic_click(index)" class="txt_like" v-else :src="click_img" alt="" >
-                <span class="click_num">{{site.click_count}}</span>
+                <span class="click_num" v-if="site.click_count==null">0</span><span class="click_num" v-else>{{site.click_count}}</span>
             </div>
         </div>
     </span>
@@ -99,12 +99,12 @@
                 <div @click="dynamic_details(index)"  class="shadow" ></div>
                 <!-- <div class="shadow" ><span class='tt1'> 点赞</span><span class='tt1'> 收藏</span></div> -->
             </div>
-            <div class="txt_title">{{site.article_content}}</div>
+            <div class="txt_content">{{site.article_content}}</div>
             <div class="txt_author">
                 <img class="author_headphoto" :src="site.avatar_image_url" alt="">
                 <span class="author_name">{{site.name}}</span>
                 <img class="txt_like" @click="dynamic_click(index)" v-if="site.click_status!=1" :src="cancel_click_img" alt="" ><img @click="dynamic_click(index)" class="txt_like" v-else :src="click_img" alt="" >
-                <span class="click_num">{{site.click_count}}</span>
+                <span class="click_num" v-if="site.click_count==null">0</span><span class="click_num" v-else>{{site.click_count}}</span>
             </div>
         </div>
         </span>
