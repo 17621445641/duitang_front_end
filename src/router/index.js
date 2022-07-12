@@ -11,6 +11,9 @@ import login from '@/components/Login'
 import Index from '@/components/Index'
 import Personal_center from '@/components/Personal_center'
 import Dynamic_details from '@/components/Dynamic_details'
+import Update_password from '@/components/Update_password'
+import son from '@/components/son'
+import Banner from '@/components/common/Banner'
 Vue.use(Router)
 const originalPush = Router.prototype.push
 Router.prototype.push = function push(location) {//用来消除router.push的报错信息
@@ -18,14 +21,31 @@ return originalPush.call(this, location).catch(err => err)
 }
 export default new Router({
     mode:'history',//去除地址的#号
-
-
     routes: [
       {
         path:'/',
         name:'首页',
         redirect:'/index',
         
+      },
+      {
+        path:'/common',
+        name:'网页顶部导航',
+        component: Banner,
+        children:[
+          {
+            path:'/index',
+            component: Index,
+          },
+          {
+            path:'/personal_center',//加/则不需要输入父组件地址即可访问，没加/则需要输入父组件地址才可访问
+            component: Personal_center
+          },
+        ]
+      },
+      {
+        path:'/index',
+        component: Index,
       },
       {
         path: '/views',
@@ -35,14 +55,19 @@ export default new Router({
         //   keepAlive:true,
         // }
       },
+      
+      // {
+      //   path:'/index',
+      //   component: Index
+      // },
       {
-        path:'/index',
-        component: Index,
+        path:'/update_pwd',
+        component: Update_password,
       },
-      {
-        path:'/index',
-        component: Index
-      },
+      // {
+      //   path:'/son',
+      //   component: son
+      // },
       {
         path:'/dynamic_details',
         name:'dynamic_details',
@@ -51,10 +76,7 @@ export default new Router({
         //   keepAlive:true,
         // }
       },
-      {
-        path:'/personal_center',
-        component: Personal_center
-      },
+      
       {
         path:'/click',
         component: Click_list,

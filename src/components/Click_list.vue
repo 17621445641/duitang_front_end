@@ -84,6 +84,6 @@ export default {
 
 </script>
 
-<style>
+<style >
 @import url('../css/Click_list.css');
 </style>

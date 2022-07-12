@@ -1,13 +1,83 @@
 <template>
-  <router-view>
-    
-  </router-view>
+    <div id="33" >
+    <div id="all">
+        <div id='top'>
+            <img id='logo_img' src="../../dfsd/Myproject/static/image/20180619182220_KLEPM.png" alt="" @click='goback_index' style="cursor: pointer;">
+            <div id="classifiy"><span id="classifiy_text" >分类<span id="icon"></span></span>
+                <div id="classifiy_content">
+                    <span>摄影</span>
+                    <span>摄影</span>
+                    <span>摄影</span>
+                    <span>摄影</span>
+                    <span>摄影</span>
+                    <span>摄影</span>
+                </div>
+            </div>
+            <input id="search" type="text" placeholder="请输入感兴趣的内容">
+            <button id='tt'></button>
+            <span v-show="!login_status"><span id="register_login" @click="login_page($event)">登录/注册</span></span>
+            <span v-show="login_status" >
+            <span  style="left: 18%;position: relative;display: inline-block;">
+            <router-link to="/personal_center" >
+              <span class="login_message" >
+              <img  style="width: 36px;border-radius:36px;height:36px;box-shadow:1px 1px #DCDCDC" id="login_avatar" :src="message_list.avatar_image_url" alt="" >
+              <span class="login_func" style="">
+                <span v-if="message_list.user_name!=null && message_list.user_name!=''">{{this.message_list.user_name}}</span>
+                <span v-else style="font-size: 14px;">完善下个人资料吧！</span>
+              </span>
+            </span>
+            </router-link>
+            <span class="login_func" id="logout" @click="logout">退出</span>
+            </span></span>
+        </div>
+
+        <div class="blockUI blockOverlay" style="display:none;z-index: 9000; border: none; margin: 0px; padding: 0px; width: 100%; height: 100%; top: 0px; left: 0px; background-color: rgb(0, 0, 0); opacity: 0.6; cursor: default; position: fixed;"></div>
+   
+        <div class="blockUI blockMsg blockPage"  style="display:none;z-index: 9011;border-radius: 12px; position: fixed; padding: 0px; margin: -274.5px 0px 0px -330px; width: 660px; top: 50%; left: 50%; text-align: left; color: white; border: none; background: white; cursor: default; height: 450px;">
+        <div class="mask-body" style="width: 660px;">
+        <div class="tt-s">
+          <span  style="font-size:16px;font-weight:700;color:#606060">登录</span>
+          <span ><img @click="close_login_page($event)" style="width:18px;position:absolute;right:10px;top:10px;padding:4px;cursor: pointer;" src="../../assets/关闭.png" alt=""></span>
+        </div>
+        <div class="mask-cont"><div id="poplogin">
+          <div id=login_message>
+            <div class="login_input"><span>手机号/邮箱：</span><input type="text" ref="account"></div>
+            <div class="login_input">
+              <span>密码：</span><input type="password" ref="password">
+              <a v-if="register_display=='none'"  class="pswd-forget" @click="update_password" style="cursor:pointer">忘记密码？</a>
+              <a v-else class="pswd-forget"></a>
+            </div>
+            <div class="login_input" style="display: none;"><span>确认密码：</span><input type="password" ref="confirm_password"></div>
+            <div class="u-chk">
+              <div class="u-chk-remenber-me">
+                <span><input class="chk" type="checkbox" name="remember" id="poplogin-rem" value="" checked=""></span>
+                <label for="poplogin-rem">记住我</label>
+              </div>
+            </div>
+            <div class="abtn">
+              <button type="submit" class="pg-loginbtn" @click="user_login" v-if="register_display=='none'"><u >登录</u></button>
+              <button type="submit" class="pg-loginbtn" @click="user_register" v-else><u >提交注册</u></button>
+            </div>
+          </div>
+          <div id='web_image'>sdfsdfsdfs</div>
+          <div class="toreg">
+            <span  id="register" @click="register($event)" style="color:#5678a0 ;"><span v-if="register_display=='none'">还没有账号?立即注册</span><span v-else>已有账户?去登录</span></span>
+          </div>
+    </div></div></div></div>
+        <router-view class="inter_page">
+          
+        </router-view>
+        <!-- <div id='bottom'>
+            沪ICP备 13030189号 Copyright © 2014-2022 行吟信息科技（上海）有限公司 | 地址：上海市黄浦区马当路388号C座 | 电话：021-64224530
+        </div> -->
+    </div>
+  </div>
 </template>
 
 <script>
 import axios from 'axios'
 export default {
-  name: 'App',
+//   name: 'App',
   data () {
     return {
       message_list:[],
@@ -196,7 +266,7 @@ export default {
         return isJPG && isLt2M;
       },
       update_password(){
-        window.open('/son', '_blank')
+        window.open('/update_pwd', '_blank')
       }
       
     // update_avatar(){
@@ -280,7 +350,7 @@ export default {
 </script>
 
 <style >
-/* @import url('./css/index.css');
-@import url('./dfsd/Myproject/src/css/index.css');
-@import url('./css/register_login.css'); */
+@import url('../../css/index.css');
+@import url('../../dfsd/Myproject/src/css/index.css');
+@import url('../../css/register_login.css');
 </style>

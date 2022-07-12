@@ -126,9 +126,10 @@
 }
 .content_data{
     width: 220px;
-    margin-right: 16px;
+    margin-right: 16px; 
     display: inline-block;
     vertical-align: top;
+    
 }
 .txt_content{
     padding-left: 10px;

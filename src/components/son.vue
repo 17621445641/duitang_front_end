@@ -1,0 +1,12 @@
+<template>
+    <div>
+        <div>子组件</div>
+        <div>子组件</div>
+        <div>子组件</div>
+        <div>子组件</div>
+        <div>子组件</div>
+        <div>子组件</div>
+        <div>子组件</div>
+        <router-view></router-view>
+    </div>
+</template>

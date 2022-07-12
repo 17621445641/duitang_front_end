@@ -1,8 +1,10 @@
 <template>
 <div id='mid' style='padding-top: 100px;'>
     <div class="content_data" >
-        <span v-bind:key="index" v-for="(site,index) in article_list" class="ms" >
+        <span v-bind:key="index" v-for="(site,index) in article_list" class="ms">
+            
         <div v-if='(index)%5==0 && site.article_id!=""' class="content" >
+            
             <div class="image_shadow" @mouseenter ="overShow($event)"  @mouseleave="outHide($event)" >
                 <!-- <router-link to="/dynamic_details"> -->
                 <img style="width: 100%" class="content_image" :src='site.article_imglist.split("\"")[1]' alt="" >
@@ -19,9 +21,10 @@
             </div>
         </div>
         
+        
     </span>
-    
     </div>
+    
     
     <div class="content_data">
         <span v-bind:key="index" v-for="(site,index) in article_list"  class="ms" >
