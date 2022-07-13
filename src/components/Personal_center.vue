@@ -32,12 +32,12 @@
         </div>
         <div id="message_navigation">
           <div id="navigation_list">
-            <router-link to="/self_message" ><div><img src="../assets/self_setting.png">个人中心</div></router-link>
-            <router-link to="/dynamic_release" ><div><img src="../assets/dynamic.png">我的动态</div></router-link>
+            <router-link to="/personal_center/self_message" ><div><img src="../assets/self_setting.png">个人中心</div></router-link>
+            <router-link to="/personal_center/dynamic_release" ><div><img src="../assets/dynamic.png">我的动态</div></router-link>
             <div><img src="../assets/article.png">我的文章</div>
-            <router-link to="/click" ><div><img src="../assets/click.png" >我的点赞</div></router-link>
-            <router-link to="/like"><div><img src="../assets/like.png">我的喜欢</div></router-link>
-            <router-link to="/views"><div><img src="../assets/views.png">浏览记录</div></router-link>
+            <router-link to="/personal_center/click_list" ><div><img src="../assets/click.png" >我的点赞</div></router-link>
+            <router-link to="/personal_center/like_list"><div><img src="../assets/like.png">我的喜欢</div></router-link>
+            <router-link to="/personal_center/views_histroy"><div><img src="../assets/views.png">浏览记录</div></router-link>
           </div>
           <div id="message_content">
             <router-view></router-view>

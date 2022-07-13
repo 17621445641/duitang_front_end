@@ -7,7 +7,7 @@
     <!-- <div class="self_listdd"> -->
     <el-input style="width: 94%; margin-left: 20px;margin-top: 10px;margin-bottom: 10px;"
     type="textarea"
-    placeholder="随时随地记录下有趣时光吧~"
+    placeholder="分享下有趣的事吧~"
     v-model="dynamic_content"
     maxlength="1000"
     show-word-limit

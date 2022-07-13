@@ -153,10 +153,7 @@ a{
   .el-message{
       z-index: 999999 !important;
   }
-  #register:hover{
-    cursor: pointer;
-    color: red !important;
-  }
+ 
 
 
 

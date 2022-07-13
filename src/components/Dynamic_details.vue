@@ -26,8 +26,60 @@
                 </div>
             </div>
             <div id="dynamic_bottom">
-                <span  @click="dynamic_click" style="font-size: 8px;cursor: pointer;width: 60%;display: inline-block;text-align: center;"><img v-if="this.click_status!=1" :src="cancel_click_img" alt="" style="width:22px"><img v-else :src="click_img" alt="" style="width:22px"><span style="display: inline-block;margin-left:5px; transform: translateY(-35%);">{{this.click_count}}</span></span>
-                <span  @click="dynamic_collect" style="font-size: 8px;cursor: pointer;width: 35%;display: inline-block;text-align: center;"><img v-if="this.collect_status!=1" :src="cancel_collect" alt="" style="width:22px"><img v-else :src="collect" alt="" style="width:22px"><span style="display: inline-block;margin-left:5px; transform: translateY(-25%);"></span></span>
+                <span  @click="dynamic_click" style="font-size: 8px;cursor: pointer;width: 30%;display: inline-block;text-align: center;"><img v-if="this.click_status!=1" :src="cancel_click_img" alt="" style="width:22px"><img v-else :src="click_img" alt="" style="width:22px"><span style="display: inline-block;margin-left:5px; transform: translateY(-35%);">{{this.click_count}}</span></span>
+                <span  style="font-size: 8px;cursor: pointer;width: 38%;display: inline-block;text-align: center;"><img  @click="comment_view($event)" v-if="this.comment_input!=1" :src="cancel_comment_img" alt="" style="width:22px"><img @click="comment_view($event)" v-else :src="comment_img" alt="" style="width:22px"><span style="display: inline-block;margin-left:5px; transform: translateY(-25%);"></span></span>
+                <span  @click="dynamic_collect" style="font-size: 8px;cursor: pointer;width: 30%;display: inline-block;text-align: center;"><img v-if="this.collect_status!=1" :src="cancel_collect" alt="" style="width:22px"><img v-else :src="collect" alt="" style="width:22px"><span style="display: inline-block;margin-left:5px; transform: translateY(-25%);"></span></span>
+                <div id="comment" style="display:none;">
+                    <el-input style="width: 94%;margin-top: 10px;margin-bottom: 10px;"
+                    type="textarea"
+                    placeholder="发布你的评论~"
+                    v-model="comment_publish"
+                    maxlength="200"
+                    show-word-limit
+                    :rows="1"
+                    :autosize="{ minRows: 1, maxRows: 18}"
+                    >
+                    </el-input> 
+                    <div style="padding-bottom:10px;border-bottom:1px solid #f7f6f6;margin-bottom:10px"><u @click="publish_comment">评论</u></div>
+                    <div id="comment_content" v-if="comment_data.length>0">
+                        <span class="content_page" v-bind:key="index" v-for="(site,index) in comment_data">
+                            <img class="comment_avatar" :src="authorinfo.avatar_image_url" alt="">
+                            <span class="content_right">
+                            <div class="comment_user">{{site.user_id}}：
+                                <span class="user_content" style="color:red;display:inline-block;color:black;font-size:13px;">{{site.comment}}</span>
+                                <div class="comment_time">{{site.create_time}}来自上海
+                                    <img v-if="comment_reply_input!=1" @click="replay_control($event)" :src="cancel_comment_img" alt="" style="width:20px;position: relative;left:300px;cursor:pointer">
+                                    <img v-else @click="replay_control($event)" :src="comment_img" alt="" style="width:20px;position: relative;left:300px;cursor:pointer">
+                                    </div>
+                            </div>
+                            <div style="display:none" >
+                               <el-input style="width: 94%;margin-top: 10px;margin-bottom: 10px;"
+                                type="textarea"
+                                placeholder="发布你的回复~"
+                                v-model="comment_reply"
+                                maxlength="200"
+                                show-word-limit
+                                :rows="1"
+                                :autosize="{ minRows: 1, maxRows: 18}"
+                                >
+                                </el-input> 
+                                <div style="padding-bottom:10px;border-bottom:1px solid #f7f6f6;margin-bottom:10px;font-size:14px"><u @click="publish_reply(site.comment_id,site.user_id,$event)">回复</u></div>
+                            </div>
+                            <!-- <div></div> -->
+                            <div class="reply_comment" v-bind:key="index" v-for="(site,index) in site.data">
+                                <div class="reply_user" >
+                                    {{site.user_id}}：
+                                    <span class="user_content" style="color:red;display:inline-block;color:black;font-size:13px;margin-bottom: 8px;">{{site.comment}}</span>
+                                    <div class="comment_time">22-7-12 05:40 来自上海</div>
+                                </div>
+                                
+                            </div>
+                            </span>
+                        </span>
+                        
+                    </div>
+                    <div v-else style="text-align: center;color:gray">暂无评论，快来抢占热评吧~</div>
+                </div>
             </div>
         </div>
         <div id="hot_people" style="">猜你喜欢</div>
@@ -42,6 +94,8 @@ import click from '../assets/click.png'//点赞图片
 import cancel_click from "../assets/cancel_click.png"//取消点赞图片
 import collect from "../assets/collect.png"
 import cancel_collect from "../assets/cancel_collect.png"
+import comment from "../assets/comment.png"
+import cancel_comment from "../assets/cancel_comment.png"
 
 
 export default {
@@ -61,7 +115,15 @@ export default {
         collect:collect,
         cancel_collect:cancel_collect,
         article_data:[],
-        follow_status:''
+        follow_status:'',
+        comment_publish:'',
+        comment_img:comment,
+        cancel_comment_img:cancel_comment,
+        comment_status:0,
+        comment_data:[],
+        comment_input:0,//控制评论图标的展示
+        comment_reply_input:0,
+        comment_reply:''
     }   
 },
 
@@ -158,8 +220,8 @@ methods:{
         
     },
 
-dynamic_collect(){ //点赞和取消点赞
-console.log(this.collect_status)
+    dynamic_collect(){ //点赞和取消点赞
+    console.log(this.collect_status)
         if(this.collect_status!=1){//点赞
         
             this.collect_action(1).then(res => {//then对应resolve
@@ -364,13 +426,125 @@ console.log(this.collect_status)
             console.log('请求失败：'+ err.code + ',' + err.message);
         })
     },
+    comment_view(event){
+        // console.log(event.target)
+        if(event.target.parentElement.nextElementSibling.nextElementSibling.style.display=="block"){
+            this.comment_input=0
+            event.target.parentElement.nextElementSibling.nextElementSibling.style.display="none"
+        }
+        else{
+            this.comment_input=1
+            event.target.parentElement.nextElementSibling.nextElementSibling.style.display="block"
+        }
+        this.get_comment()
+        
+    },
+    get_comment(){
+        axios.get('/api/get_comment',{
+            params:{
+                article_id:this.article_id
+            }
+        })
+        .then(resp => {
+            var that=this
+            that.comment_data=resp.data.data
+            // console.log(resp.data.data.length)
+        }).catch(err => { //
+            console.log('请求失败：'+ err.code + ',' + err.message);
+        })
+    },
+    publish_comment(){
+        const param={
+        "article_id":this.article_id,
+        "reply_id":"",
+        "user_id":this.user_id,
+        "comment":this.comment_publish,
+        "reply_user":""
+        }
+        axios({
+                headers: {
+                    'access_token': window.sessionStorage.getItem('access_token')
+                },
+                method: 'post',
+                url: '/api/publish_comment',
+                data: param
+            })
+        .then(resp => {
+            if(resp.data.code==200){
+                this.open2("发布评论成功")
+                this.comment_publish=''
+                this.get_comment()
+                // this.$router.push('/index')
+            }
+            else{
+                this.open3('登录已失效，请重新登录')
+            }
+            
+        }).catch(err => { //
+            console.log('请求失败：'+ err.code + ',' + err.message);
+        });
+    }
+    ,
+    publish_reply(reply_id,reply_user,event){
+        const param={
+            "article_id":this.article_id,
+            "reply_id":reply_id,
+            "user_id":this.user_id,
+            "comment":this.comment_reply,
+            "reply_user":reply_user
+        }
+        axios({
+                headers: {
+                    'access_token': window.sessionStorage.getItem('access_token')
+                },
+                method: 'post',
+                url: '/api/publish_comment',
+                data: param
+            })
+        .then(resp => {
+            if(resp.data.code==200){
+                this.open2("发布评论成功")
+                event.target.parentElement.parentElement.style.display='none'
+                this.comment_reply_input=0
+                this.comment_reply=""
+                this.get_comment()
+                // this.$router.push('/index')
+            }
+            else{
+                this.open3('登录已失效，请重新登录')
+            }
+            
+        }).catch(err => { //
+            console.log('请求失败：'+ err.code + ',' + err.message);
+        });
+    },
+
+    replay_control(event){
+        if(event.target.parentElement.parentElement.nextElementSibling.style.display == 'block'){
+            this.comment_reply_input=0
+            event.target.parentElement.parentElement.nextElementSibling.style.display = 'none'
+        }
+        else{
+            this.comment_reply_input=1
+            event.target.parentElement.parentElement.nextElementSibling.style.display = 'block'
+        }
+        
+        // console.log(event.target)
+    },
     open3(message_content) {
         this.$message({
           showClose: true,
           message: message_content,
           type: 'warning'
         });
-      },
+    },
+    open2(message_content){
+        this.$message({
+          showClose: true,
+          message: message_content,
+          type: 'success'
+        });
+    },
 }
 }
 </script>

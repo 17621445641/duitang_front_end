@@ -113,7 +113,10 @@ export default {
   },
   methods:{
       get_usermessage(){
-          axios.get('/api/userinfo',{
+        axios.get('/api/userinfo',{
+        headers:{
+          access_token:window.sessionStorage.getItem('access_token')
+        }
         })
         .then(resp => {
             var that=this;
@@ -197,7 +200,8 @@ export default {
           console.log(res.data.success)
           if (res.data.code === 200) {
             this.open2()
-            this.$router.push('/personal_center')
+            location.reload()
+            // this.$router.push('/personal_center')
           }
         })
         .catch(err => {

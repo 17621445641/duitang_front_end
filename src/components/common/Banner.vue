@@ -36,18 +36,18 @@
         <div class="blockUI blockMsg blockPage"  style="display:none;z-index: 9011;border-radius: 12px; position: fixed; padding: 0px; margin: -274.5px 0px 0px -330px; width: 660px; top: 50%; left: 50%; text-align: left; color: white; border: none; background: white; cursor: default; height: 450px;">
         <div class="mask-body" style="width: 660px;">
         <div class="tt-s">
-          <span  style="font-size:16px;font-weight:700;color:#606060">登录</span>
+          <span  style="font-size:16px;font-weight:700;color:#606060"><span v-if="register_display=='none'">登录</span><span v-else>注册</span></span>
+          
           <span ><img @click="close_login_page($event)" style="width:18px;position:absolute;right:10px;top:10px;padding:4px;cursor: pointer;" src="../../assets/关闭.png" alt=""></span>
         </div>
         <div class="mask-cont"><div id="poplogin">
           <div id=login_message>
-            <div class="login_input"><span>手机号/邮箱：</span><input type="text" ref="account"></div>
+            <div class="login_input"><span>邮箱/手机号：</span><input type="text" ref="account" placeholder="请输入邮箱或手机号"></div>
             <div class="login_input">
-              <span>密码：</span><input type="password" ref="password">
+              <span>密码：</span><input type="password" ref="password" placeholder="请输入密码" maxlength='12'>
               <a v-if="register_display=='none'"  class="pswd-forget" @click="update_password" style="cursor:pointer">忘记密码？</a>
-              <a v-else class="pswd-forget"></a>
             </div>
-            <div class="login_input" style="display: none;"><span>确认密码：</span><input type="password" ref="confirm_password"></div>
+            <div class="login_input" style="display: none;"><span>确认密码：</span><input type="password" ref="confirm_password" placeholder="请再次输入密码" maxlength='12'></div>
             <div class="u-chk">
               <div class="u-chk-remenber-me">
                 <span><input class="chk" type="checkbox" name="remember" id="poplogin-rem" value="" checked=""></span>
@@ -55,7 +55,7 @@
               </div>
             </div>
             <div class="abtn">
-              <button type="submit" class="pg-loginbtn" @click="user_login" v-if="register_display=='none'"><u >登录</u></button>
+              <button type="submit" class="pg-loginbtn" @click="user_login" v-if="register_display=='none'"><u>登录</u></button>
               <button type="submit" class="pg-loginbtn" @click="user_register" v-else><u >提交注册</u></button>
             </div>
           </div>

@@ -280,7 +280,9 @@ export default {
 </script>
 
 <style >
-/* @import url('./css/index.css');
-@import url('./dfsd/Myproject/src/css/index.css');
-@import url('./css/register_login.css'); */
+body,html{
+    border: 0;
+    padding: 0;
+    margin: 0;
+}
 </style>
