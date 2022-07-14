@@ -13,8 +13,8 @@
                     <span>摄影</span>
                 </div>
             </div>
-            <input id="search" type="text" placeholder="请输入感兴趣的内容">
-            <button id='tt'></button>
+            <input id="search" v-model="mess" type="text" placeholder="请输入感兴趣的内容" @keyup.enter="search">
+            <button id='tt' @click="search" ></button>
             <span v-show="!login_status"><span id="register_login" @click="login_page($event)">登录/注册</span></span>
             <span v-show="login_status" >
             <span  style="left: 18%;position: relative;display: inline-block;">
@@ -49,22 +49,22 @@
             </div>
             <div class="login_input" style="display: none;"><span>确认密码：</span><input type="password" ref="confirm_password" placeholder="请再次输入密码" maxlength='12'></div>
             <div class="u-chk">
-              <div class="u-chk-remenber-me">
+              <!-- <div class="u-chk-remenber-me">
                 <span><input class="chk" type="checkbox" name="remember" id="poplogin-rem" value="" checked=""></span>
                 <label for="poplogin-rem">记住我</label>
-              </div>
+              </div> -->
             </div>
             <div class="abtn">
               <button type="submit" class="pg-loginbtn" @click="user_login" v-if="register_display=='none'"><u>登录</u></button>
               <button type="submit" class="pg-loginbtn" @click="user_register" v-else><u >提交注册</u></button>
             </div>
           </div>
-          <div id='web_image'>sdfsdfsdfs</div>
+          <div id='web_image' style="width:205px"><img src="../../assets/qr_code.png" alt="" style="width:130px;position:relative;left:40px"><div style="color:black; width:100%;text-align: center;">扫码了解更多</div></div>
           <div class="toreg">
             <span  id="register" @click="register($event)" style="color:#5678a0 ;"><span v-if="register_display=='none'">还没有账号?立即注册</span><span v-else>已有账户?去登录</span></span>
           </div>
     </div></div></div></div>
-        <router-view class="inter_page">
+        <router-view ref='child' class="inter_page" style="background-color:#f5f5f5;">
           
         </router-view>
         <!-- <div id='bottom'>
@@ -85,7 +85,8 @@ export default {
       login_status:false,
       register_display:'none',
       account:'',
-      password:''
+      password:'',
+      mess:this.$route.query.search_word
       // this_event:'click'
     }
   },
@@ -267,8 +268,16 @@ export default {
       },
       update_password(){
         window.open('/update_pwd', '_blank')
-      }
-      
+      },
+
+      search(){
+        this.$router.push('/index')
+        this.$nextTick(function(){//跳转页面dom加载完成再执行搜索
+          this.$refs.child.get_article_list(document.getElementById('search').value)
+        })
+        
+      },
+
     // update_avatar(){
     //   // this.$refs.upload.
     //   this.$refs.fileRef.dispatchEvent(new MouseEvent('click'))

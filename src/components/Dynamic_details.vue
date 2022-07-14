@@ -1,7 +1,7 @@
 <template>
-<div id="Dynamic_details">
-    <div id="details_message">
-        <div id="dynamic_message">
+<div id="Dynamic_details" >
+    <div id="details_message" >
+        <div id="dynamic_message" style="background-color:white">
             <div id="user_info" style="width:100%;">
                 <img :src="authorinfo.avatar_image_url" alt="">
                 <!-- <span ></span> -->
@@ -48,9 +48,9 @@
                             <div class="comment_user">{{site.user_id}}：
                                 <span class="user_content" style="color:red;display:inline-block;color:black;font-size:13px;">{{site.comment}}</span>
                                 <div class="comment_time">{{site.create_time}}来自上海
-                                    <img v-if="comment_reply_input!=1" @click="replay_control($event)" :src="cancel_comment_img" alt="" style="width:20px;position: relative;left:300px;cursor:pointer">
-                                    <img v-else @click="replay_control($event)" :src="comment_img" alt="" style="width:20px;position: relative;left:300px;cursor:pointer">
-                                    </div>
+                                    <img   @click="replay_control($event,index)" :src="cancel_comment_img" alt="" style="width:20px;position: relative;left:300px;cursor:pointer">
+                                    
+                                </div>
                             </div>
                             <div style="display:none" >
                                <el-input style="width: 94%;margin-top: 10px;margin-bottom: 10px;"
@@ -63,7 +63,7 @@
                                 :autosize="{ minRows: 1, maxRows: 18}"
                                 >
                                 </el-input> 
-                                <div style="padding-bottom:10px;border-bottom:1px solid #f7f6f6;margin-bottom:10px;font-size:14px"><u @click="publish_reply(site.comment_id,site.user_id,$event)">回复</u></div>
+                                <div style="padding-bottom:10px;border-bottom:1px solid #f7f6f6;margin-bottom:10px;font-size:14px"><u @click="publish_reply(site.comment_id,site.user_id,$event,index)">回复</u></div>
                             </div>
                             <!-- <div></div> -->
                             <div class="reply_comment" v-bind:key="index" v-for="(site,index) in site.data">
@@ -82,7 +82,19 @@
                 </div>
             </div>
         </div>
-        <div id="hot_people" style="">猜你喜欢</div>
+        <div id="details_right" style="border:1px solid rgb(240, 240, 240);border-radius: 10px;background-color:white">
+            <span class="hot_title">大家都在搜</span>
+            <ul class="hot_search">
+                <li v-for="(site,index) in hot_search_data" v-bind:key="index" @click="quick_search(index)">
+                    <span>{{index+1}}</span><span ref='hot_content' class="hot_content">{{site.search_word}}</span>
+                    <span>
+                        <img v-if="lately_host_search_content.slice(0,1).indexOf(site.search_word) !== -1"  src="../assets/hot.png" alt="" style="width:20px;position:relative;bottom:10px">
+                        <img v-if="lately_host_search_content.slice(1,3).indexOf(site.search_word) !== -1"  src="../assets/new.png" alt="" style="width:16px;position:relative;bottom:10px">
+                    </span>
+                    <!-- <img src="../assets/hot.png" alt="" style="width:20px"> -->
+                </li>
+            </ul>
+        </div>
     </div>
     <div></div>
 </div>
@@ -122,8 +134,10 @@ export default {
         comment_status:0,
         comment_data:[],
         comment_input:0,//控制评论图标的展示
-        comment_reply_input:0,
-        comment_reply:''
+        comment_reply:'',
+        hot_search_data:[],//热词原始数据
+        lately_hot_search_data:[],//对热词原始数据按时间进行排序
+        lately_host_search_content:[]//只保留search_word
     }   
 },
 
@@ -143,6 +157,7 @@ created(){
     this.get_article_details()
     this.get_authorinfo()
     this.is_fllow()
+    this.hot_search()
 },
 methods:{
     
@@ -485,7 +500,7 @@ methods:{
         });
     }
     ,
-    publish_reply(reply_id,reply_user,event){
+    publish_reply(reply_id,reply_user,event,index){
         const param={
             "article_id":this.article_id,
             "reply_id":reply_id,
@@ -505,10 +520,9 @@ methods:{
             if(resp.data.code==200){
                 this.open2("发布评论成功")
                 event.target.parentElement.parentElement.style.display='none'
-                this.comment_reply_input=0
+                this.$el.querySelectorAll('.comment_user img')[index].src=this.cancel_comment_img
                 this.comment_reply=""
                 this.get_comment()
-                // this.$router.push('/index')
             }
             else{
                 this.open3('登录已失效，请重新登录')
@@ -519,17 +533,51 @@ methods:{
         });
     },
 
-    replay_control(event){
+    replay_control(event,index){
         if(event.target.parentElement.parentElement.nextElementSibling.style.display == 'block'){
-            this.comment_reply_input=0
+            this.$el.querySelectorAll('.comment_user img')[index].src=this.cancel_comment_img
             event.target.parentElement.parentElement.nextElementSibling.style.display = 'none'
         }
         else{
-            this.comment_reply_input=1
+
+            this.$el.querySelectorAll('.comment_user img')[index].src=this.comment_img
             event.target.parentElement.parentElement.nextElementSibling.style.display = 'block'
         }
         
         // console.log(event.target)
+    },
+    hot_search(){
+        axios.get('/api/hot_search')
+            .then(resp => {
+                var that=this;
+                that.hot_search_data=resp.data.data
+                that.lately_hot_search_data=JSON.parse(JSON.stringify(that.hot_search_data))//深拷贝
+                that.lately_hot_search_data.sort((a,b)=>{//按时间倒序排列
+                    // console.log(new Date(b.lately_time))
+                    return new Date(b.lately_time)-new Date(a.lately_time)
+                })
+                that.lately_hot_search_data=that.lately_hot_search_data.slice(0,3)
+                
+                for(var i=0;i<=that.lately_hot_search_data.length;i++){
+                    console.log(that.lately_host_search_content)
+                    console.log(that.lately_hot_search_data[i].search_word)
+                    that.lately_host_search_content.push(that.lately_hot_search_data[i].search_word)
+                }
+            }).catch(err => { //
+                console.log('请求失败：'+ err.code + ',' + err.message);
+            })
+    },
+    quick_search(index){
+        const search_word=this.$refs.hot_content[index].innerHTML
+        let pathinfo=this.$router.resolve({
+            path:'/index',
+            query:{
+                search_word:search_word
+            }
+        })
+        window.open(pathinfo.href,'_blank')
+            // console.log(this.$refs.hot_content[index].innerHTML)
+        
     },
     open3(message_content) {
         this.$message({

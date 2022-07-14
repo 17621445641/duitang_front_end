@@ -133,7 +133,7 @@ export default {
     }
 },
 created(){
-    this.get_article_list()
+    this.get_article_list(this.$route.query.search_word)
     // this.judge_login()
     // console.log(this.article_list)
 },
@@ -146,10 +146,11 @@ methods: {
         //  console.log(this)
         event.target.firstElementChild.nextElementSibling.style.display = 'none'
     },
-    get_article_list(){
+    get_article_list(search_word){
         axios.get('/api/article_list',{
             params:{
-                user_id:window.localStorage.getItem('user_id')
+                user_id:window.localStorage.getItem('user_id'),
+                search_word:search_word
             }
             })
             .then(resp => {

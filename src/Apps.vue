@@ -281,8 +281,10 @@ export default {
 
 <style >
 body,html{
+  /* style="" */
     border: 0;
     padding: 0;
     margin: 0;
+    background-color:#f6f6f6
 }
 </style>

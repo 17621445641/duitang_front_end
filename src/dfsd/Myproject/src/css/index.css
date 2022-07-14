@@ -86,7 +86,12 @@
     margin: 0px;
     border-top-right-radius: 34.5px;
     border-bottom-right-radius: 34.5px;
+    cursor: pointer;
+    
 }
+/* #tt:hover{
+    
+} */
 #register_login{
     display: inline-block;
     left: 18%;
