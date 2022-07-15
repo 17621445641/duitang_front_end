@@ -1,7 +1,7 @@
 <template>
     <div id='all'>
         <div id="update_title">
-            <img src="../assets/logo.png" alt="">
+            <img src="../assets/logo1.png" alt="">
         </div>
         <div id='update_text' v-if="this.code_status==1">
             <div id="tips"><img src="../assets/tip.png" alt="" style="width:22px">请输入注册的邮箱账户/手机号</div>
@@ -12,18 +12,18 @@
                 <span>验证码：</span><input type="text" ref="check_code" placeholder="请输入验证码" maxlength='6'><div id="get_code" href="" @click="get_code">获取验证码</div>
                 
             </div>
-            <div class="abtn"><button type="submit" class="pg-loginbtn" @click="check_code"><u>下一步</u></button><span @click="return_login">返回登录</span></div>
+            <div class="abtn" ><button @click="check_code" type="submit" class="pg-loginbtn" ><u>下一步</u></button><span @click="return_login">返回登录</span></div>
             
         </div>
         <div id='update_text' v-if="this.code_status==2">
             <div id="tips"><img src="../assets/tip.png" alt="" style="width:22px">请输入新密码</div>
             <div class="login_input">
-                <span>新密码：</span><input type="password" ref="password" placeholder="请输入新密码" autocomplete="off" maxlength='12'>
+                <span>新密码：</span><input v-model="password" type="password" ref="password" placeholder="请输入新密码" autocomplete="off" maxlength='12'>
             </div><br/>
             <div class="login_input">
-                <span>确认密码：</span><input  type="text" ref="confirm_password" placeholder="请再次输入密码" autocomplete="off" maxlength='12'>  
+                <span>确认密码：</span><input v-model="confirm_password"  type="password" ref="confirm_password" placeholder="请再次输入密码" autocomplete="off" maxlength='12'>  
             </div>
-            <div class="abtn"><button type="submit" class="pg-loginbtn" @click="confirm_update"><u>确认修改</u></button><span @click="return_login">返回登录</span></div>
+            <div class="abtn" ><button @click="confirm_update" type="submit" class="pg-loginbtn" ><u>确认修改</u></button><span @click="return_login">返回登录</span></div>
             
         </div>
     </div>
@@ -35,7 +35,9 @@ export default {
   data(){
     return{
         code_status:1,
-        update_account:""
+        update_account:"",
+        password:"",
+        confirm_password:""
     }
     
   },
@@ -45,6 +47,10 @@ export default {
     获取验证码
     */
     get_code(){
+        if(this.$refs.account.value==""){
+        this.open4("请输入注册的邮箱或手机号")
+        return
+      }
         const param={
         "account": this.$refs.account.value,
       }
@@ -109,6 +115,8 @@ export default {
       }
       if(this.$refs.password.value==""){
           this.open4("请输入新密码")
+      }else if(this.$refs.confirm_password.value==""){
+          this.open4("请再次输入密码")
       }
       else{
         axios.post('/api/update_pwd',param)
@@ -169,7 +177,7 @@ export default {
         position: relative;
         transform: translateY(-50%);
         top:50%;
-        width: 100px;
+        width: 150px;
     }
     #tips{
         color: #888;
@@ -238,15 +246,16 @@ export default {
     }
     .abtn u {
         display: inline-block;
-        padding: 0 16px 0 16px;
+        /* padding: 0 16px 0 16px; */
         height: 100%;
         font-size: 14px;
         line-height: 31px;
         color: #f7f7f7;
-        cursor: pointer;
         text-decoration: none!important;
     }           
     .abtn button {
+        cursor: pointer;
+        width: 100%;
         /* width: 100%; */
         height: 40px;
         line-height: 40px;

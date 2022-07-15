@@ -10,7 +10,8 @@ import ElementUI from 'element-ui'
 
 // Vue.use( Editor, Toolbar)
 // Vue.prototype.$http = axios// =号的两边必须隔开,通过注释掉build/webpack.base.conf.js文件的createLintingRule方法里的内容即可取消esint规范检查
-// Vue.use(axios)
+
+Vue.prototype.$axios = axios//全局引入axios,通过this.$axios,(Vue.prototype后面跟的什么就用this.来使用)
 Vue.use(ElementUI)
 Vue.config.productionTip = false
 // axios.defaults.headers.common['access_token'] = window.sessionStorage.getItem('access_token')//从session中读取token设置全局token
