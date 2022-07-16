@@ -116,19 +116,12 @@
     position: absolute;
     
 }
-/* #tt:hover{
-    
-} */
+
 .register_login{
-    /* border: 1px solid red; */
     display: inline-block;
     right: 5%;
     bottom: 50%;
-    /* top:50%; */
     transform: translateY(50%);
-    /* height: 30px; */
-    line-height: 30px;
-    /* bottom: 20px; */
     position: absolute;
     padding: 5px 10px;
     

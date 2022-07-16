@@ -115,7 +115,7 @@ export default {
     return {
         article_id:this.$route.query.article_id,
         author_id:this.$route.query.author_id,
-        user_id:"",
+        user_id:window.localStorage.getItem('user_id'),
         article_details:[],
         article_imgs:[],
         authorinfo:[],
@@ -153,7 +153,7 @@ created(){
     // }
     this.article_id=this.$route.query.article_id
     this.author_id=this.$route.query.author_id
-    this.user_id=window.localStorage.getItem('user_id')
+    // this.user_id=window.localStorage.getItem('user_id')
     this.get_article_details()
     this.get_authorinfo()
     this.is_fllow()

@@ -40,11 +40,10 @@
 			<div class="mask-body" style="width: 660px;">
 				<div class="tt-s">
 					<span style="font-size:16px;font-weight:700;color:#606060">
-						<span v-if="register_display=='none'">登录</span>
-						<span v-else>注册</span>
+						<span>登录</span>
 					</span>
 					<span>
-						<img @click="close_login_page($event)" style="width:18px;position:absolute;right:10px;top:10px;padding:4px;cursor: pointer;" src="../../assets/关闭.png" alt="">
+						<img @click="close_login_page()" style="width:18px;position:absolute;right:10px;top:10px;padding:4px;cursor: pointer;" src="../../assets/关闭.png" alt="">
 					</span>
 				</div>
 				<div class="mask-cont">
@@ -57,24 +56,17 @@
 							<div class="login_input">
 								<span>密码：</span>
 								<input type="password" ref="password" placeholder="请输入密码" maxlength='12' >
-								<a v-if="register_display=='none'" class="pswd-forget" @click="update_password" style="cursor:pointer">忘记密码？</a>
-							</div>
-							<div class="login_input" style="display: none;">
-								<span>确认密码：</span>
-								<input type="password" ref="confirm_password" placeholder="请再次输入密码" maxlength='12' @keyup.enter="user_register">
+								<a class="pswd-forget" @click="register_or_updatepwd(2)" style="cursor:pointer">忘记密码？</a>
 							</div>
 							<div class="u-chk">
 								<!-- <div class="u-chk-remenber-me">
-                <span><input class="chk" type="checkbox" name="remember" id="poplogin-rem" value="" checked=""></span>
-                <label for="poplogin-rem">记住我</label>
-                </div> -->
+								<span><input class="chk" type="checkbox" name="remember" id="poplogin-rem" value="" checked=""></span>
+								<label for="poplogin-rem">记住我</label>
+								</div> -->
 							</div>
 							<div class="abtn">
-								<button type="submit" class="pg-loginbtn" @click="user_login" v-if="register_display=='none'">
+								<button type="submit" class="pg-loginbtn" @click="user_login">
 									<u>登录</u>
-								</button>
-								<button type="submit" class="pg-loginbtn" @click="user_register" v-else>
-									<u>提交注册</u>
 								</button>
 							</div>
 						</div>
@@ -83,9 +75,8 @@
 							<div style="color:black; width:100%;text-align: center;">扫码了解更多</div>
 						</div>
 						<div class="toreg">
-							<span id="register" @click="register($event)" style="color:#5678a0 ;">
-								<span v-if="register_display=='none'">还没有账号?立即注册</span>
-								<span v-else>已有账户?去登录</span>
+							<span id="register" style="color:#5678a0 ;">
+								<span   @click="register_or_updatepwd(1)">还没有账号?立即注册</span>
 							</span>
 						</div>
 					</div>
@@ -110,10 +101,9 @@ export default {
 			user_message: [],
 			imageUrl: '',
 			login_status: false,
-			register_display: 'none',
 			account: '',
 			password: '',
-			mess: this.$route.query.search_word//获取路由携带的参数
+			mess: this.$route.query.search_word,//获取路由携带的参数
 		}
 	},
 	//  beforeRouteEnter(to, from, next){
@@ -137,24 +127,25 @@ export default {
   // },
   
 	methods: {
-    /* 
-    关闭登录页面
-    */
-		close_login_page(event) {
-      this.$refs.blockUI1.style.display = 'none'
-      this.$refs.blockUI2.style.display = 'none'
-		},
 
-    /* 
+	/* 
     打开登录页面
     */
 		login_page(event) {
 			this.$refs.account.value = ""
 			this.$refs.password.value = ""
-      this.$refs.confirm_password.value=""
-			event.target.parentElement.parentElement.parentElement.nextElementSibling.style.display = 'block'
-			event.target.parentElement.parentElement.parentElement.nextElementSibling.nextElementSibling.style.display = 'block'
+			this.$refs.blockUI1.style.display = 'block'
+			this.$refs.blockUI2.style.display = 'block'
 		},
+
+	/* 
+	关闭登录页面
+	*/
+		close_login_page() {
+			this.$refs.blockUI1.style.display = 'none'
+			this.$refs.blockUI2.style.display = 'none'
+		},
+
 
     /* 
     用户登录
@@ -162,15 +153,14 @@ export default {
 		user_login() {
 			this.account = this.$refs.account.value
 			this.password = this.$refs.password.value
-      if(this.account==""){
-        this.open4("请输入注册的邮箱或手机号")
-        return
-      }
-      if(this.password==""){
-        this.open4("请输入密码")
-        return
-      }
-
+			if(this.account==""){
+				this.open4("请输入注册的邮箱或手机号")
+				return
+			}
+			if(this.password==""){
+				this.open4("请输入密码")
+				return
+			}
 			var that = this
 			const param = {
 				"account": this.account,
@@ -181,15 +171,19 @@ export default {
 					if(resp.data.code == 200) {
 						sessionStorage.setItem("access_token", resp.data.access_token)
 						that.login_status = true
-            this.user_info().then(res=>{
-              if(res==200 && this.$route.path=='/index'){//当user_info接口调用成功后且当前页面为index时，重新获取文章列表
-                this.$nextTick(()=>{
-		            this.$refs.child.get_article_list() 
-	              })
-              }
-            })
-            this.close_login_page()
-
+						this.close_login_page()
+						this.user_info().then(res=>{
+							if(res==200 && this.$route.path=='/index'){//当user_info接口调用成功后且当前页面为index时，重新获取文章列表
+								this.$nextTick(()=>{
+								this.$refs.child.get_article_list() 
+								})
+							}
+							if(res==200 && this.$route.path=='/dynamic_details'){//当user_info接口调用成功后且当前页面为index时，重新获取文章列表
+								this.$nextTick(()=>{
+								this.$refs.child.get_article_details() 
+								})
+							}
+						})
 					} else {
 						this.open4(resp.data.message)
 					}
@@ -197,53 +191,7 @@ export default {
 				.catch(err => {
 					console.log("接口调用异常"+err)
 				})
-		},
-
-    /* 
-    用户注册
-    */
-		user_register() {
-      const regEmail = /^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/
-      const regMobile= /^(0|86|17951)?(13[0-9]|15[0123456789]|17[678]|18[0-9]|14[57])[0-9]{8}$/
-			let account = this.$refs.account.value
-			let password = this.$refs.password.value
-			let confirm_password = this.$refs.confirm_password.value
-      if(account==""){
-        this.open4("请输入邮箱或手机号")
-        return
-      }
-      if(!regEmail.test(account)&&!regMobile.test(account)){
-        this.open4("请输入正确的邮箱或手机号")
-        return
-      }
-      if(password==""){
-        this.open4("请输入密码")
-        return
-      }
-      if(confirm_password==""){
-        this.open4("请再次输入密码")
-        return
-      }
-			// var that = this
-			const param = {
-				"account": account,
-				"password": password,
-				"Confirm_password": confirm_password
-			}
-			this.$axios.post("/api/register", param)
-				.then(resp => {
-					if(resp.data.code == 200) {
-            location.reload()
-						this.open2(resp.data.message)
-
-					} else {
-						this.open4(resp.data.message)
-					}
-				})
-				.catch(err => {
-					console.log("接口调用异常"+err)
-				})
-		},
+			},
 
     /* 
     退出登录
@@ -252,31 +200,32 @@ export default {
 			window.sessionStorage.clear();
 			window.localStorage.removeItem('user_id')
 			this.login_status = false
-			// this.$router.push('/index')
 			location.reload()
-
 		},
 
     /* 
     查询用户登录信息
     */
 		user_info() {
-      return new Promise((resolve) => {
-        this.$axios.get('/api/userinfo', {
-          headers: {
-            access_token: window.sessionStorage.getItem('access_token')
-          }
-        })
-        .then(resp => {
-          resolve(resp.data.code)
-          var that = this;
-          that.user_message = resp.data.data;
-          localStorage.setItem('user_id', resp.data.data.user_id)
-        })
-        .catch(err => { //
-          console.log("接口调用异常"+err);
-        });
-      })
+      		return new Promise((resolve) => {
+				this.$axios.get('/api/userinfo', {
+					headers: {
+						access_token: window.sessionStorage.getItem('access_token')
+					}
+				})
+				.then(resp => {
+					if(resp.data.code==200){
+						var that = this;
+						that.user_message = resp.data.data;
+						localStorage.setItem('user_id', resp.data.data.user_id)
+						resolve(resp.data.code)
+					}
+					
+				})
+				.catch(err => { //
+					console.log("接口调用异常"+err);
+				});
+			})
 		},
 
     /* 
@@ -297,44 +246,29 @@ export default {
 			this.$router.push('/index')
 		},
 
-    
-		// overShow(event) {
-		// 	event.currentTarget.firstElementChild.nextElementSibling.style.display = 'block'
-		// },
-		// outHide(event) {
-		// 	event.currentTarget.firstElementChild.nextElementSibling.style.display = 'none'
-		// },
-
-    /* 
-    登录和注册页面切换
+	/* 
+    跳转注册或忘记密码页面
     */
-		register(event) {
-			if(this.register_display == 'block') {
-				event.target.parentElement.parentElement.parentElement.firstElementChild.firstElementChild.nextElementSibling.nextElementSibling.style.display = 'none'
-				this.register_display = 'none'
-			} else {
-				event.target.parentElement.parentElement.parentElement.firstElementChild.firstElementChild.nextElementSibling.nextElementSibling.style.display = 'block'
-				this.register_display = 'block'
-			}
-
+		register_or_updatepwd(option_action) {
+			let new_window=this.$router.resolve({
+				path:'/update_pwd',
+				query:{
+					option_action:option_action
+				}
+			})
+			window.open(new_window.href, '_blank')
 		},
 
-     /* 
-    获取文章列表
+    /* 
+    页面搜索功能
     */
-		// get_article_list() {
-		// 	this.$axios.get('/api/article_list', {
-		// 			params: {
-		// 				user_id: window.localStorage.getItem('user_id')
-		// 			}
-		// 		})
-		// 		.then(resp => {
-		// 			// console.log((that.article_list).length)
-		// 		})
-		// 		.catch(err => { //
-		// 			console.log('请求失败：' + err.code + ',' + err.message);
-		// 		})
-		// },
+		search() {
+			this.$router.push('/index')
+			this.$nextTick(function() { //跳转页面后等待dom加载完成再执行搜索
+				this.$refs.child.get_article_list(document.getElementById('search').value)
+			})
+
+		},
 		open2(message_data) {
 			this.$message({
 				showClose: true,
@@ -367,23 +301,7 @@ export default {
 			return isJPG && isLt2M;
 		},
 
-    /* 
-    跳转忘记密码和修改密码页面
-    */
-		update_password() {
-			window.open('/update_pwd', '_blank')
-		},
-
-    /* 
-    页面搜索功能
-    */
-		search() {
-			this.$router.push('/index')
-			this.$nextTick(function() { //跳转页面后等待dom加载完成再执行搜索
-				this.$refs.child.get_article_list(document.getElementById('search').value)
-			})
-
-		},
+    
 	}
 }
 </script>

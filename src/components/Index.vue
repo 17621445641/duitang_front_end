@@ -173,13 +173,13 @@ methods: {
             }
         })
     },
-    judge_login(){//判断用户是否登录过
-      if(window.sessionStorage.getItem("access_token")!=null){
-        this.login_status=true
-        this.user_info()
-      }
+    // judge_login(){//判断用户是否登录过
+    //   if(window.sessionStorage.getItem("access_token")!=null){
+    //     this.login_status=true
+    //     this.user_info()
+    //   }
 
-    },
+    // },
     user_info(){
       axios.get('/api/userinfo',{
           headers:{
