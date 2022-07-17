@@ -10,7 +10,7 @@ import login from '@/components/Login'
 import Index from '@/components/Index'
 import Personal_center from '@/components/Personal_center'
 import Dynamic_details from '@/components/Dynamic_details'
-import Update_password from '@/components/Update_password'
+import Register_updatepwd from '@/components/Register_updatepwd'
 import Banner from '@/components/common/Banner'
 Vue.use(Router)
 const originalPush = Router.prototype.push
@@ -76,8 +76,8 @@ export default new Router({
       },
       
       {
-        path:'/update_pwd',
-        component: Update_password,
+        path:'/register',
+        component: Register_updatepwd,
       },
       {
         path:'/test',

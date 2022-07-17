@@ -1,97 +1,97 @@
 <template>
-	<div id="all" >
-    <!-- 顶部bannner -->
-		<div id=top_tt>
-			<div id='top'>
-				<img id='logo_img' @click='goback_index' src="../../assets/logo.png" alt="" style=''>
-				<div id="classifiy" style="transform: translateY(50%);">
-					<span id="classifiy_text">分类<span id="icon"></span>
-					</span>
-					<div id="classifiy_content">
-						<span>摄影</span>
-						<span>摄影</span>
-						<span>摄影</span>
-						<span>摄影</span>
-						<span>摄影</span>
-						<span>摄影</span>
-					</div>
+<div id="all" >
+<!-- 顶部bannner -->
+	<div id=top_tt>
+		<div id='top'>
+			<img id='logo_img' @click='goback_index' src="../../assets/logo.png" alt="" style=''>
+			<div id="classifiy" style="transform: translateY(50%);">
+				<span id="classifiy_text">分类<span id="icon"></span>
+				</span>
+				<div id="classifiy_content">
+					<span>摄影</span>
+					<span>摄影</span>
+					<span>摄影</span>
+					<span>摄影</span>
+					<span>摄影</span>
+					<span>摄影</span>
 				</div>
-				<input style="" id="search" v-model="mess" type="text" placeholder="请输入感兴趣的内容" @keyup.enter="search">
-				<button style="" id='tt' @click="search"></button>
+			</div>
+			<input style="" id="search" v-model="mess" type="text" placeholder="请输入感兴趣的内容" @keyup.enter="search">
+			<button style="" id='tt' @click="search"></button>
+			<span>
+				<span v-show="!login_status" style="" class="register_login" @click="control_login_page(1)">登录/注册</span>
+				<span v-show="login_status" class="login_message">
+					<router-link to="/personal_center">
+						<img  id="login_avatar" :src="user_message.avatar_image_url" alt="">
+						<span class="login_func" style="">
+							<span v-if="user_message.user_name!=null && user_message.user_name!=''">{{this.user_message.user_name}}</span>
+							<span v-else style="font-size: 14px;">完善下个人资料吧！</span>
+						</span>
+					</router-link>
+					<span id="logout" @click="logout">退出</span>
+				</span>
+			</span>
+		</div>
+	</div>
+
+<!-- 页面蒙版 + 登录注册页面-->
+	<div ref="blockUI1" class="blockUI blockOverlay" style="display:none;z-index: 9000; border: none; margin: 0px; padding: 0px; width: 100%; height: 100%; top: 0px; left: 0px; background-color: rgb(0, 0, 0); opacity: 0.6; cursor: default; position: fixed;"></div>
+	<div ref="blockUI2" class="blockUI blockMsg blockPage" style="display:none;z-index: 9011;border-radius: 12px; position: fixed; padding: 0px; margin: -274.5px 0px 0px -330px; width: 660px; top: 50%; left: 50%; text-align: left; color: white; border: none; background: white; cursor: default; height: 450px;">
+		<div class="mask-body" style="width: 660px;">
+			<div class="tt-s">
+				<span style="font-size:16px;font-weight:700;color:#606060">
+					<span>登录</span>
+				</span>
 				<span>
-					<span v-show="!login_status" style="" class="register_login" @click="login_page($event)">登录/注册</span>
-					<span v-show="login_status" class="login_message">
-						<router-link to="/personal_center">
-							<img  id="login_avatar" :src="user_message.avatar_image_url" alt="">
-							<span class="login_func" style="">
-								<span v-if="user_message.user_name!=null && user_message.user_name!=''">{{this.user_message.user_name}}</span>
-								<span v-else style="font-size: 14px;">完善下个人资料吧！</span>
-							</span>
-						</router-link>
-						<span id="logout" @click="logout">退出</span>
-					</span>
+					<img @click="control_login_page()" style="width:18px;position:absolute;right:10px;top:10px;padding:4px;cursor: pointer;" src="../../assets/关闭.png" alt="">
 				</span>
 			</div>
-		</div>
-
-    <!-- 页面蒙版 + 登录注册页面-->
-		<div ref="blockUI1" class="blockUI blockOverlay" style="display:none;z-index: 9000; border: none; margin: 0px; padding: 0px; width: 100%; height: 100%; top: 0px; left: 0px; background-color: rgb(0, 0, 0); opacity: 0.6; cursor: default; position: fixed;"></div>
-		<div ref="blockUI2" class="blockUI blockMsg blockPage" style="display:none;z-index: 9011;border-radius: 12px; position: fixed; padding: 0px; margin: -274.5px 0px 0px -330px; width: 660px; top: 50%; left: 50%; text-align: left; color: white; border: none; background: white; cursor: default; height: 450px;">
-			<div class="mask-body" style="width: 660px;">
-				<div class="tt-s">
-					<span style="font-size:16px;font-weight:700;color:#606060">
-						<span>登录</span>
-					</span>
-					<span>
-						<img @click="close_login_page()" style="width:18px;position:absolute;right:10px;top:10px;padding:4px;cursor: pointer;" src="../../assets/关闭.png" alt="">
-					</span>
-				</div>
-				<div class="mask-cont">
-					<div id="poplogin">
-						<div id=login_message>
-							<div class="login_input">
-								<span>邮箱/手机号：</span>
-								<input type="text" ref="account" placeholder="请输入邮箱或手机号">
-							</div>
-							<div class="login_input">
-								<span>密码：</span>
-								<input type="password" ref="password" placeholder="请输入密码" maxlength='12' >
-								<a class="pswd-forget" @click="register_or_updatepwd(2)" style="cursor:pointer">忘记密码？</a>
-							</div>
-							<div class="u-chk">
-								<!-- <div class="u-chk-remenber-me">
-								<span><input class="chk" type="checkbox" name="remember" id="poplogin-rem" value="" checked=""></span>
-								<label for="poplogin-rem">记住我</label>
-								</div> -->
-							</div>
-							<div class="abtn">
-								<button type="submit" class="pg-loginbtn" @click="user_login">
-									<u>登录</u>
-								</button>
-							</div>
+			<div class="mask-cont">
+				<div id="poplogin">
+					<div id=login_message>
+						<div class="login_input">
+							<span>邮箱/手机号：</span>
+							<input type="text" ref="account" placeholder="请输入邮箱或手机号">
 						</div>
-						<div id='web_image' style="width:205px">
-							<img src="../../assets/qr_code.png" alt="" style="width:130px;position:relative;left:40px">
-							<div style="color:black; width:100%;text-align: center;">扫码了解更多</div>
+						<div class="login_input">
+							<span>密码：</span>
+							<input type="password" ref="password" placeholder="请输入密码" maxlength='12' @keyup.enter="user_login">
+							<a class="pswd-forget" @click="register_or_updatepwd(2)" style="cursor:pointer">忘记密码？</a>
 						</div>
-						<div class="toreg">
-							<span id="register" style="color:#5678a0 ;">
-								<span   @click="register_or_updatepwd(1)">还没有账号?立即注册</span>
-							</span>
+						<div class="u-chk">
+							<!-- <div class="u-chk-remenber-me">
+							<span><input class="chk" type="checkbox" name="remember" id="poplogin-rem" value="" checked=""></span>
+							<label for="poplogin-rem">记住我</label>
+							</div> -->
 						</div>
+						<div class="abtn">
+							<button type="submit" class="pg-loginbtn" @click="user_login">
+								<u>登录</u>
+							</button>
+						</div>
+					</div>
+					<div id='web_image' style="width:205px">
+						<img src="../../assets/qr_code.png" alt="" style="width:130px;position:relative;left:40px">
+						<div style="color:black; width:100%;text-align: center;">扫码了解更多</div>
+					</div>
+					<div class="toreg">
+						<span id="register" style="color:#5678a0 ;">
+							<span   @click="register_or_updatepwd(1)">还没有账号?立即注册</span>
+						</span>
 					</div>
 				</div>
 			</div>
 		</div>
-		<router-view ref='child' class="inter_page"  style="min-height: calc(100vh - 180px);">
-
-		</router-view>
-
-    <!-- 页脚 -->
-		<div id='footer'>
-            沪ICP备 13030189号 Copyright © 2014-2022 堆糖个人社区 | 地址：不知名地区44号 | 电话：021-6428945
-    </div>
 	</div>
+	<router-view ref='child' class="inter_page"  style="min-height: calc(100vh - 180px);">
+
+	</router-view>
+
+	<!-- 页脚 -->
+	<div id='footer'>
+		沪ICP备 13030189号 Copyright © 2014-2022 堆糖个人社区 | 地址：不知名地区44号 | 电话：021-6428945
+	</div>
+</div>
 </template>
 
 <script>
@@ -129,23 +129,21 @@ export default {
 	methods: {
 
 	/* 
-    打开登录页面
+    控制登录页面展示,option_action=1为打开登录页面，其他关闭登录页面
     */
-		login_page(event) {
-			this.$refs.account.value = ""
-			this.$refs.password.value = ""
-			this.$refs.blockUI1.style.display = 'block'
-			this.$refs.blockUI2.style.display = 'block'
+		control_login_page(option_action) {
+			if(option_action==1){
+				this.$refs.account.value = ""
+				this.$refs.password.value = ""
+				this.$refs.blockUI1.style.display = 'block'
+				this.$refs.blockUI2.style.display = 'block'
+			}
+			else{
+				this.$refs.blockUI1.style.display = 'none'
+				this.$refs.blockUI2.style.display = 'none'
+			}
+			
 		},
-
-	/* 
-	关闭登录页面
-	*/
-		close_login_page() {
-			this.$refs.blockUI1.style.display = 'none'
-			this.$refs.blockUI2.style.display = 'none'
-		},
-
 
     /* 
     用户登录
@@ -171,16 +169,17 @@ export default {
 					if(resp.data.code == 200) {
 						sessionStorage.setItem("access_token", resp.data.access_token)
 						that.login_status = true
-						this.close_login_page()
-						this.user_info().then(res=>{
-							if(res==200 && this.$route.path=='/index'){//当user_info接口调用成功后且当前页面为index时，重新获取文章列表
+						this.control_login_page()
+						this.user_info().then(resolve=>{
+							if(resolve==200 && this.$route.path=='/index'){//当user_info接口调用成功后且当前页面为index时，重新获取文章列表
 								this.$nextTick(()=>{
 								this.$refs.child.get_article_list() 
 								})
 							}
-							if(res==200 && this.$route.path=='/dynamic_details'){//当user_info接口调用成功后且当前页面为index时，重新获取文章列表
+							if(resolve==200 && this.$route.path=='/dynamic_details'){//当user_info接口调用成功后且当前页面为index时，重新获取文章列表
 								this.$nextTick(()=>{
-								this.$refs.child.get_article_details() 
+								// this.$refs.child.get_article_details() 
+								location.reload()
 								})
 							}
 						})
@@ -207,7 +206,7 @@ export default {
     查询用户登录信息
     */
 		user_info() {
-      		return new Promise((resolve) => {
+      		return new Promise((resolve,rej) => {
 				this.$axios.get('/api/userinfo', {
 					headers: {
 						access_token: window.sessionStorage.getItem('access_token')
@@ -219,6 +218,9 @@ export default {
 						that.user_message = resp.data.data;
 						localStorage.setItem('user_id', resp.data.data.user_id)
 						resolve(resp.data.code)
+					}
+					else{
+						rej(resp.data.code)
 					}
 					
 				})
@@ -251,7 +253,7 @@ export default {
     */
 		register_or_updatepwd(option_action) {
 			let new_window=this.$router.resolve({
-				path:'/update_pwd',
+				path:'/register',
 				query:{
 					option_action:option_action
 				}
@@ -308,6 +310,5 @@ export default {
 
 <style >
 @import url('../../css/index.css');
-@import url('../../dfsd/Myproject/src/css/index.css');
-@import url('../../css/register_login.css');
+@import url('../../css/login.css');
 </style>
