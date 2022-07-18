@@ -60,15 +60,15 @@
 					</div>
 					<div id="comment_content" v-if="comment_data.length>0">
 						<span class="content_page" v-bind:key="index" v-for="(site,index) in comment_data">
-							<img class="comment_avatar" :src="authorinfo.avatar_image_url" alt="">
+							<img class="comment_avatar" :src="site.avatar_image_url" alt="">
 							<span class="content_right">
-								<div class="comment_user">{{site.user_id}}：
+								<div class="comment_user">{{site.user_name}}：
 									<span class="user_content" style="color:red;display:inline-block;color:black;font-size:13px;">{{site.comment}}</span>
-									<div class="comment_time">{{site.create_time}}来自上海
-										<img @click="replay_control($event,index)" :src="cancel_comment_img" alt="" style="width:20px;position: relative;left:300px;cursor:pointer">
+									<div class="comment_time">发布于 {{site.create_time}}
+										<img @click="replay_control($event,index)" :src="cancel_comment_img" alt="" style="width:20px;position: relative;left:300px;cursor:pointer;top:5px">
 									</div>
 								</div>
-								<div style="display:none" ref="comment_reply">
+								<div  ref="comment_reply" style="display:none" class="what">
 									<el-input style="width: 94%;margin-top: 10px;margin-bottom: 10px;" 
                                         type="textarea"
                                         placeholder="发布你的回复~"
@@ -85,9 +85,9 @@
                                 <!-- 第二层评论 -->
 								<div class="reply_comment" v-bind:key="index2" v-for="(site,index2) in site.data">
 									<div class="reply_user">
-										{{site.user_id}}：
+										{{site.user_name}}：
 										<span class="user_content" style="color:red;display:inline-block;color:black;font-size:13px;margin-bottom: 8px;">{{site.comment}}</span>
-										<div class="comment_time">22-7-12 05:40 来自上海
+										<div class="comment_time">发布于 {{site.create_time}} 
                                         </div>
 									</div>
 								</div>
@@ -128,6 +128,7 @@ import cancel_comment from "../assets/cancel_comment.png"//取消评论图片
 export default {
     data () {
         return {
+            last_index:"",
             article_id:this.$route.query.article_id,
             author_id:this.$route.query.author_id,
             user_id:window.localStorage.getItem('user_id'),
@@ -149,8 +150,6 @@ export default {
             comment_data:[],
             comment_input:0,//控制评论图标的展示
             comment_reply:'',//二级评论输入框
-            comment_reply1:"",//三级评论输入框
-            format_comment_data:[],
             hot_search_data:[],//热词原始数据
             lately_hot_search_data:[],//对热词原始数据按时间进行排序
             lately_host_search_content:[]//只保留search_word
@@ -466,16 +465,6 @@ export default {
     控制回复评论区的展示
     */
         replay_control(event,index){
-            // this.comment_reply=""
-            // if(event.target.parentElement.parentElement.nextElementSibling.style.display == 'block'){
-            //     this.$el.querySelectorAll('.comment_user img')[index].src=this.cancel_comment_img
-            //     event.target.parentElement.parentElement.nextElementSibling.style.display = 'none'
-            // }
-            // else{
-
-            //     this.$el.querySelectorAll('.comment_user img')[index].src=this.comment_img
-            //     event.target.parentElement.parentElement.nextElementSibling.style.display = 'block'
-            // }
             this.comment_reply=""
             if(event.target.parentElement.parentElement.nextElementSibling.style.display == 'block'){
                 this.$nextTick(()=>{
@@ -483,19 +472,16 @@ export default {
                 event.target.parentElement.parentElement.nextElementSibling.style.display = 'none'
                 }) 
             }
-            else{
-                
-                for(let i=0;i<=this.$refs.comment_reply.length;i++){
-                    this.$nextTick(function (){
-                        this.$refs.comment_reply[i].style.display='none'
-                        this.$el.querySelectorAll('.comment_user img')[i].src=this.cancel_comment_img
-                    })
+            else{   
+                if(this.last_index===""){
                 }
-                this.$nextTick(()=>{
+                else{
+                    this.$el.querySelectorAll('.what')[this.last_index].style.display='none'
+                    this.$el.querySelectorAll('.comment_user img')[this.last_index].src=this.cancel_comment_img
+                }
+                    this.$el.querySelectorAll('.what')[index].style.display='block'
                     this.$el.querySelectorAll('.comment_user img')[index].src=this.comment_img
-                    event.target.parentElement.parentElement.nextElementSibling.style.display = 'block'
-                    
-                })
+                    this.last_index=index
             }
         },
 

@@ -28,7 +28,7 @@
 							<span v-else style="font-size: 14px;">完善下个人资料吧！</span>
 						</span>
 					</router-link>
-					<span id="logout" @click="logout">退出</span>
+					<span id="login_out" @click="login_out">退出</span>
 				</span>
 			</span>
 		</div>
@@ -195,7 +195,7 @@ export default {
     /* 
     退出登录
     */
-		logout() {
+		login_out() {
 			window.sessionStorage.clear();
 			window.localStorage.removeItem('user_id')
 			this.login_status = false
