@@ -412,7 +412,7 @@ export default {
             if(reply_id==undefined){//发布评论无需传reply_id，replay_id==undefined
                 comment=this.comment_publish
             }
-            else{//发布回复评论需传发布评论无需传reply_id，replay_id
+            else{//发布回复评论需传reply_id，replay_id
                 comment=this.comment_reply
             }
             const param={
