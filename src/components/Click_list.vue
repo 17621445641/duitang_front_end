@@ -12,8 +12,8 @@
         {{site.article_content}}
       </div>
       <div class="article_img" >
-        <div ><img src="../assets/click.png" alt="" ></div>
-        <div ><img src="../assets/like.png" alt="" ></div>
+        <!-- <div ><img src="../assets/click.png" alt="" ></div>
+        <div ><img src="../assets/like.png" alt="" ></div> -->
       </div>
     </div>
   </div>

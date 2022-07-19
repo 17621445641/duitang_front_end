@@ -10,7 +10,7 @@
 					<span class="style_from">发布自网页客户端</span>
 					</div>
 				</span>
-				<span style="">
+				<span style="" v-if="authorinfo.user_id!=this.user_id">
 					<span id="follow"  v-if="follow_status!=1" @click='follow_author(1)'>+关注</span>
 					<span id="follow"  v-else @click='follow_author(0)'>已关注</span>
 				</span>
@@ -31,9 +31,9 @@
 			</div>
 			<div id="dynamic_bottom">
 				<span style="font-size: 8px;cursor: pointer;width: 30%;display: inline-block;text-align: center;">
-					<img @click="dynamic_click(1)" v-if="this.click_status!=1" :src="cancel_click_img" alt="" style="width:22px">
-					<img @click="dynamic_click(0)" v-else :src="click_img" alt="" style="width:22px">
-					<span style="display: inline-block;margin-left:5px; transform: translateY(-35%);">{{this.click_count}}</span>
+					<img @click="dynamic_like(1)" v-if="this.like_status!=1" :src="cancel_like_img" alt="" style="width:22px">
+					<img @click="dynamic_like(0)" v-else :src="like_img" alt="" style="width:22px">
+					<span style="display: inline-block;margin-left:5px; transform: translateY(-35%);">{{this.like_count}}</span>
 				</span>
 				<span style="font-size: 8px;cursor: pointer;width: 38%;display: inline-block;text-align: center;">
 					<img @click="comment_view($event)" v-if="this.comment_input!=1" :src="cancel_comment_img" alt="" style="width:22px">
@@ -65,7 +65,10 @@
 								<div class="comment_user">{{site.user_name}}：
 									<span class="user_content" style="color:red;display:inline-block;color:black;font-size:13px;">{{site.comment}}</span>
 									<div class="comment_time">发布于 {{site.create_time}}
-										<img @click="replay_control($event,index)" :src="cancel_comment_img" alt="" style="width:20px;position: relative;left:300px;cursor:pointer;top:5px">
+										<img class='reply_img' @click="replay_control($event,index)" :src="cancel_comment_img" alt="" style="width:20px;position: relative;left:290px;cursor:pointer;top:5px">
+                                        <img @click="comment_click(1,index)" v-if='site.click_status!=1' :src="cancel_comment_click_img" alt="" style="width:20px;position: relative;left:300px;cursor:pointer;top:4px">
+                                        <img @click="comment_click(0,index)" v-else :src="comment_click_img" alt="" style="width:20px;position: relative;left:300px;cursor:pointer;top:4px">
+                                        <span style="position: relative;left:300px;cursor:pointer;top:0px">{{site.click_count}}</span>
 									</div>
 								</div>
 								<div  ref="comment_reply" style="display:none" class="what">
@@ -117,12 +120,14 @@
 </template>
 
 <script>
-import click from '../assets/click.png'//点赞图片
-import cancel_click from "../assets/cancel_click.png"//取消点赞图片
+import like from '../assets/like.png'//点赞图片
+import cancel_like from "../assets/cancel_like.png"//取消点赞图片
 import collect from "../assets/collect.png"//收藏图片
 import cancel_collect from "../assets/cancel_collect.png"//取消收藏图片
 import comment from "../assets/comment.png"//评论图片
 import cancel_comment from "../assets/cancel_comment.png"//取消评论图片
+import comment_click from '../assets/click.png'
+import cancel_comment_click from '../assets/cancel_click.png'
 
 
 export default {
@@ -135,11 +140,11 @@ export default {
             article_details:[],
             article_imgs:[],
             authorinfo:[],
-            click_status:"",
+            like_status:"",
             collect_status:"",
-            click_img:click,
-            cancel_click_img:cancel_click,
-            click_count:0,
+            like_img:like,
+            cancel_like_img:cancel_like,
+            like_count:0,
             collect:collect,
             cancel_collect:cancel_collect,
             article_data:[],
@@ -152,7 +157,9 @@ export default {
             comment_reply:'',//二级评论输入框
             hot_search_data:[],//热词原始数据
             lately_hot_search_data:[],//对热词原始数据按时间进行排序
-            lately_host_search_content:[]//只保留search_word
+            lately_host_search_content:[],//只保留search_word
+            comment_click_img:comment_click,
+            cancel_comment_click_img:cancel_comment_click,
         }   
 },
 
@@ -182,8 +189,8 @@ export default {
                 var that=this;
                 that.article_details=resp.data.data[0];
                 that.article_imgs=that.article_details.article_img.replace(/\"/g, '').replace(/\[/g, '').replace(/\]/g, '').split(',')
-                that.click_status=that.article_details.click_status;
-                that.click_count=that.article_details.click_count;
+                that.like_status=that.article_details.like_status;
+                that.like_count=that.article_details.like_count;
                 that.collect_status=that.article_details.collect_status;
             }).catch(err => { //
                 console.log('请求失败：'+ err.code + ',' + err.message);
@@ -275,30 +282,30 @@ export default {
 
     
     /* 
-    文章点赞/取消点赞,click_action=1为点赞,click_action=0为取消点赞
+    文章喜欢/取消喜欢,like_action=1为喜欢,like_action=0为取消喜欢
     */
-        dynamic_click(click_action){
+        dynamic_like(like_action){
             var that=this
             const param={
                 "article_id":this.article_id,
-                "status":click_action
+                "status":like_action
             }
             this.$axios({
                 headers: {
                     'access_token': window.sessionStorage.getItem('access_token')
                 },
                 method: 'post',
-                url: '/api/article_click',
+                url: '/api/article_like',
                 data: param
             }).then(resp => {
             if (resp.data.code == 200) {
-                if(click_action==1){
-                    that.click_status=1
-                    this.click_count=this.click_count+1
+                if(like_action==1){
+                    that.like_status=1
+                    this.like_count=this.like_count+1
                 }
                 else{
-                    that.click_status=0
-                    this.click_count=this.click_count-1
+                    that.like_status=0
+                    this.like_count=this.like_count-1
                 }
             
             }
@@ -371,6 +378,8 @@ export default {
             })
         },
 
+
+
     /* 
     控制评论区的展示
     */
@@ -393,7 +402,8 @@ export default {
         get_comment(){
             this.$axios.get('/api/get_comment',{
                 params:{
-                    article_id:this.article_id
+                    article_id:this.article_id,
+                    user_id:window.localStorage.getItem('user_id')
                 }
             })
             .then(resp => {
@@ -461,6 +471,7 @@ export default {
             });
         },
 
+
     /* 
     控制回复评论区的展示
     */
@@ -468,7 +479,7 @@ export default {
             this.comment_reply=""
             if(event.target.parentElement.parentElement.nextElementSibling.style.display == 'block'){
                 this.$nextTick(()=>{
-                this.$el.querySelectorAll('.comment_user img')[index].src=this.cancel_comment_img
+                this.$el.querySelectorAll('.comment_user .reply_img')[index].src=this.cancel_comment_img
                 event.target.parentElement.parentElement.nextElementSibling.style.display = 'none'
                 }) 
             }
@@ -477,12 +488,65 @@ export default {
                 }
                 else{
                     this.$el.querySelectorAll('.what')[this.last_index].style.display='none'
-                    this.$el.querySelectorAll('.comment_user img')[this.last_index].src=this.cancel_comment_img
+                    this.$el.querySelectorAll('.comment_user .reply_img')[this.last_index].src=this.cancel_comment_img
                 }
                     this.$el.querySelectorAll('.what')[index].style.display='block'
-                    this.$el.querySelectorAll('.comment_user img')[index].src=this.comment_img
+                    this.$el.querySelectorAll('.comment_user .reply_img')[index].src=this.comment_img
                     this.last_index=index
             }
+        },
+
+
+    /* 
+    评论点赞/取消点赞,click_action=1为点赞,click_action=0为取消点赞
+    */
+
+        comment_click(click_action,index){
+            var that=this
+            const param={
+                "comment_id":this.comment_data[index].comment_id,
+                "status":click_action
+            }
+            this.$axios({
+                headers: {
+                    'access_token': window.sessionStorage.getItem('access_token')
+                },
+                method: 'post',
+                url: '/api/comment_click',
+                data: param
+            }).then(resp => {
+            if (resp.data.code == 200) {
+                if(click_action==1){
+                    // console.log(that.comment_data[index].click_status)
+                    // that.article_list[index].like_status=1
+                    that.comment_data[index].click_status=1
+                    that.comment_data[index].click_count=that.comment_data[index].click_count+1
+                }
+                else{
+                    that.comment_data[index].click_status=0
+                    that.comment_data[index].click_count=that.comment_data[index].click_count-1
+                }
+            
+            }
+            else{
+                if(resp.data.code==1){
+                    window.sessionStorage.clear()
+                    window.localStorage.clear()
+                    this.open3("登录已失效，请重新登录")
+                }else if(resp.data.code==2 ||resp.data.code==3){
+                    window.sessionStorage.clear()
+                    window.localStorage.clear()
+                    this.open3("账户未登录，请先登录")
+                }else{
+                    this.open3(resp.data.message)
+                }
+            }
+            })
+            .catch(err => {
+                console.log("接口调用异常"+err)
+                return false
+                
+            })
         },
 
     /* 

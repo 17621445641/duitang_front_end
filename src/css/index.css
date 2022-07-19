@@ -266,6 +266,20 @@ body {
   position: absolute;
 }
 
+#publish {
+  width: 30px;
+  position: absolute;
+  margin-top: 16px;
+  /* left: 50px; */
+  margin-left: 300px;
+  transition: all 0.3s;
+}
+#publish:hover {
+  transition: all 0.3s;
+  cursor: pointer;
+  -moz-transform: rotate(45deg);
+  -webkit-transform: rotate(45deg);
+}
 .register_login {
   display: inline-block;
   right: 5%;

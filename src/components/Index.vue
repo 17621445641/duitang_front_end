@@ -12,10 +12,10 @@
 				<div class="txt_author">
 					<img class="author_headphoto" :src="site.avatar_image_url" alt="">
 					<span class="author_name">{{site.name}} </span>
-					<img class="txt_like" @click="dynamic_click(index,1)" v-if="site.click_status!=1" :src="cancel_click_img" alt="">
-					<img @click="dynamic_click(index,0)" class="txt_like" v-else :src="click_img" alt="">
-					<span class="click_num" v-if="site.click_count==null">0</span>
-					<span class="click_num" v-else>{{site.click_count}}</span>
+					<img class="txt_like" @click="dynamic_like(index,1)" v-if="site.like_status!=1" :src="cancel_like_img" alt="">
+					<img @click="dynamic_like(index,0)" class="txt_like" v-else :src="like_img" alt="">
+					<span class="click_num" v-if="site.like_count==null">0</span>
+					<span class="click_num" v-else>{{site.like_count}}</span>
 				</div>
 			</div>
 		</span>
@@ -32,10 +32,10 @@
 				<div class="txt_author">
 					<img class="author_headphoto" :src="site.avatar_image_url" alt="">
 					<span class="author_name">{{site.name}} </span>
-					<img class="txt_like" @click="dynamic_click(index,1)" v-if="site.click_status!=1" :src="cancel_click_img" alt="">
-					<img @click="dynamic_click(index,0)" class="txt_like" v-else :src="click_img" alt="">
-					<span class="click_num" v-if="site.click_count==null">0</span>
-					<span class="click_num" v-else>{{site.click_count}}</span>
+					<img class="txt_like" @click="dynamic_like(index,1)" v-if="site.like_status!=1" :src="cancel_like_img" alt="">
+					<img @click="dynamic_like(index,0)" class="txt_like" v-else :src="like_img" alt="">
+					<span class="click_num" v-if="site.like_count==null">0</span>
+					<span class="click_num" v-else>{{site.like_count}}</span>
 				</div>
 			</div>
 		</span>
@@ -52,10 +52,10 @@
 				<div class="txt_author">
 					<img class="author_headphoto" :src="site.avatar_image_url" alt="">
 					<span class="author_name">{{site.name}} </span>
-					<img class="txt_like" @click="dynamic_click(index,1)" v-if="site.click_status!=1" :src="cancel_click_img" alt="">
-					<img @click="dynamic_click(index,0)" class="txt_like" v-else :src="click_img" alt="">
-					<span class="click_num" v-if="site.click_count==null">0</span>
-					<span class="click_num" v-else>{{site.click_count}}</span>
+					<img class="txt_like" @click="dynamic_like(index,1)" v-if="site.like_status!=1" :src="cancel_like_img" alt="">
+					<img @click="dynamic_like(index,0)" class="txt_like" v-else :src="like_img" alt="">
+					<span class="click_num" v-if="site.like_count==null">0</span>
+					<span class="click_num" v-else>{{site.like_count}}</span>
 				</div>
 			</div>
 		</span>
@@ -72,10 +72,10 @@
 				<div class="txt_author">
 					<img class="author_headphoto" :src="site.avatar_image_url" alt="">
 					<span class="author_name">{{site.name}}</span>
-					<img class="txt_like" @click="dynamic_click(index,1)" v-if="site.click_status!=1" :src="cancel_click_img" alt="">
-					<img @click="dynamic_click(index,0)" class="txt_like" v-else :src="click_img" alt="">
-					<span class="click_num" v-if="site.click_count==null">0</span>
-					<span class="click_num" v-else>{{site.click_count}}</span>
+					<img class="txt_like" @click="dynamic_like(index,1)" v-if="site.like_status!=1" :src="cancel_like_img" alt="">
+					<img @click="dynamic_like(index,0)" class="txt_like" v-else :src="like_img" alt="">
+					<span class="click_num" v-if="site.like_count==null">0</span>
+					<span class="click_num" v-else>{{site.like_count}}</span>
 				</div>
 			</div>
 		</span>
@@ -92,10 +92,10 @@
 				<div class="txt_author">
 					<img class="author_headphoto" :src="site.avatar_image_url" alt="">
 					<span class="author_name">{{site.name}}</span>
-					<img class="txt_like" @click="dynamic_click(index,1)" v-if="site.click_status!=1" :src="cancel_click_img" alt="">
-					<img @click="dynamic_click(index,0)" class="txt_like" v-else :src="click_img" alt="">
-					<span class="click_num" v-if="site.click_count==null">0</span>
-					<span class="click_num" v-else>{{site.click_count}}</span>
+					<img class="txt_like" @click="dynamic_like(index,1)" v-if="site.like_status!=1" :src="cancel_like_img" alt="">
+					<img @click="dynamic_like(index,0)" class="txt_like" v-else :src="like_img" alt="">
+					<span class="click_num" v-if="site.like_count==null">0</span>
+					<span class="click_num" v-else>{{site.like_count}}</span>
 				</div>
 			</div>
 		</span>
@@ -103,16 +103,16 @@
 </div>
 </template>
 <script>
-import click from '../assets/click.png'//点赞图片
-import cancel_click from "../assets/cancel_click.png"//取消点赞图片
+import like from '../assets/like.png'//点赞图片
+import cancel_like from "../assets/cancel_like.png"//取消点赞图片
 export default {
     data () {
         return {
             article_list:[],
             article_id:9999,
             message_list:[],
-            click_img:click,
-            cancel_click_img:cancel_click,
+            like_img:like,
+            cancel_like_img:cancel_like,
 
         }
     },
@@ -165,30 +165,30 @@ export default {
         },
 
     /* 
-    文章点赞/取消点赞,click_action=1为点赞,click_action=0为取消点赞
+    文章喜欢/取消喜欢,like_action=1为喜欢,like_action=0为取消喜欢
     */  
-        dynamic_click(index,click_action){ //点赞和取消点赞
+        dynamic_like(index,like_action){ //喜欢和取消喜欢
             var that=this
             const param={
                 "article_id":this.article_list[index].article_id,
-                "status":click_action
+                "status":like_action
             }
             this.$axios({
                 headers: {
                     'access_token': window.sessionStorage.getItem('access_token')
                 },
                 method: 'post',
-                url: '/api/article_click',
+                url: '/api/article_like',
                 data: param
             }).then(resp => {
             if (resp.data.code == 200) {
-                if(click_action==1){
-                    that.article_list[index].click_status=1
-                    this.article_list[index].click_count=this.article_list[index].click_count+1
+                if(like_action==1){
+                    that.article_list[index].like_status=1
+                    this.article_list[index].like_count=this.article_list[index].like_count+1
                 }
                 else{
-                    that.article_list[index].click_status=0
-                    this.article_list[index].click_count=this.article_list[index].click_count-1
+                    that.article_list[index].like_status=0
+                    this.article_list[index].like_count=this.article_list[index].like_count-1
                 }
             
             }
@@ -217,7 +217,7 @@ export default {
           message: message_content,
           type: 'warning'
         });
-      },
+    },
     }
 }
 </script>
