@@ -42,7 +42,7 @@
   border-radius: 50px;
   display: inline-block;
   margin-left: 20px;
-  box-shadow: 1px 1px #dcdcdc;
+  box-shadow: 5px 5px 21px #ddd7d7, -5px -5px 21px #efe9e9;
 }
 #follow {
   position: absolute;

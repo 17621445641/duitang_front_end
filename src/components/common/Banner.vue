@@ -22,7 +22,7 @@
 			<span>
 				<span v-show="!login_status" style="" class="register_login" @click="control_login_publish_page(1,1)">登录/注册</span>
 				<span v-show="login_status" class="login_message">
-					<router-link to="/personal_center">
+					<router-link to="/personal_center/dynamic_list">
 						<img  id="login_avatar" :src="user_message.avatar_image_url" alt="">
 						<span class="login_func" style="">
 							<span v-if="user_message.user_name!=null && user_message.user_name!=''">{{this.user_message.user_name}}</span>
@@ -90,7 +90,6 @@
 				<span>随时动态</span>
 				<span id="close" @click="control_login_publish_page()"><img src="../../assets/关闭.png" alt=""></span>
 			</div>
-			<!-- <div class="self_listdd"> -->
 			<el-input style="width: 94%; margin-left: 20px;margin-top: 10px;margin-bottom: 10px;"
 			:class="{border_style:border_style}"
 			type="textarea"
@@ -119,6 +118,7 @@
 			:http-request="uploadFile"
 			:limit='limit_count'
 			:on-exceed='upload_limit'
+			:before-upload="beforeimgUpload"
 			>
 			<!-- :http-request="uploadFile" -->
 			<i class="el-icon-plus"></i>
@@ -128,14 +128,12 @@
 			<img width="100%" :src="dialogImageUrl" alt="">
 			</el-dialog>
 			<div class="bottom">
-				<!-- <span><img src="../assets/图片.png" style="width:25px ;position: absolute;" alt=""></span> -->
 				<span >是否公开：</span>
 				<select name="" id="is_open" style="border: none;outline:none;margin:-2">
 					<option value="1" style="border: none;outline:none;margin:-2">公开</option>
 					<option value="0" style="border: none;outline:none;">仅自己</option>
 				</select>
 				<el-button style="margin-left: 410px;margin-bottom: 10px; background-color:#ff8200;border:none" size="small" type="primary" @click="submitUpload">发表</el-button>
-				<!-- <el-button style="margin-right: 10px;" size="small" type="primary" @click="submitUpload">发表</el-button> -->
 			</div>
 		</div>
 	</div>
@@ -193,6 +191,7 @@ export default {
     控制登录页面展示,option_action=1为打开页面，其他为关闭页面，what_page=1为打开登录页面，其他为打开动态发布页面
     */
 		control_login_publish_page(what_page,option_action) {
+			
 			if(option_action==1){
 				this.$refs.blockUI1.style.display = 'block'
 				if(what_page==1){
@@ -269,6 +268,9 @@ export default {
 			window.sessionStorage.clear();
 			window.localStorage.removeItem('user_id')
 			this.login_status = false
+			if(this.$route.path.indexOf('personal_center')!=-1){
+				this.$router.replace('/index')
+			}
 			location.reload()
 		},
 
@@ -285,12 +287,23 @@ export default {
 				.then(resp => {
 					if(resp.data.code==200){
 						var that = this;
-						that.user_message = resp.data.data;
-						localStorage.setItem('user_id', resp.data.data.user_id)
+						that.user_message = resp.data.data[0];
+						localStorage.setItem('user_id', that.user_message.user_id)
 						resolve(resp.data.code)
 					}
 					else{
 						rej(resp.data.code)
+						if(resp.data.code==1){
+							window.sessionStorage.clear()
+							window.localStorage.clear()
+							this.open3("登录已失效，请重新登录")
+						}else if(resp.data.code==2 ||resp.data.code==3){
+							window.sessionStorage.clear()
+							window.localStorage.clear()
+							this.open3("账户未登录，请先登录")
+						}else{
+							this.open3(resp.data.message)
+						}
 					}
 					
 				})
@@ -388,12 +401,13 @@ export default {
 		发布动态
 	*/
 		submitUpload(){
+			this.formDate = new FormData()
+			this.$refs.upload.submit();
+			this.formDate.append('article_type', 1);//1为动态，2为文章，目前只有动态发布
+			this.formDate.append('author_id', window.localStorage.getItem('user_id'));
+			this.formDate.append('article_content',this.dynamic_content );
+			this.formDate.append('view_status', 1);
 			this.view_status=document.getElementById('is_open').value
-			const param={
-			"article_type":1,
-			"article_content":this.dynamic_content,
-			"view_status":this.view_status
-			}
 			const config = {
 				headers: {
 				'Content-Type': 'application/json',
@@ -408,12 +422,13 @@ export default {
 				this.open3("请至少上传一张图片哦")
 				return
 			}
-			this.$axios.post("/api/dynamic_publish",param,config)
+			this.$axios.post("/api/dynamic_publish",this.formDate,config)
 			.then(resp => {
 			if (resp.data.code == 200) {
-				var that = this
-				that.article_id=resp.data.article_id
-				this.upload_img()//创建文章完成调用上传图片方法
+				this.open2('动态发布成功')
+				this.$refs.blockUI1.style.display = 'none'
+				this.$refs.blockUI3.style.display = 'none'
+				this.file_list=[]
 			}
 			else{
 				if(resp.data.code==1){
@@ -436,36 +451,25 @@ export default {
 		},
 
 	/* 
-	上传动态的图片数据
-	*/
-		upload_img(){
-			this.formDate = new FormData()
-			this.$refs.upload.submit();
-			// console.log(this.formDate)
-			this.formDate.append('article_id', this.article_id);//追加其他字段
-			let config = {
-				headers: {
-					'Content-Type': 'multipart/form-data',
-					'access_token':window.sessionStorage.getItem('access_token')
-				}
+    图片格式和大小限制
+    */
+		beforeimgUpload(file) {
+			const isJPG = file.type === 'image/jpeg' || file.type === 'image/png';
+			const isLt2M = file.size / 1024 / 1024 < 5;
+
+			if (!isJPG) {
+			this.$message.error('上传头像图片只能是jpg,png格式!');
 			}
-			this.$axios.post("/api/article_img", this.formDate,config)
-			.then( resp => {
-				if (resp.data.code == 200) {
-					this.open2("发布动态成功")
-					this.$refs.blockUI1.style.display='none'
-					document.getElementById('dynamic_publish').style.display='none'
-				}
-			}).catch( err => {
-				console.log("接口调用异常"+err)
-			})
+			if (!isLt2M) {
+			this.$message.error('上传头像图片大小不能超过5MB!');
+			}
+			return isJPG && isLt2M;
 		},
 
-
-		open2(message_data) {
+		open2(message_content) {
 			this.$message({
 				showClose: true,
-				message: message_data,
+				message: message_content,
 				type: 'success',
 				duration: 1500
 			});
@@ -486,25 +490,6 @@ export default {
 				duration: 1500
 			});
 		},
-		handleAvatarSuccess(res, file) {
-			this.open2("图片上传成功")
-			this.imageUrl = URL.createObjectURL(file.raw);
-		},
-		beforeAvatarUpload(file) {
-			const isJPG = file.type === 'image/jpeg';
-			const isLt2M = file.size / 1024 / 1024 < 2;
-
-			if(!isJPG) {
-				this.$message.error('上传头像图片只能是 JPG 格式!');
-			}
-			if(!isLt2M) {
-				this.$message.error('上传头像图片大小不能超过 2MB!');
-			}
-			return isJPG && isLt2M;
-		},
-
-
-
     
 	}
 }

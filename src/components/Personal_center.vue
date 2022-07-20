@@ -1,20 +1,18 @@
 <template>
 <div style="display:inline-block;width:100%;">
-	<!-- <div style="width:800px;height:300px;border:1px solid green;margin:auto"></div> -->
 	<div id="user_background" style="margin:auto">
 		<div id="background_image">
 			<img src="../assets/无标题.png" alt="">
 		</div>
-		<div id="avatar_image" @mouseenter="overShow($event)" @mouseleave="outHide($event)">
-			<img class="big_avatar" v-bind:src="message_list.avatar_image_url" alt="">
+		<div id="avatar_image">
 			<div class="mask">
 				<img style="width: 25px;height: 25px;border: none;position: absolute;top: 55%;transform: translateY(-50%);left: 40%" src="../assets/edit_avatar.png" alt="">
 			</div>
+
 			<el-upload
 					   class="avatar-uploader"
 					   action="http://127.0.0.1:8998/upload_avatar"
 					   :headers="headerMsg"
-					   :auto-upload="true"
 					   :show-file-list="false"
 					   :on-success="handleAvatarSuccess"
 					   :before-upload="beforeAvatarUpload">
@@ -33,7 +31,7 @@
 				<img style="width: 15px;margin-left: 5px;" src="../assets/女.png" alt="">
 			</span>
 			<span v-else style="font-size: 10px;color:gray">未知</span>
-			<router-link to="/self_message">
+			<router-link to="/personal_center/self_message">
 				<img style="padding-left: 5px;" src="../assets/edit.png">
 			</router-link>
 		</div>
@@ -50,16 +48,11 @@
 	</div>
 	<div id="message_navigation">
 		<div id="navigation_list">
-			<router-link to="/personal_center/self_message">
+      <router-link to="/personal_center/dynamic_list">
 				<div>
-					<img src="../assets/self_setting.png">个人中心</div>
+					<img src="../assets/dynamic.png">我的动态
+        </div>
 			</router-link>
-			<router-link to="/personal_center/dynamic_release">
-				<div>
-					<img src="../assets/dynamic.png">我的动态</div>
-			</router-link>
-			<div>
-				<img src="../assets/article.png">我的文章</div>
 			<router-link to="/personal_center/click_list">
 				<div>
 					<img src="../assets/like.png">我的点赞</div>
@@ -72,159 +65,99 @@
 				<div>
 					<img src="../assets/views.png">浏览记录</div>
 			</router-link>
+      <router-link to="/personal_center/self_message">
+				<div>
+					<img src="../assets/self_setting.png">个人中心</div>
+			</router-link>
 		</div>
 		<div id="message_content">
-			<router-view></router-view>
+			<router-view> </router-view>
 		</div>
-	</div>
-	<div id="model_list">
-		底部
 	</div>
 </div>
 </template>
 
 <script>
-import axios from 'axios'
 export default {
     data () {
-    return {
-      message_list:{},
-      imageUrl: '',
-      headerMsg:{access_token:window.sessionStorage.getItem("access_token")}
-    }
-},
-created(){
-    this.user_info()
-  },
+      return {
+        message_list:{},
+        imageUrl: '',
+        headerMsg:{access_token:window.sessionStorage.getItem("access_token")},
+      }
+    },
+    created(){
+      this.user_info()
+    },
+
     methods: {
     
-    user_info(){
-      axios.get('/api/userinfo',{
-         headers:{
-          access_token:window.sessionStorage.getItem('access_token')
-        }
-        })
-        .then(resp => {
+    /* 
+      查询用户信息
+    */
+      user_info(){
+        this.$axios.get('/api/userinfo',{
+          headers:{
+            access_token:window.sessionStorage.getItem('access_token')
+          }
+          })
+          .then(resp => {
             var that=this;
-            that.message_list=resp.data.data;
-        }).catch(err => { //
-            console.log('请求失败：'+ err.code + ',' + err.message);
-        });
-    },
-
-    send(){
-      if(window.sessionStorage.getItem("access_token")!=null){
-        this.login_status=true
-        this.user_info()
-      }
-
-    },
-    overShow(event){
-      event.currentTarget.firstElementChild.nextElementSibling.style.display = 'block'
-    },
-    outHide(event){
-      event.currentTarget.firstElementChild.nextElementSibling.style.display = 'none'
-    },
-    open2() {
-        this.$message({
-          showClose: true,
-          message: '更新成功',
-          type: 'success',
-          duration:1000
-        });
+            that.message_list=resp.data.data[0];
+            this.imageUrl=that.message_list.avatar_image_url
+          }).catch(err => { //
+              console.log("接口调用异常"+err);
+          });
       },
-    handleAvatarSuccess( res, file) {
-        this.open2()
+    /* 
+    头像上传成功后的提示展示及页面头像图片更新
+    */
+      handleAvatarSuccess( res, file) {
+        this.open2("更新头像成功")
         this.imageUrl = URL.createObjectURL(file.raw);
+        this.$parent.user_message.avatar_image_url=this.imageUrl
       },
+
+    /* 
+    图片格式限制
+    */
       beforeAvatarUpload(file) {
-        const isJPG = file.type === 'image/jpeg';
+        const isJPG = file.type === 'image/jpeg' || file.type === 'image/png';
         const isLt2M = file.size / 1024 / 1024 < 2;
 
         if (!isJPG) {
-          this.$message.error('上传头像图片只能是 JPG 格式!');
+          this.$message.error('上传头像图片只能是jpg,png格式!');
         }
         if (!isLt2M) {
-          this.$message.error('上传头像图片大小不能超过 2MB!');
+          this.$message.error('上传头像图片大小不能超过2MB!');
         }
         return isJPG && isLt2M;
-      }
-    // update_avatar(){
-    //   // this.$refs.upload.
-    //   this.$refs.fileRef.dispatchEvent(new MouseEvent('click'))
-    //   const file = this.$refs.img.files[0]
-    //   console.log(file)
-    //   const param = new FormData()
-    //   param.append('file', file)
-    //   const config = {
-    //     headers: {
-    //       'Content-Type': 'multipart/form-data'
-    //     }
-    //   }
-    //   this.$axios.post('/api/upload_avatar', param, config)
-    //     .then(res => {
-    //       console.log(res)
-    //       if (res.data.code === 200) {
-    //         this.$message.success(res.data.object)
-    //         this.AddGoodsForm = {}
-    //       }
-    //     })
-    //     .catch(err => {
-    //       console.log(err)
-    //     })
-    // },
-    // fileChange(){
-    //   // const file = this.$refs.files[0].name
-    //   const file = document.getElementById('up_file').value
-    //   // console.log(file)
-    //   const files="E:\/商品图片\/b1c2f157a769f21ca146648c26cc9f5a.jpeg"
-    //   console.log(files)
-    //   const param = new FormData()
-    //   param.append('file', files)
-    //   const config = {
-    //     headers: {
-    //       'Content-Type': 'multipart/form-data'
-    //     }
-    //   }
-    //   axios.post('/api/upload_avatar', param, config)
-    //     .then(res => {
-    //       console.log(res)
-    //       if (res.data.code === 200) {
-    //         this.$message.success(res.data.object)
-    //         this.AddGoodsForm = {}
-    //       }
-    //     })
-    //     .catch(err => {
-    //       console.log(err)
-    //     })
-    // },
-    
-    // click_method(){
-    // if(this.from_path=='/like'){
-    //   axios.get('/api/click_list',{
-    //     })
-    //     .then(resp => {
-    //         var that=this
-    //         that.click_list=resp.data.data;
-    //         console.log(2)
-    //         console.log(that.click_list)
-    //     }).catch(err => { //
-    //         console.log('请求失败：'+ err.code + ',' + err.message);
-    //     });
-    // }
-      
-    // }
-    // click_history(){
-    //   axios.get('/api/click_list',{
-    //     })
-    //     .then(resp => {
-    //         var that=this;
-    //         that.click_list=resp.data.data;
-    //         // console.log(that.message_list);
-    //     }).catch(err => { //
-    //         console.log('请求失败：'+ err.code + ',' + err.message);
-    //     });
-    // }
+      },
+
+      open2(message_content) {
+			this.$message({
+				showClose: true,
+				message: message_content,
+				type: 'success',
+				duration: 1500
+			});
+		},
+		open3(message_content) {
+			this.$message({
+			showClose: true,
+			message: message_content,
+			type: 'warning',
+			duration: 1500
+			});
+      	},
+		open4(message_content) {
+			this.$message({
+				showClose: true,
+				message: message_content,
+				type: 'error',
+				duration: 1500
+			});
+		},
   }
 }
 </script>

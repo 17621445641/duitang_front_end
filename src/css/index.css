@@ -25,22 +25,21 @@ html {
   left: 50%;
   top: -50%;
   transform: translateX(-50%);
-  /* box-shadow: 1px 1px #999999; */
-  border: 2px solid white;
+  box-shadow: 9px 9px 18px #ddd7d7, -9px -9px 18px #efe9e9;
+  /* border: 2px solid white; */
 }
 .mask {
   display: none;
   background: rgba(0, 0, 0, 0.3);
   cursor: pointer;
-  /* background-color: #141414;
-    opacity: 0; */
   border-radius: 100px;
   width: 100px;
   height: 100px;
   position: absolute;
-  top: -50%;
+  top: -80%;
   text-align: center;
-  /* line-height: 120px; */
+  z-index: 9999999;
+  /* transform: translateY(-50%); */
 }
 #avatar_image {
   height: 50px;
@@ -76,11 +75,7 @@ html {
 #message_navigation {
   margin: auto;
   width: 1000px;
-  /* margin-left: 50%; */
-  /* display: inline-block; */
-  /* margin-left: 50% */
   padding: 0;
-  /* transform: translateX(-50%); */
   margin-top: 50px;
 }
 #navigation_list {
@@ -91,10 +86,6 @@ html {
 #message_content {
   width: 800px;
   margin-left: 200px;
-  /* border: 1px solid red; */
-}
-#message_content {
-  /* border: 1px solid black; */
 }
 #navigation_list div {
   height: 50px;
@@ -117,27 +108,23 @@ a {
   color: #000;
 }
 .avatar-uploader .el-upload {
-  border: 1px dashed #d9d9d9;
+  border: none;
   border-radius: 100px;
   cursor: pointer;
   position: absolute;
   overflow: hidden;
   left: 50%;
-  top: -50%;
-  opacity: 0;
-  /* transform: translateY(50%); */
+  top: -80%;
   transform: translateX(-50%);
+  background: #e6e0e0;
+  box-shadow: 9px 9px 18px #ddd7d7, -9px -9px 18px #efe9e9;
 }
-/* .avatar-uploader .el-upload:hover {
-    border-color: #409EFF;
-  } */
 .avatar-uploader-icon {
   font-size: 28px;
   color: #8c939d;
-  width: 100px;
-  height: 100px;
-  line-height: 100px;
-  border-radius: 100px;
+  width: 178px;
+  height: 178px;
+  line-height: 178px;
   text-align: center;
 }
 .avatar {
@@ -249,7 +236,7 @@ body {
   transform: translateY(-50%);
 }
 #tt {
-  height: 34px;
+  height: 34.5px;
   width: 50px;
   padding-left: 10px;
   background-image: url(../assets/20180604174931_4sKYz.png);
@@ -299,7 +286,8 @@ body {
   padding-bottom: 10px;
   border-radius: 15px;
   overflow: hidden;
-  box-shadow: 1px 1px 2px 1px rgba(22, 22, 22, 0.1);
+  background: #f3f2f2;
+  box-shadow: 8px 8px 31px #cfcaca, -8px -8px 31px #fdf6f6;
 }
 .content_image {
   width: 100%;
@@ -307,7 +295,7 @@ body {
   cursor: pointer;
 }
 .author_headphoto {
-  box-shadow: 1px 1px 1px 1px rgb(212, 212, 212);
+  box-shadow: 5px 5px 21px #ddd7d7, -5px -5px 21px #efe9e9;
   width: 32px;
   height: 32px;
   border-radius: 35px;
@@ -396,11 +384,11 @@ body {
   width: 100%;
   height: 100%;
   position: absolute;
-  background: rgba(0, 0, 0, 0.3);
   top: 0;
   left: 0;
   display: none;
   cursor: pointer;
+  background: rgba(0, 0, 0, 0.4);
 }
 #login_avatar {
   position: absolute;
@@ -409,7 +397,7 @@ body {
   width: 36px;
   border-radius: 36px;
   height: 36px;
-  box-shadow: 1px 1px #dcdcdc;
+  box-shadow: 5px 5px 21px #ddd7d7, -5px -5px 21px #efe9e9;
 }
 .login_func {
   display: inline-block;
