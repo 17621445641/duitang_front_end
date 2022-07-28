@@ -46,34 +46,37 @@
 			<span v-else>暂无简介</span>
 		</div>
 	</div>
-	<div id="message_navigation">
+	<div id="message_navigation" >
 		<div id="navigation_list">
-      <router-link to="/personal_center/dynamic_list">
-				<div>
-					<img src="../assets/dynamic.png">我的动态
-        </div>
+      		<router-link to="/personal_center/dynamic_list">
+				<div tabindex="1">
+					<img src="../assets/dynamic.png">我发布的
+        		</div>
 			</router-link>
-			<router-link to="/personal_center/click_list">
-				<div>
-					<img src="../assets/like.png">我的点赞</div>
+			<router-link to="/personal_center/collect_list">
+				<div tabindex="1">
+					<img src="../assets/collect.png">收藏
+				</div>
 			</router-link>
 			<router-link to="/personal_center/like_list">
-				<div>
-					<img src="../assets/like.png">我的喜欢</div>
+				<div tabindex="1">
+					<img src="../assets/like.png">喜欢
+				</div>
 			</router-link>
 			<router-link to="/personal_center/views_histroy">
-				<div>
-					<img src="../assets/views.png">浏览记录</div>
+				<div tabindex="1">
+					<img src="../assets/views.png">浏览记录
+				</div>
 			</router-link>
-      <router-link to="/personal_center/self_message">
-				<div>
-					<img src="../assets/self_setting.png">个人中心</div>
+      		<router-link to="/personal_center/self_message">
+				<div tabindex="1">
+					<img src="../assets/self_setting.png">个人中心
+				</div>
 			</router-link>
 		</div>
-		<div id="message_content">
-			<router-view> </router-view>
-		</div>
+			<router-view id="message_content"> </router-view>
 	</div>
+	
 </div>
 </template>
 
@@ -86,9 +89,12 @@ export default {
         headerMsg:{access_token:window.sessionStorage.getItem("access_token")},
       }
     },
+
     created(){
       this.user_info()
+		  
     },
+	
 
     methods: {
     
@@ -134,7 +140,7 @@ export default {
         return isJPG && isLt2M;
       },
 
-      open2(message_content) {
+      	open2(message_content) {
 			this.$message({
 				showClose: true,
 				message: message_content,

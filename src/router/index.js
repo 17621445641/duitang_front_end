@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Click_list from '@/components/Click_list'
+import Collect_list from '@/components/Collect_list'
 import Views_list from '@/components/Views_list'
 import Like_list from '@/components/Like_list'
 import Self_message from '@/components/Self_message'
@@ -58,8 +58,8 @@ export default new Router({
                 component: Views_list,
               },
               {
-                path:'click_list',
-                component: Click_list,
+                path:'collect_list',
+                component: Collect_list,
               },
               {
                 path:'dynamic_list',

@@ -79,7 +79,7 @@ html {
   margin-top: 50px;
 }
 #navigation_list {
-  width: 200px;
+  width: 180px;
   float: left;
   border: 1px solid rgb(243, 243, 243);
 }
@@ -94,14 +94,16 @@ html {
   position: relative;
 }
 #navigation_list div:hover {
-  background-color: rgb(245, 244, 244);
-  cursor: pointer;
+  background-color: rgb(240, 240, 240);
+}
+#navigation_list div:focus {
+  background-color: rgb(240, 240, 240);
 }
 #navigation_list img {
   width: 25px;
   position: absolute;
   top: 12px;
-  left: 35px;
+  left: 25px;
 }
 a {
   text-decoration: none; /* 去除默认的下划线 */
@@ -419,13 +421,12 @@ body {
 #login_out:hover {
   cursor: pointer;
 }
-/* .login_message:hover{
-    cursor: pointer;
-    
-} */
 .login_message {
   display: inline-block;
   transform: translateY(50%);
   position: absolute;
   right: 5%;
+}
+.el-textarea__inner:focus {
+  border: 1px solid #ff8200;
 }

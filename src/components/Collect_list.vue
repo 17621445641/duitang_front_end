@@ -21,19 +21,15 @@
     <div v-bind:key="index" v-for="(site,index) in dynamic_list">
 		<div class="article_info">
 			<div class="article_author">
-                <img v-bind:src="user_message.avatar_image_url" alt="">
-                <div v-if="user_message.user_name==''" style="padding-top: 25px;font-size:16px;margin-left: 90px;">
+                <img v-bind:src="site.avatar_image_url" alt="">
+                <div v-if="site.user_name==''" style="padding-top: 25px;font-size:16px;margin-left: 90px;">
                 </div>
                 <div v-else style="padding-top: 25px;font-size:16px;margin-left: 90px;">
-                    {{user_message.user_name}}
+                    {{site.user_name}}
                 </div>
 				<div style="font-size:10px;color:gray;padding-top: 5px;margin-left: 90px">
-                    {{site.create_time}} 发布自网页客户端
+                    {{site.article_create_time}} 发布自网页客户端
 				</div>
-                <span class='is_show' @click="update_view_status(index)">
-                    <span v-if="site.view_status==1" >设为私密</span>
-                    <span v-else>设为公开</span>
-                </span>
 			</div> 
             <div>  
 			<div class="article_content">{{site.article_content}}</div>
@@ -124,7 +120,6 @@ export default {
     data () {
         return {
             dynamic_list:[], //文章列表信息
-            user_message:{},//用户信息
             all_imglist:{},//文章的图片信息
             reply_title:"",
             reply_id:'',
@@ -159,16 +154,15 @@ export default {
     },
     created(){
         this.get_dynamic_list()
-        this.user_info()
 
     },
 
     methods: {
     /* 
-		获取我的动态
+		获取我的收藏列表
 	*/
 		get_dynamic_list(){
-			this.$axios.get('/api/my_dynamic', {
+			this.$axios.get('/api/collect_list', {
 					headers: {
 						access_token: window.sessionStorage.getItem('access_token')
 					}
@@ -181,7 +175,9 @@ export default {
                         this.all_imglist[i]=that.dynamic_list[i].article_img.replace(/\"/g, '').replace(/\[/g, '').replace(/\]/g, '').split(',')
                         this.comment_data[i]=[]
                         this.comment_img_test[i]=cancel_comment
+                        
                     }
+                    
                 }
                 else{
                     rej(resp.data.code)
@@ -203,59 +199,6 @@ export default {
                 console.log("接口调用异常"+err);
             });
 		},
-
-
-    /* 
-      查询用户信息
-    */
-      user_info(){
-        this.$axios.get('/api/userinfo',{
-          headers:{
-            access_token:window.sessionStorage.getItem('access_token')
-          }
-          })
-          .then(resp => {
-            var that=this;
-            that.user_message=resp.data.data[0];
-          }).catch(err => { //
-              console.log("接口调用异常"+err);
-          });
-      },
-
-
-      /* 
-      更新动态可见状态
-      */
-        update_view_status(index){
-            let article_id=this.dynamic_list[index].article_id
-            let view_status_code
-            if(this.dynamic_list[index].view_status==1){
-               
-                view_status_code=0
-            }
-            else{
-                view_status_code=1
-            }
-            const config={
-                headers: {
-                    'access_token': window.sessionStorage.getItem('access_token')
-                },
-            }
-            const param = {
-				"article_id": article_id,
-				"view_status": view_status_code
-			}
-			this.$axios.post("/api/update_view_status", param,config)
-            .then(resp=>{
-                if(resp.data.code==200){
-                    this.dynamic_list[index].view_status=view_status_code
-                    this.open2("更新状态成功")
-                }
-            }).catch(err=>{
-                console.log("接口调用异常"+err);
-            })
-        },
-
     
     /* 
     文章喜欢/取消喜欢,like_action=1为喜欢,like_action=0为取消喜欢
@@ -531,7 +474,7 @@ export default {
         },
 
         open2(message_content) {
-			this.$message({
+			  this.$message({
 				showClose: true,
 				message: message_content,
 				type: 'success',

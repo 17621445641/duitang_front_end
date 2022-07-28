@@ -1,24 +1,52 @@
-
-.attr{
-    width: 100px;
-    text-align: right;
-    vertical-align: top;
-    display: inline-block;
+.attr {
+  width: 100px;
+  text-align: right;
+  line-height: 30px;
+  display: inline-block;
 }
-.sex_option{
-    width: 35px !important;
+.sex_option {
+  width: 35px !important;
 }
-.self_list{
-    margin-bottom: 20px;
-    top: 50%;
+.self_list {
+  margin-bottom: 30px;
 }
-#self_message{
-    padding-top: 80px;
-    /* display: inline-block; */
-    /* width: 700px; */
-    /* margin-bottom: 100px; */
+#self_message {
+  padding-top: 80px;
 }
-/* .self_list input{
-    height: 20px;
-    line-height: 20px;
-} */
+.self_list {
+  font-size: 14px;
+}
+#update_btn {
+  display: inline-block;
+  font-size: 14px;
+  padding: 5px 10px;
+  background-color: #ff8200;
+  border-radius: 5px;
+  color: white;
+  cursor: pointer;
+  margin-left: 20px;
+}
+.el-input__inner:focus {
+  border: 1px solid #ff8200;
+}
+.el-cascader .el-input .el-input__inner:focus {
+  border: 1px solid #ff8200;
+}
+.el-date-table td.current:not(.disabled) span {
+  background-color: #ff8200;
+}
+.el-radio__input.is-checked .el-radio__inner {
+  border-color: #ff8200;
+  background: #ff8200;
+}
+.el-radio__innerr:hover {
+  color: #ff8200;
+}
+.el-radio__input.is-checked + .el-radio__label {
+  color: #ff8200;
+}
+.el-cascader-node.in-active-path,
+.el-cascader-node.is-active,
+.el-cascader-node.is-selectable.in-checked-path {
+  color: #ff8200;
+}

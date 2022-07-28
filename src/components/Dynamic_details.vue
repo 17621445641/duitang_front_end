@@ -18,7 +18,7 @@
 			<div>
 				<div id="dynamic_content">{{article_details.article_content}}</div>
 				<!-- css中有white-space: pre-wrap属性时，标签和内容不能有换行 -->
-				<div id="dynamic_img">
+				<div id="dynamic_img" >
 					<!-- <img v-bind:key="index" v-for="(site,index) in article_imgs" :src="site" alt="" > -->
 					<div class="demo-image__preview">
 						<el-image v-bind:key="index" v-for="(site,index) in article_imgs"
@@ -46,7 +46,7 @@
 					<span style="display: inline-block;margin-left:5px; transform: translateY(-25%);"></span>
 				</span>
 				<div id="comment" style="display:none;">
-					<el-input style="width: 94%;margin-top: 10px;margin-bottom: 10px;"
+					<el-input style="width: 80%;margin-top: 10px;margin-bottom: 10px;"
                         type="textarea"
                         placeholder="发布你的评论~"
                         v-model="comment_publish"
@@ -55,7 +55,7 @@
                         :rows="1"
                         :autosize="{ minRows: 1, maxRows: 18}">
 					</el-input>
-					<div style="padding-bottom:10px;border-bottom:1px solid #f7f6f6;margin-bottom:10px">
+					<div style="padding-bottom:10px;border-bottom:1px solid #f7f6f6;margin-bottom:10px;margin-right:48px">
 						<u @click="publish_comment()">评论</u>
 					</div>
 					<div id="comment_content" v-if="comment_data.length>0">
@@ -120,8 +120,8 @@
 </template>
 
 <script>
-import like from '../assets/like.png'//点赞图片
-import cancel_like from "../assets/cancel_like.png"//取消点赞图片
+import like from '../assets/like.png'//喜欢图片
+import cancel_like from "../assets/cancel_like.png"//取消喜欢图片
 import collect from "../assets/collect.png"//收藏图片
 import cancel_collect from "../assets/cancel_collect.png"//取消收藏图片
 import comment from "../assets/comment.png"//评论图片
@@ -602,6 +602,6 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 @import url('../css/Dynamic_details.css');
 </style>

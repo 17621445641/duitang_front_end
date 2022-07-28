@@ -52,7 +52,7 @@
 					<div id=login_message>
 						<div class="login_input">
 							<span>邮箱/手机号：</span>
-							<input type="text" ref="account" placeholder="请输入邮箱或手机号">
+							<input type="text" ref="account" placeholder="请输入邮箱或手机号" >
 						</div>
 						<div class="login_input">
 							<span>密码：</span>
@@ -84,6 +84,7 @@
 			</div>
 		</div>
 	</div>
+	<!-- 页面蒙版 + 发布动态页面-->
 	<div ref="blockUI3" class="blockUI blockMsg blockPage" style="display:none;z-index: 9011;border-radius: 12px; position: fixed; padding: 0px; margin: -274.5px 0px 0px -330px; top: 60%; left: 50%; text-align: left; color: black; border: none; background: white; cursor: default; ">
 		<div id="dynamic_publish">
 			<div id="dynamic_title">
@@ -137,7 +138,7 @@
 			</div>
 		</div>
 	</div>
-	<router-view ref='child' class="inter_page"  style="min-height: calc(100vh - 180px);">
+	<router-view ref='child' class="inter_page"  style="min-height: calc(100vh - 180px);" >
 
 	</router-view>
 
@@ -171,15 +172,7 @@ export default {
 			border_style:false
 		}
 	},
-	//  beforeRouteEnter(to, from, next){
-	//   next((vm)=>{
-	//     vm.from_path=from.path
-	//     vm.click_method()
-	//     console.log(1)
-	//     // console.log("vm:",from)
-	//   })
-	//   next()
-	// },
+
 
 	created() { 
 		this.judge_login()//判断用户是否已登录过
