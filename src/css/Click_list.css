@@ -7,8 +7,7 @@
   background-color: white;
   border: 1px solid #f0f1f4;
   border-radius: 10px;
-  background: #f3f2f2;
-  box-shadow: 8px 8px 31px #cfcaca, -8px -8px 31px #fdf6f6;
+  /* box-shadow: 8px 8px 31px #cfcaca, -8px -8px 31px #fdf6f6; */
 }
 .article_author {
   position: relative;
@@ -46,6 +45,7 @@
   top: 25px;
   font-size: 13px;
   padding: 4px 8px;
+  padding-left: 30px;
   border-radius: 14px;
   cursor: pointer;
   color: #ff8200;

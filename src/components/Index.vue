@@ -1,5 +1,6 @@
 <template>
 <div id='mid' style='padding-top: 100px;'>
+    <img @click="goScrollTop" ref="go_scrolltop"  src="../assets/scrolltop.png" alt="" id='go_scrolltop' >
 	<div class="content_data">
 		<span v-bind:key="index" v-for="(site,index) in article_list" class="ms">
 			<div v-if='(index)%5==0 && site.article_id!=""' class="content">
@@ -10,7 +11,7 @@
 				</div>
 				<div class="txt_content">{{site.article_content}}</div>
 				<div class="txt_author">
-					<img class="author_headphoto" :src="site.avatar_image_url" alt="">
+					<img class="author_headphoto" :src="site.avatar_image_url" alt="" @click='go_homepage(index)'>
 					<span class="author_name">{{site.name}} </span>
 					<img class="txt_like" @click="dynamic_like(index,1)" v-if="site.like_status!=1" :src="cancel_like_img" alt="">
 					<img @click="dynamic_like(index,0)" class="txt_like" v-else :src="like_img" alt="">
@@ -30,7 +31,7 @@
 				</div>
 				<div class="txt_content">{{site.article_content}}</div>
 				<div class="txt_author">
-					<img class="author_headphoto" :src="site.avatar_image_url" alt="">
+					<img class="author_headphoto" :src="site.avatar_image_url" alt="" @click='go_homepage(index)'>
 					<span class="author_name">{{site.name}} </span>
 					<img class="txt_like" @click="dynamic_like(index,1)" v-if="site.like_status!=1" :src="cancel_like_img" alt="">
 					<img @click="dynamic_like(index,0)" class="txt_like" v-else :src="like_img" alt="">
@@ -50,7 +51,7 @@
 				</div>
 				<div class="txt_content">{{site.article_content}}</div>
 				<div class="txt_author">
-					<img class="author_headphoto" :src="site.avatar_image_url" alt="">
+					<img class="author_headphoto" :src="site.avatar_image_url" alt="" @click='go_homepage(index)'>
 					<span class="author_name">{{site.name}} </span>
 					<img class="txt_like" @click="dynamic_like(index,1)" v-if="site.like_status!=1" :src="cancel_like_img" alt="">
 					<img @click="dynamic_like(index,0)" class="txt_like" v-else :src="like_img" alt="">
@@ -70,7 +71,7 @@
 				</div>
 				<div class="txt_content">{{site.article_content}}</div>
 				<div class="txt_author">
-					<img class="author_headphoto" :src="site.avatar_image_url" alt="">
+					<img class="author_headphoto" :src="site.avatar_image_url" alt="" @click='go_homepage(index)'>
 					<span class="author_name">{{site.name}}</span>
 					<img class="txt_like" @click="dynamic_like(index,1)" v-if="site.like_status!=1" :src="cancel_like_img" alt="">
 					<img @click="dynamic_like(index,0)" class="txt_like" v-else :src="like_img" alt="">
@@ -90,7 +91,7 @@
 				</div>
 				<div class="txt_content">{{site.article_content}}</div>
 				<div class="txt_author">
-					<img class="author_headphoto" :src="site.avatar_image_url" alt="">
+					<img class="author_headphoto" :src="site.avatar_image_url" alt="" @click='go_homepage(index)'>
 					<span class="author_name">{{site.name}}</span>
 					<img class="txt_like" @click="dynamic_like(index,1)" v-if="site.like_status!=1" :src="cancel_like_img" alt="">
 					<img @click="dynamic_like(index,0)" class="txt_like" v-else :src="like_img" alt="">
@@ -109,7 +110,7 @@ export default {
     data () {
         return {
             article_list:[],
-            article_id:9999,
+            // article_id:9999,
             message_list:[],
             like_img:like,
             cancel_like_img:cancel_like,
@@ -118,10 +119,38 @@ export default {
     },
 
     created(){
+        window.addEventListener("scroll", this.scrollHandle);
         this.get_article_list(this.$route.query.search_word)
     },
-
+    destroyed(){
+        window.removeEventListener("scroll", this.scrollHandle);
+    },
     methods: {
+
+    /* 
+    回到顶部
+    */
+        goScrollTop(){
+            window.scrollTo({
+                top:0,
+                left:0,
+                behavior:'smooth'
+            })
+        },
+
+    /* 
+    控制回到顶部按钮展示
+    */
+        scrollHandle(e){
+            let top = e.srcElement.scrollingElement.scrollTop;    // 获取页面滚动高度
+            if(top>=1*(window.innerHeight)){
+                this.$refs.go_scrolltop.style.display='block'
+            }
+            else{
+                this.$refs.go_scrolltop.style.display='none'
+            } 
+        },
+
 
     /* 
     控制蒙版的显示
@@ -175,7 +204,7 @@ export default {
             }
             this.$axios({
                 headers: {
-                    'access_token': window.sessionStorage.getItem('access_token')
+                    'access_token': window.localStorage.getItem('access_token')
                 },
                 method: 'post',
                 url: '/api/article_like',
@@ -194,11 +223,11 @@ export default {
             }
             else{
                 if(resp.data.code==1){
-                    window.sessionStorage.clear()
+                    window.localStorage.clear()
                     window.localStorage.clear()
                     this.open3("登录已失效，请重新登录")
                 }else if(resp.data.code==2 ||resp.data.code==3){
-                    window.sessionStorage.clear()
+                    window.localStorage.clear()
                     window.localStorage.clear()
                     this.open3("账户未登录，请先登录")
                 }else{
@@ -210,6 +239,25 @@ export default {
                 console.log("接口调用异常"+err)
                 return false
             })
+        },
+
+    /* 
+    跳转作者主页
+    */    
+        go_homepage(index){
+            if(this.article_list[index].author_id==window.localStorage.getItem('user_id')){
+                this.$router.push('/personal_center/dynamic_list')
+            }
+            else{
+                let new_window=this.$router.resolve({
+				path:'/homepage/author_dynamic',
+				query:{
+					author_id:this.article_list[index].author_id
+				}
+			    })
+			    window.open(new_window.href, '_blank')
+            }
+            
         },
     open3(message_content) {
         this.$message({

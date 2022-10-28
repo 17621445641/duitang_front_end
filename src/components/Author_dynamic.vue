@@ -1,13 +1,14 @@
 <template>
-<div>
-    <div v-if="dynamic_list==''" style="color:gray;text-align:center;padding-top:100px">
-        暂时没有内容哦，快去收藏吧~
+    <div>
+        <div v-if="dynamic_list==''" style="color:gray;text-align:center;padding-top:100px">
+        他还没有发布内容哦，去别处看看吧~
     </div>
     <div v-else>
     <el-dialog class="zhe" 
     :title="reply_title"
     :visible.sync="dialogVisible"
     width="40%"
+    :lock-scroll='false'
     >
     <el-input style="width: 100%;margin-top: 10px;margin-bottom: 10px;" 
     type="textarea"
@@ -25,14 +26,14 @@
     <div v-bind:key="index" v-for="(site,index) in dynamic_list">
 		<div class="article_info">
 			<div class="article_author">
-                <img v-bind:src="site.avatar_image_url" alt="">
-                <div v-if="site.user_name==''" style="padding-top: 25px;font-size:16px;margin-left: 90px;">
+                <img v-bind:src="user_message.avatar_image_url" alt="">
+                <div v-if="user_message.user_name==''" style="padding-top: 25px;font-size:16px;margin-left: 90px;">
                 </div>
                 <div v-else style="padding-top: 25px;font-size:16px;margin-left: 90px;">
-                    {{site.user_name}}
+                    {{user_message.user_name}}
                 </div>
 				<div style="font-size:10px;color:gray;padding-top: 5px;margin-left: 90px">
-                    {{site.article_create_time}} 发布自网页客户端
+                    {{site.create_time}} 发布自网页客户端
 				</div>
 			</div> 
             <div>  
@@ -106,12 +107,9 @@
 			</div>
 		</div>
 	</div>
-    </div>
-    
 </div>
-
+    </div>
 </template>
-
 <script>
 import like from '../assets/like.png'//喜欢图片
 import cancel_like from "../assets/cancel_like.png"//取消喜欢图片
@@ -122,10 +120,10 @@ import cancel_comment from "../assets/cancel_comment.png"//取消评论图片
 import comment_click from '../assets/click.png'
 import cancel_comment_click from '../assets/cancel_click.png'
 export default {
-    
-    data () {
-        return {
+    data(){
+        return{
             dynamic_list:[], //文章列表信息
+            user_message:{},//用户信息
             all_imglist:{},//文章的图片信息
             reply_title:"",
             reply_id:'',
@@ -158,20 +156,41 @@ export default {
             comment_img_test:[],
         }
     },
+    
     created(){
-        this.get_dynamic_list()
-
+        
+        this.get_author_dynamic()
+        this.get_authorinfo()
     },
-
-    methods: {
+    
+    methods:{
     /* 
-		获取我的收藏列表
+    查询文章作者信息
+    */
+        get_authorinfo(){
+				this.$axios.get('/api/author_info',{
+                params:{
+                    author_id:this.$route.query.author_id
+                }
+            })
+            .then(resp => {
+                var that=this;
+                that.user_message=resp.data.data;
+				
+            }).catch(err => { //
+                console.log('请求失败：'+ err.code + ',' + err.message);
+            })
+            
+        },
+    /* 
+		获取作者动态
 	*/
-		get_dynamic_list(){
-			this.$axios.get('/api/collect_list', {
-					headers: {
-						access_token: window.localStorage.getItem('access_token')
-					}
+        get_author_dynamic(){
+			this.$axios.get('/api/author_dynamic', {
+                params:{
+                    author_id:this.$route.query.author_id,
+                    user_id:window.localStorage.getItem('user_id')
+                }
             })
             .then(resp => {
                 if(resp.data.code==200){
@@ -181,9 +200,7 @@ export default {
                         this.all_imglist[i]=that.dynamic_list[i].article_img.replace(/\"/g, '').replace(/\[/g, '').replace(/\]/g, '').split(',')
                         this.comment_data[i]=[]
                         this.comment_img_test[i]=cancel_comment
-                        
                     }
-                    
                 }
                 else{
                     rej(resp.data.code)
@@ -205,7 +222,7 @@ export default {
                 console.log("接口调用异常"+err);
             });
 		},
-    
+
     /* 
     文章喜欢/取消喜欢,like_action=1为喜欢,like_action=0为取消喜欢
     */
@@ -480,18 +497,17 @@ export default {
         },
 
         open2(message_content) {
-			  this.$message({
+			this.$message({
 				showClose: true,
 				message: message_content,
 				type: 'success',
 				duration: 1500
 			});
 		},
-}
+    }
+		
 }
 </script>
-
-
 <style>
 @import url('../css/Click_list.css');
 @import url('../css/Dynamic_details.css');

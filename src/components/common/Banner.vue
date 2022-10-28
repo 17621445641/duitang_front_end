@@ -161,7 +161,7 @@ export default {
 			mess: this.$route.query.search_word,//获取路由携带的参数
 			dynamic_content:'',
 			dialogImageUrl: '',
-			headerMsg:{access_token:window.sessionStorage.getItem('access_token')},
+			headerMsg:{access_token:window.localStorage.getItem('access_token')},
 			dialogVisible: false,
 			file_list:[],
 			formDate:"",
@@ -193,13 +193,14 @@ export default {
 					this.$refs.blockUI2.style.display = 'block'
 				}
 				else{
-					this.dynamic_content=''
-					this.$refs.upload.clearFiles()
+					
 					this.$refs.blockUI3.style.display = 'block'
 				}
 
 			}
 			else{
+				this.dynamic_content=''//清空动态文字
+				this.$refs.upload.clearFiles()//清空动态图片
 				this.$refs.blockUI1.style.display = 'none'
 				this.$refs.blockUI2.style.display = 'none'
 				this.$refs.blockUI3.style.display = 'none'
@@ -229,8 +230,10 @@ export default {
 			this.$axios.post("/api/login", param)
 				.then(resp => {
 					if(resp.data.code == 200) {
-						sessionStorage.setItem("access_token", resp.data.access_token)
+						localStorage.setItem("access_token", resp.data.access_token)
 						that.login_status = true
+						// if(this.$route.path=='/homepage/author_dynamic')
+						
 						this.control_login_publish_page()
 						this.user_info().then(resolve=>{
 							if(resolve==200 && this.$route.path=='/index'){//当user_info接口调用成功后且当前页面为index时，重新获取文章列表
@@ -243,6 +246,15 @@ export default {
 								// this.$refs.child.get_article_details() 
 								location.reload()
 								})
+							}
+							if(this.$route.path=='/homepage/author_dynamic'){
+								let user_id=window.localStorage.getItem('user_id')
+								let author_id=this.$route.query.author_id
+								if(user_id==author_id){
+									this.$router.push('/personal_center/dynamic_list')
+								}
+								location.reload()
+								
 							}
 						})
 					} else {
@@ -258,10 +270,10 @@ export default {
     退出登录
     */
 		login_out() {
-			window.sessionStorage.clear();
+			window.localStorage.clear();
 			window.localStorage.removeItem('user_id')
 			this.login_status = false
-			if(this.$route.path.indexOf('personal_center')!=-1){
+			if(this.$route.path.indexOf('personal_center')!=-1||this.$route.path.indexOf('homepage')!=-1){
 				this.$router.replace('/index')
 			}
 			location.reload()
@@ -274,7 +286,7 @@ export default {
       		return new Promise((resolve,rej) => {
 				this.$axios.get('/api/userinfo', {
 					headers: {
-						access_token: window.sessionStorage.getItem('access_token')
+						access_token: window.localStorage.getItem('access_token')
 					}
 				})
 				.then(resp => {
@@ -287,11 +299,11 @@ export default {
 					else{
 						rej(resp.data.code)
 						if(resp.data.code==1){
-							window.sessionStorage.clear()
+							window.localStorage.clear()
 							window.localStorage.clear()
 							this.open3("登录已失效，请重新登录")
 						}else if(resp.data.code==2 ||resp.data.code==3){
-							window.sessionStorage.clear()
+							window.localStorage.clear()
 							window.localStorage.clear()
 							this.open3("账户未登录，请先登录")
 						}else{
@@ -310,7 +322,7 @@ export default {
     自动登录
     */
 		judge_login() { //判断用户是否登录过
-			if(window.sessionStorage.getItem("access_token") != null) {
+			if(window.localStorage.getItem("access_token") != null) {
 				this.login_status = true
 				this.user_info()
 			}
@@ -404,7 +416,7 @@ export default {
 			const config = {
 				headers: {
 				'Content-Type': 'application/json',
-				'access_token':window.sessionStorage.getItem('access_token')
+				'access_token':window.localStorage.getItem('access_token')
 				}
 			}
 			if(this.dynamic_content==''){
@@ -425,11 +437,11 @@ export default {
 			}
 			else{
 				if(resp.data.code==1){
-					window.sessionStorage.clear()
+					window.localStorage.clear()
 					window.localStorage.clear()
 					this.open3("登录已失效，请重新登录")
 				}else if(resp.data.code==2 ||resp.data.code==3){
-					window.sessionStorage.clear()
+					window.localStorage.clear()
 					window.localStorage.clear()
 					this.open3("账户未登录，请先登录")
 				}else{

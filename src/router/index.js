@@ -12,12 +12,17 @@ import Personal_center from '@/components/Personal_center'
 import Dynamic_details from '@/components/Dynamic_details'
 import Register_updatepwd from '@/components/Register_updatepwd'
 import Banner from '@/components/common/Banner'
+import concerns from '@/components/Concerns'
+import fans from '@/components/Fans'
+import homepage from '@/components/Homepage'
+import Author_dynamic from '@/components/Author_dynamic'
 Vue.use(Router)
 const originalPush = Router.prototype.push
 Router.prototype.push = function push(location) {//用来消除router.push的报错信息
-return originalPush.call(this, location).catch(err => err)
+  return originalPush.call(this, location).catch(err => err)
 }
 export default new Router({
+    
     mode:'history',//去除地址的#号
     routes: [
       {
@@ -45,28 +50,54 @@ export default new Router({
             // }
           },
           {
+            path:'/homepage',
+            name:'用户主页',
+            component: homepage,
+            children:[
+              {
+                  path:'author_dynamic',
+                  name:'个人中心',
+                  component: Author_dynamic
+              }]
+          },
+          {
             path:'/personal_center',//加/则不需要输入父组件地址即可访问，没加/则需要输入父组件地址才可访问
             name:'个人中心',
             component: Personal_center,
             children:[
               {
                   path:'self_message',
+                  name:'个人中心',
                   component: Self_message,
               },
               {
+                path:'concerns',
+                name:'关注列表',
+                component: concerns,
+              },
+              {
+                path:'fans',
+                name:'粉丝列表',
+                component: fans,
+              },
+              {
                 path: 'views_histroy',
+                name:'浏览记录',
                 component: Views_list,
               },
               {
                 path:'collect_list',
+                name:'收藏列表',
                 component: Collect_list,
               },
               {
                 path:'dynamic_list',
+                name:'我的发布',
                 component: Dynamic_list,
               },
               {
                 path:'like_list',
+                name:'喜欢列表',
                 component: Like_list,
               },
             ]  
@@ -77,6 +108,7 @@ export default new Router({
       
       {
         path:'/register',
+        name:'注册页面',
         component: Register_updatepwd,
       },
       {
@@ -86,7 +118,10 @@ export default new Router({
       
       {
         path:'/login',
+        name:'登录页面',
         component: login,
       },
+      
+      
     ]
   })

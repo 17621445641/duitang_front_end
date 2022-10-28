@@ -14,10 +14,13 @@ import ElementUI from 'element-ui'
 Vue.prototype.$axios = axios//全局引入axios,通过this.$axios,(Vue.prototype后面跟的什么就用this.来使用)
 Vue.use(ElementUI)
 Vue.config.productionTip = false
-// axios.defaults.headers.common['access_token'] = window.sessionStorage.getItem('access_token')//从session中读取token设置全局token
+// axios.defaults.headers.common['access_token'] = window.localStorage.getItem('access_token')//从session中读取token设置全局token
 new Vue({
   el: '#app',
   router,
   components: { App },
   template: '<App/>'
 })
+// router.afterEach((to,from,next) => {//控制始终显示在页面顶部
+//   window.scrollTo(0,0);
+// })

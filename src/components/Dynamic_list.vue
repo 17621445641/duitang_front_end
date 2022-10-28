@@ -1,9 +1,14 @@
 <template>
 <div>
+    <div v-if="dynamic_list==''" style="color:gray;text-align:center;padding-top:100px">
+        暂时没有内容哦，快去发布吧~
+    </div>
+    <div v-else>
     <el-dialog class="zhe" 
     :title="reply_title"
     :visible.sync="dialogVisible"
     width="40%"
+    :lock-scroll='false'
     >
     <el-input style="width: 100%;margin-top: 10px;margin-bottom: 10px;" 
     type="textarea"
@@ -31,6 +36,8 @@
                     {{site.create_time}} 发布自网页客户端
 				</div>
                 <span class='is_show' @click="update_view_status(index)">
+                    <img v-if="site.view_status==1" src="../assets/unlock.png" alt="" style="width:20px;position:absolute;top:-13px;left:-18px" >
+                    <img v-else src="../assets/lock.png" alt="" style="width:20px;position:absolute;top:-13px;left:-18px" >
                     <span v-if="site.view_status==1" >设为私密</span>
                     <span v-else>设为公开</span>
                 </span>
@@ -107,6 +114,7 @@
 		</div>
 	</div>
 </div>
+</div>
 
 </template>
 
@@ -160,9 +168,9 @@ export default {
     created(){
         this.get_dynamic_list()
         this.user_info()
+        
 
     },
-
     methods: {
     /* 
 		获取我的动态
@@ -170,7 +178,7 @@ export default {
 		get_dynamic_list(){
 			this.$axios.get('/api/my_dynamic', {
 					headers: {
-						access_token: window.sessionStorage.getItem('access_token')
+						access_token: window.localStorage.getItem('access_token')
 					}
             })
             .then(resp => {
@@ -186,11 +194,11 @@ export default {
                 else{
                     rej(resp.data.code)
                     if(resp.data.code==1){
-                        window.sessionStorage.clear()
+                        window.localStorage.clear()
                         window.localStorage.clear()
                         this.open3("登录已失效，请重新登录")
                     }else if(resp.data.code==2 ||resp.data.code==3){
-                        window.sessionStorage.clear()
+                        window.localStorage.clear()
                         window.localStorage.clear()
                         this.open3("账户未登录，请先登录")
                     }else{
@@ -211,7 +219,7 @@ export default {
       user_info(){
         this.$axios.get('/api/userinfo',{
           headers:{
-            access_token:window.sessionStorage.getItem('access_token')
+            access_token:window.localStorage.getItem('access_token')
           }
           })
           .then(resp => {
@@ -238,7 +246,7 @@ export default {
             }
             const config={
                 headers: {
-                    'access_token': window.sessionStorage.getItem('access_token')
+                    'access_token': window.localStorage.getItem('access_token')
                 },
             }
             const param = {
@@ -268,7 +276,7 @@ export default {
             }
             this.$axios({
                 headers: {
-                    'access_token': window.sessionStorage.getItem('access_token')
+                    'access_token': window.localStorage.getItem('access_token')
                 },
                 method: 'post',
                 url: '/api/article_like',
@@ -287,11 +295,11 @@ export default {
             }
             else{
                 if(resp.data.code==1){
-                    window.sessionStorage.clear()
+                    window.localStorage.clear()
                     window.localStorage.clear()
                     this.open3("登录已失效，请重新登录")
                 }else if(resp.data.code==2 ||resp.data.code==3){
-                    window.sessionStorage.clear()
+                    window.localStorage.clear()
                     window.localStorage.clear()
                     this.open3("账户未登录，请先登录")
                 }else{
@@ -317,7 +325,7 @@ export default {
             }
             this.$axios({
                 headers: {
-                    'access_token': window.sessionStorage.getItem('access_token')
+                    'access_token': window.localStorage.getItem('access_token')
                 },
                 method: 'post',
                 url: '/api/article_collect',
@@ -335,11 +343,11 @@ export default {
             }
             else{
                 if(resp.data.code==1){
-                    window.sessionStorage.clear()
+                    window.localStorage.clear()
                     window.localStorage.clear()
                     this.open3("登录已失效，请重新登录")
                 }else if(resp.data.code==2 ||resp.data.code==3){
-                    window.sessionStorage.clear()
+                    window.localStorage.clear()
                     window.localStorage.clear()
                     this.open3("账户未登录，请先登录")
                 }else{
@@ -433,7 +441,7 @@ export default {
             }
             this.$axios({
                     headers: {
-                        'access_token': window.sessionStorage.getItem('access_token')
+                        'access_token': window.localStorage.getItem('access_token')
                     },
                     method: 'post',
                     url: '/api/publish_comment',
@@ -453,11 +461,11 @@ export default {
                 }
                 else{
                     if(resp.data.code==1){
-                        window.sessionStorage.clear()
+                        window.localStorage.clear()
                         window.localStorage.clear()
                         this.open3("登录已失效，请重新登录")
                     }else if(resp.data.code==2 ||resp.data.code==3){
-                        window.sessionStorage.clear()
+                        window.localStorage.clear()
                         window.localStorage.clear()
                         this.open3("账户未登录，请先登录")
                     }else{
@@ -481,7 +489,7 @@ export default {
             }
             this.$axios({
                 headers: {
-                    'access_token': window.sessionStorage.getItem('access_token')
+                    'access_token': window.localStorage.getItem('access_token')
                 },
                 method: 'post',
                 url: '/api/comment_click',
@@ -501,11 +509,11 @@ export default {
             }
             else{
                 if(resp.data.code==1){
-                    window.sessionStorage.clear()
+                    window.localStorage.clear()
                     window.localStorage.clear()
                     this.open3("登录已失效，请重新登录")
                 }else if(resp.data.code==2 ||resp.data.code==3){
-                    window.sessionStorage.clear()
+                    window.localStorage.clear()
                     window.localStorage.clear()
                     this.open3("账户未登录，请先登录")
                 }else{
