@@ -70,9 +70,8 @@
   width: 28%;
   float: right;
 }
-#dynamic_img {
-  padding-top: 10px;
-  margin-left: 80px;
+.dynamic_img {
+  padding-top: 16px;
 }
 .demo-image__preview .el-image {
   width: 120px !important;
@@ -81,7 +80,7 @@
   margin-right: 8px;
 }
 #dynamic_bottom {
-  margin-top: 5px;
+  margin-top: 20px;
   padding: 10px 0;
   display: inline-block;
   width: 100%;

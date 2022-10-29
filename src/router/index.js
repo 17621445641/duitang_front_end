@@ -16,6 +16,7 @@ import concerns from '@/components/Concerns'
 import fans from '@/components/Fans'
 import homepage from '@/components/Homepage'
 import Author_dynamic from '@/components/Author_dynamic'
+
 Vue.use(Router)
 const originalPush = Router.prototype.push
 Router.prototype.push = function push(location) {//用来消除router.push的报错信息
@@ -64,41 +65,65 @@ export default new Router({
             path:'/personal_center',//加/则不需要输入父组件地址即可访问，没加/则需要输入父组件地址才可访问
             name:'个人中心',
             component: Personal_center,
+            meta: {
+              requireauth: true //需要登录校检判断的路由
+            },
             children:[
               {
                   path:'self_message',
                   name:'个人中心',
                   component: Self_message,
+                  meta: {
+                    requireauth: true //需要登录校检判断的路由
+                  },
               },
               {
                 path:'concerns',
                 name:'关注列表',
                 component: concerns,
+                meta: {
+                  requireauth: true //需要登录校检判断的路由
+                },
               },
               {
                 path:'fans',
                 name:'粉丝列表',
                 component: fans,
+                meta: {
+                  requireauth: true //需要登录校检判断的路由
+                },
               },
               {
                 path: 'views_histroy',
                 name:'浏览记录',
                 component: Views_list,
+                meta: {
+                  requireauth: true //需要登录校检判断的路由
+                },
               },
               {
                 path:'collect_list',
                 name:'收藏列表',
                 component: Collect_list,
+                meta: {
+                  requireauth: true //需要登录校检判断的路由
+                },
               },
               {
                 path:'dynamic_list',
                 name:'我的发布',
                 component: Dynamic_list,
+                meta: {
+                  requireauth: true //需要登录校检判断的路由
+                },
               },
               {
                 path:'like_list',
                 name:'喜欢列表',
                 component: Like_list,
+                meta: {
+                  requireauth: true //需要登录校检判断的路由
+                },
               },
             ]  
           },

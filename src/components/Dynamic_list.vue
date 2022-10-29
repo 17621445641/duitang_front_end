@@ -26,7 +26,7 @@
     <div v-bind:key="index" v-for="(site,index) in dynamic_list">
 		<div class="article_info">
 			<div class="article_author">
-                <img v-bind:src="user_message.avatar_image_url" alt="">
+                <img v-bind:src="user_message.avatar_image_url" alt="" style="box-shadow-shadow:5px 5px 21px #ddd7d7, -5px -5px 21px #efe9e9">
                 <div v-if="user_message.user_name==''" style="padding-top: 25px;font-size:16px;margin-left: 90px;">
                 </div>
                 <div v-else style="padding-top: 25px;font-size:16px;margin-left: 90px;">
@@ -40,8 +40,12 @@
                     <img v-else src="../assets/lock.png" alt="" style="width:20px;position:absolute;top:-13px;left:-18px" >
                     <span v-if="site.view_status==1" >设为私密</span>
                     <span v-else>设为公开</span>
+                    
                 </span>
-			</div> 
+                 <!-- @click="delete_dynamic(index)" -->
+                <span class='delete_img' @click="open(index)" >删除<img  style="" src="../assets/delete.png" alt=""></span>
+                <!-- <el-dialog type="text" @click="open" :lockScroll='false'>点击打开 Message Box</el-dialog> -->
+            </div> 
             <div>  
 			<div class="article_content">{{site.article_content}}</div>
                 <div class="dynamic_img">
@@ -211,7 +215,53 @@ export default {
                 console.log("接口调用异常"+err);
             });
 		},
-
+    /* 
+    二次确认是否删除动态
+    */
+        open(index) {
+        this.$confirm('删除后无法找回，确定删除？', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning',
+          lockScroll:false
+        }).then(() => {
+          this.delete_dynamic(index)
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消删除'
+          });          
+        });
+      },
+    /* 
+    删除我的动态
+    */
+        delete_dynamic(index){
+            const config={
+                headers: {
+                    'access_token': window.localStorage.getItem('access_token')
+                },
+            }
+            const param = {
+				"article_id": this.dynamic_list[index].article_id,
+			}
+			return new Promise((resolve,rej) => {
+            this.$axios.post("/api/dynamic_delete", param,config)
+            .then(resp=>{
+                if(resp.data.code==200){
+                    this.get_dynamic_list()
+                    this.open2("删除动态成功")
+                    resolve(resp.data.code)
+                }
+                else{
+                    this.$message.error('删除动态失败')
+                    rej(resp.data.code)
+                }
+            }).catch(err=>{
+                console.log("接口调用异常"+err);
+            })
+            })
+        },
 
     /* 
       查询用户信息

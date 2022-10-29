@@ -1,9 +1,11 @@
 <template>
 <div style="display:inline-block;width:100%;">
 	<img @click="goScrollTop" ref="go_scrolltop"  src="../assets/scrolltop.png" alt="" id='go_scrolltop' >
-	<div id="user_background" style="margin:auto">
-		<div id="background_image">
-			<img src="../assets/无标题.png" alt="">
+	<div id="user_background" style="margin:auto;border:none">
+		<div id="background_image" style="position: relative;" >
+			<span class="change_backgdimg" style="" @click="uploadPicture('bkg_img')">更换背景</span>
+			<img  v-if="formValidate.backgd_img !== ''&& formValidate.backgd_img != null" :src="formValidate.backgd_img" alt="" >
+			<img  v-else src="http://127.0.0.1:8998/static/background_images/default_backgd_img.png" alt="默认背景" >
 		</div>
 		<!-- <div id="avatar_image"> -->
 			<!-- <div class="mask">
@@ -21,45 +23,47 @@
 				<i v-else class="el-icon-plus avatar-uploader-icon"></i>
 			</el-upload> -->
 		<div class="cropper-app" style="">
-    	<el-form :model="formValidate" :rules="ruleValidate" ref="formValidate" label-width="100px" class="demo-ruleForm">
-        <div class="list-img-box" >
-          <div v-if="formValidate.mainImage !== ''&& formValidate.mainImage != null">
-            <img class="img_style" :src="formValidate.mainImage" style='' alt="头像" @click="uploadPicture('flagImg')">
-          </div>
-          <div v-else class="upload-btn img_style" style="height: 100px;width:100px;border-radius:100px;background:#f6f6f6" @click="uploadPicture('flagImg')">
-            <img src="../assets/add.png" alt="" style="">
-          </div>
-        </div>
-        <input type="hidden" v-model="formValidate.mainImage" pl封面设置eholder="请添加封面">
-    </el-form>
-    <!-- 剪裁组件弹窗 -->
-    <el-dialog
-        title="裁剪图片"
-        :visible.sync="cropperModel"
-        width="750px"
-		:lock-scroll='false'
-        center
-       >
-     <upload-cropper
-         :Name="cropperName"
-         @uploadImgSuccess = "handleUploadSuccess"
-         ref="child">
-     </upload-cropper>
-    </el-dialog>
-    <!--查看大封面-->
-    <el-dialog
-        title="查看大封面"
-        :visible.sync="imgVisible"
-        center>
-      <img :src="imgName" v-if="imgVisible" style="width: 100%" alt="查看">
-    </el-dialog>
-  </div>
+			<el-form :model="formValidate" :rules="ruleValidate" ref="formValidate" label-width="100px" class="demo-ruleForm">
+			<div class="list-img-box" >
+			<div v-if="formValidate.mainImage !== ''&& formValidate.mainImage != null">
+				<img class="img_style" :src="formValidate.mainImage" style="box-shadow:5px 5px 21px #ddd7d7, -5px -5px 21px #efe9e9" alt="头像" @click="uploadPicture('avatar')">
+			</div>
+			<div v-else class="upload-btn img_style" style="height: 100px;width:100px;border-radius:100px;background:#f6f6f6" @click="uploadPicture('avatar')">
+				<img src="../assets/add.png" alt="" style="">
+			</div>
+			</div>
+			<input type="hidden" v-model="formValidate.mainImage" pl封面设置eholder="请添加封面">
+			</el-form>
+			<!-- 剪裁组件弹窗 -->
+			<el-dialog
+				title="裁剪图片"
+				:before-close="handleClose"
+				:visible.sync="cropperModel"
+				:width="cut_size"
+				:lock-scroll='false'
+				center
+			>
+			<upload-cropper
+				:Name="cropperName"
+				:action_type='action_type'
+				@uploadImgSuccess = "handleUploadSuccess"
+				ref="child">
+			</upload-cropper>
+			</el-dialog>
+			<!--查看大封面-->
+			<el-dialog
+				title="查看大封面"
+				:visible.sync="imgVisible"
+				center>
+			<img :src="imgName" v-if="imgVisible" style="width: 100%" alt="查看">
+			</el-dialog>
+  		</div>
 
 
 		<!-- </div> -->
 
 		<div id="user_name">
-			<span v-if="message_list.user_name!=''&& message_list.user_name!=null">{{message_list.user_name}}</span>
+			<span v-if="message_list.user_name!=''&& message_list.user_name!=null" >{{message_list.user_name}}</span>
 			<span style="" v-else>设置个好听的名字吧~</span>
 			<span v-if="message_list.sex=='男'">
 				<img style="width: 15px;margin-left: 5px;" src="../assets/男.png" alt="">
@@ -114,11 +118,11 @@
 					<img style="width:24px" src="../assets/like.png">我喜欢的
 				</div>
 			</router-link>
-			<router-link to="/personal_center/views_histroy">
+			<!-- <router-link to="/personal_center/views_histroy">
 				<div tabindex="1">
 					<img style="width:24px" src="../assets/views.png">浏览记录
 				</div>
-			</router-link>
+			</router-link> -->
       		<router-link to="/personal_center/self_message">
 				<div tabindex="1" ref='self_message'>
 					<img style="width:24px"  src="../assets/self_setting.png">个人中心
@@ -138,11 +142,14 @@ export default {
 	components: {uploadCropper},
     data () {
       return {
+		cut_size:"650px",
+		action_type:'',
         message_list:{},
         imageUrl: '',
         headerMsg:{access_token:window.localStorage.getItem("access_token")},
 		formValidate: {
         mainImage: '',
+		backgd_img:'',
       	},
       	ruleValidate: {
         mainImage: [
@@ -159,7 +166,6 @@ export default {
 	
     created(){
       this.user_info()
-	  
 	  window.addEventListener("scroll", this.scrollHandle);
 	  window.addEventListener("click", this.show_menu);
 
@@ -179,25 +185,51 @@ export default {
 
     methods: {
 
+	/* 
+	关闭遮罩时清空上传的图片
+	*/
+		handleClose(done){
+			if(this.$refs.child.option.img!=""){
+				this.$refs.child.option.img=''
+			}
+			done()
+    	},
+
 		middleAdFinish(){
  
       },
     //封面设置
     uploadPicture(name){
       this.cropperName = name;
+	  if(name=='bkg_img'){//背景图片
+	  	this.action_type='bkg_img'
+		this.cut_size='1000px'
+	  }
+	  if(name=='avatar'){//头像
+	  	this.action_type='avatar'
+		this.cut_size='650px'
+	  }
       this.cropperModel = true;
     },
     //头像图片上传成功后
     handleUploadSuccess (data){
-      console.log(data)
+		
+		if(this.action_type=='bkg_img'){//背景图片
+			this.formValidate.backgd_img=data.url
+		}
+		if(this.action_type=='avatar'){//头像
+			this.formValidate.mainImage=data.url
+		}
+		this.cropperModel = false;
+      //   console.log(data)
       // switch(data.name){
       //   case 'flagImg':
       //     this.formValidate.mainImage = 'http://ydfblog.cn/dfs/'+data.url;
       //     console.log('最终输出'+data.name)
       //     break;
       // }
-      this.formValidate.mainImage=data.url
-      this.cropperModel = false;
+    //   this.formValidate.mainImage=data.url
+      		
 	},
 
 	/* 
@@ -288,6 +320,7 @@ export default {
             that.message_list=resp.data.data[0];
             this.imageUrl=that.message_list.avatar_image_url
 			this.formValidate.mainImage=that.message_list.avatar_image_url
+			this.formValidate.backgd_img=that.message_list.background_img_url
           }).catch(err => { //
               console.log("接口调用异常"+err);
           });

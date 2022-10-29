@@ -232,8 +232,6 @@ export default {
 					if(resp.data.code == 200) {
 						localStorage.setItem("access_token", resp.data.access_token)
 						that.login_status = true
-						// if(this.$route.path=='/homepage/author_dynamic')
-						
 						this.control_login_publish_page()
 						this.user_info().then(resolve=>{
 							if(resolve==200 && this.$route.path=='/index'){//当user_info接口调用成功后且当前页面为index时，重新获取文章列表

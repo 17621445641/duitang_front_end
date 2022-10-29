@@ -41,6 +41,19 @@
   border: 1px solid #ff8200;
   display: inline-block;
   position: absolute;
+  right: 112px;
+  top: 25px;
+  font-size: 13px;
+  padding: 4px 8px;
+  padding-left: 30px;
+  border-radius: 14px;
+  cursor: pointer;
+  color: #ff8200;
+}
+.delete_img {
+  border: 1px solid #ff8200;
+  /* display: inline-block; */
+  position: absolute;
   right: 30px;
   top: 25px;
   font-size: 13px;
@@ -49,6 +62,15 @@
   border-radius: 14px;
   cursor: pointer;
   color: #ff8200;
+}
+.delete_img img {
+  width: 20px;
+  position: absolute;
+  top: -13px;
+  left: -18px;
+}
+.delete_img:hover {
+  background-color: #fcf6ef;
 }
 .is_show:hover {
   background-color: #fcf6ef;
@@ -79,4 +101,18 @@
 }
 .zhe .el-dialog__header .el-dialog__title {
   font-size: 16px;
+}
+.el-button--primary {
+  background-color: #ff8200 !important;
+  border: 1px solid #ff8200 !important;
+}
+.el-button--primary:hover {
+  background-color: #ff8200 !important;
+  border: 1px solid #ff8200 !important;
+  color: white !important ;
+}
+.el-button:hover {
+  background-color: transparent;
+  border: 1px solid #dcdfe6;
+  color: #606266;
 }

@@ -18,7 +18,7 @@
 			<div>
 				<div id="dynamic_content">{{article_details.article_content}}</div>
 				<!-- css中有white-space: pre-wrap属性时，标签和内容不能有换行 -->
-				<div id="dynamic_img" >
+				<div class="dynamic_img" style="margin-left: 80px;" >
 					<!-- <img v-bind:key="index" v-for="(site,index) in article_imgs" :src="site" alt="" > -->
 					<div class="demo-image__preview">
 						<el-image v-bind:key="index" v-for="(site,index) in article_imgs"

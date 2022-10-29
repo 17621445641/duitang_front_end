@@ -25,7 +25,7 @@
     <div v-bind:key="index" v-for="(site,index) in dynamic_list">
 		<div class="article_info">
 			<div class="article_author">
-                <img v-bind:src="site.avatar_image_url" alt="">
+                <img v-bind:src="site.avatar_image_url" alt="" style="box-shadow:5px 5px 21px #ddd7d7, -5px -5px 21px #efe9e9">
                 <div v-if="site.user_name==''" style="padding-top: 25px;font-size:16px;margin-left: 90px;">
                 </div>
                 <div v-else style="padding-top: 25px;font-size:16px;margin-left: 90px;">

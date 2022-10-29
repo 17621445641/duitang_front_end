@@ -10,11 +10,28 @@ html {
 #user_background {
   padding: 0;
   width: 1000px;
-  padding-top: 65px;
+  padding-top: 60px;
+  border: none !important;
+}
+.change_backgdimg {
+  cursor: pointer;
+  font-size: 12px;
+  padding: 4px 8px;
+  border: 1px solid rgb(248, 248, 248);
+  border-radius: 50px;
+  color: #ff7300;
+  position: absolute;
+  right: 20px;
+  top: 30px;
+  background-color: rgba(243, 243, 243, 0.3);
+}
+.change_backgdimg:hover {
+  background-color: rgba(248, 248, 248, 0.4);
+  color: #f0550d;
 }
 #background_image img {
   width: 100%;
-  height: 250px;
+  height: 300px;
 }
 .big_avatar {
   display: inline-block;
@@ -327,7 +344,7 @@ body {
   width: 32px;
   height: 32px;
   border-radius: 35px;
-  margin-left: 8px;
+  margin-left: 12px;
   cursor: pointer;
 }
 .content_data {
@@ -355,7 +372,7 @@ body {
 .txt_like {
   position: relative;
   width: 22px;
-  left: 15px;
+  left: 8px;
   bottom: 4px;
   cursor: pointer;
 }
@@ -378,7 +395,7 @@ body {
 .click_num {
   position: relative;
   bottom: 10px;
-  right: -15px;
+  left: 8px;
   font-size: 12px;
 }
 #footer {
@@ -468,6 +485,7 @@ body {
   width: 50px;
   float: left;
   margin-left: 8px;
+  box-shadow: 5px 5px 21px #ddd7d7, -5px -5px 21px #efe9e9;
 }
 .concerns_fans_message {
   background-color: white;
@@ -536,6 +554,7 @@ body {
   float: left;
   margin: 0 0 0 12px;
   transform: translateY(-8%);
+  box-shadow: 5px 5px 21px #ddd7d7, -5px -5px 21px #efe9e9;
 }
 .recommend_btn {
   position: absolute;

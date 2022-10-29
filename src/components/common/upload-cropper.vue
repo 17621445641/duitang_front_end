@@ -3,6 +3,7 @@
     <div class="cropper-box">
       <div class="cropper">
         <vue-cropper
+            
             ref="cropper"
             :img="option.img"
             :outputSize="option.outputSize"
@@ -60,7 +61,7 @@ export default {
   components: {
     VueCropper
   },
-  props:['Name'],
+  props:['Name','action_type'],
   data() {
     return {
       maxtime:"",
@@ -87,11 +88,13 @@ export default {
         infoTrue: false,     //true为展示真实输出图片宽高，false展示看到的截图框宽高
         maxImgSize: 3000,    //限制图片最大宽度和高度
         enlarge: 1,          //图片根据截图框输出比例倍数
-        mode: '230px 150px'  //图片默认渲染方式
+        mode: '230px 150px',  //图片默认渲染方式
+        // mode:'cover',
       }
     };
   },
   methods: {
+
     //初始化函数
     imgLoad (msg) {
       console.log("工具初始化函数====="+msg)
@@ -115,6 +118,14 @@ export default {
     },
     //选择图片
     selectImg (e) {
+      if(this.action_type=='avatar'){
+        this.option.autoCropWidth = 150
+        this.option.fixedNumber= [1, 1]
+      }
+      if(this.action_type=='bkg_img'){
+        this.option.autoCropWidth = 420
+        this.option.fixedNumber= [3, 1]
+      }
       let file = e.target.files[0]
       if (!/\.(jpg|jpeg|png|JPG|PNG)$/.test(e.target.value)) {
         this.$message({
@@ -140,19 +151,32 @@ export default {
     //上传图片
     uploadImg (type) {
       let _this = this;
+      let url
+      if(this.action_type=='avatar'){
+        url='http://127.0.0.1:8998/upload_avatar'
+      }
+      if(this.action_type=='bkg_img'){
+        url='http://127.0.0.1:8998/upload_background'
+      }
+      if(this.option.img==''){
+        _this.$message({
+              message: '请先选择图片',
+              type: "error"
+            });
+      }
       if (type === 'blob') {
         //获取截图的blob数据
         this.$refs.cropper.getCropBlob(async (data) => {
           let formData = new FormData();
           formData.append('file',data,"DX.jpg")
           //调用axios上传
-          let {data: res} = await _this.$axios.post('http://127.0.0.1:8998/upload_avatar', formData,{
+          
+          let {data: res} = await _this.$axios.post(url, formData,{
           headers:{
             access_token:window.localStorage.getItem('access_token')
           }
           })
           if(res.code === '200'){
-            console.log(res.image_url)
             _this.$message({
               message: '上传头像成功',
               type: "success",
@@ -164,7 +188,9 @@ export default {
               // url : data[0]
               url:res.image_url
             };
+             this.option.img=''
             _this.$emit('uploadImgSuccess',imgInfo);
+
           }else {
             _this.$message({
               message: '文件服务异常，请联系管理员！',

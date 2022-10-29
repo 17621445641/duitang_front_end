@@ -16,7 +16,8 @@
 					<img class="txt_like" @click="dynamic_like(index,1)" v-if="site.like_status!=1" :src="cancel_like_img" alt="">
 					<img @click="dynamic_like(index,0)" class="txt_like" v-else :src="like_img" alt="">
 					<span class="click_num" v-if="site.like_count==null">0</span>
-					<span class="click_num" v-else>{{site.like_count}}</span>
+					<span class="click_num" v-else-if="site.like_count!=null&&site.like_count<=99">{{site.like_count}}</span>
+                    <span class="click_num"  style="left:5px" v-else>99+</span>
 				</div>
 			</div>
 		</span>
@@ -36,7 +37,8 @@
 					<img class="txt_like" @click="dynamic_like(index,1)" v-if="site.like_status!=1" :src="cancel_like_img" alt="">
 					<img @click="dynamic_like(index,0)" class="txt_like" v-else :src="like_img" alt="">
 					<span class="click_num" v-if="site.like_count==null">0</span>
-					<span class="click_num" v-else>{{site.like_count}}</span>
+					<span class="click_num" v-else-if="site.like_count!=null&&site.like_count<=99">{{site.like_count}}</span>
+                    <span class="click_num"  style="left:5px" v-else>99+</span>
 				</div>
 			</div>
 		</span>
@@ -56,7 +58,8 @@
 					<img class="txt_like" @click="dynamic_like(index,1)" v-if="site.like_status!=1" :src="cancel_like_img" alt="">
 					<img @click="dynamic_like(index,0)" class="txt_like" v-else :src="like_img" alt="">
 					<span class="click_num" v-if="site.like_count==null">0</span>
-					<span class="click_num" v-else>{{site.like_count}}</span>
+					<span class="click_num" v-else-if="site.like_count!=null&&site.like_count<=99">{{site.like_count}}</span>
+                    <span class="click_num"  style="left:5px" v-else>99+</span>
 				</div>
 			</div>
 		</span>
@@ -76,7 +79,8 @@
 					<img class="txt_like" @click="dynamic_like(index,1)" v-if="site.like_status!=1" :src="cancel_like_img" alt="">
 					<img @click="dynamic_like(index,0)" class="txt_like" v-else :src="like_img" alt="">
 					<span class="click_num" v-if="site.like_count==null">0</span>
-					<span class="click_num" v-else>{{site.like_count}}</span>
+					<span class="click_num" v-else-if="site.like_count!=null&&site.like_count<=99">{{site.like_count}}</span>
+                    <span class="click_num"  style="left:5px" v-else>99+</span>
 				</div>
 			</div>
 		</span>
@@ -96,7 +100,8 @@
 					<img class="txt_like" @click="dynamic_like(index,1)" v-if="site.like_status!=1" :src="cancel_like_img" alt="">
 					<img @click="dynamic_like(index,0)" class="txt_like" v-else :src="like_img" alt="">
 					<span class="click_num" v-if="site.like_count==null">0</span>
-					<span class="click_num" v-else>{{site.like_count}}</span>
+					<span class="click_num" v-else-if="site.like_count!=null&&site.like_count<=99">{{site.like_count}}</span>
+                    <span class="click_num"  style="left:5px" v-else>99+</span>
 				</div>
 			</div>
 		</span>

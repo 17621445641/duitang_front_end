@@ -2,7 +2,8 @@
     <div style="display:inline-block;width:100%;">
         <div id="user_background" style="margin:auto">
 		<div id="background_image">
-			<img src="../assets/无标题.png" alt="">
+			<img v-if="message_list.background_img_url==''||message_list.background_img_url==null" src="http://127.0.0.1:8998/static/background_images/default_backgd_img.png" alt="">
+			<img v-else :src="message_list.background_img_url" alt="">
 		</div>
         <img class="img_style" :src="message_list.avatar_image_url" >
 
